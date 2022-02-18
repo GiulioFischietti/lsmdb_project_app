@@ -23,15 +23,15 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           locale: Locale('en'),
-          localizationsDelegates: [
+          localizationsDelegates: const [
             // ... app-specific localization delegate[s] here
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: [
-            const Locale('it', ''), // it
-            const Locale('en', ''), // English
+          supportedLocales: const [
+             Locale('it', ''), // it
+             Locale('en', ''), // English
           ],
           debugShowCheckedModeBanner: false,
           title: 'Needfy',
