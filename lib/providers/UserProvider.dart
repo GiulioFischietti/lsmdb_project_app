@@ -48,6 +48,26 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  void updateProfile(DateTime picked, String name, String bio, String phone,
+      String gender) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    picked != null ? this.user.birthday = picked : null;
+    name != "" ? this.user.name = name : null;
+    bio != "" ? this.user.motto = bio : null;
+    phone != "" ? this.user.phone = phone : null;
+    gender != "" ? this.user.gender = gender : null;
+    notifyListeners();
+    String response = await Request.post('edituser', {
+      "name": this.user.name,
+      "motto": this.user.motto,
+      "gender": this.user.gender,
+      "phone": this.user.phone,
+      "birthday": this.user.birthday.toIso8601String(),
+      "_id": prefs.getString("user_id")
+    });
+  }
+
   Future<dynamic> signup(dynamic body) async {
     passwordsNotEqual = (body['password'] != body['repeat_password']);
     notifyListeners();

@@ -230,17 +230,15 @@ class _EditProfileState extends State<EditProfile> {
                                                 InkWell(
                                                     onTap: () {
                                                       gender = "m";
-                                                      // customProvider
-                                                      //     .updateProfile(
-                                                      //         customProvider
-                                                      //             .user
-                                                      //             .birthday,
-                                                      //         name,
-                                                      //         surname,
-                                                      //         bio,
-                                                      //         username,
-                                                      //         phone,
-                                                      //         gender);
+                                                      customProvider
+                                                          .updateProfile(
+                                                              customProvider
+                                                                  .user
+                                                                  .birthday,
+                                                              name,
+                                                              bio,
+                                                              username,
+                                                              gender);
                                                       Navigator.of(context)
                                                           .pop();
                                                     },
@@ -256,17 +254,15 @@ class _EditProfileState extends State<EditProfile> {
                                                 InkWell(
                                                     onTap: () {
                                                       gender = "f";
-                                                      // customProvider
-                                                      //     .updateProfile(
-                                                      //         customProvider
-                                                      //             .user
-                                                      //             .birthday,
-                                                      //         name,
-                                                      //         surname,
-                                                      //         bio,
-                                                      //         username,
-                                                      //         phone,
-                                                      //         gender);
+                                                      customProvider
+                                                          .updateProfile(
+                                                              customProvider
+                                                                  .user
+                                                                  .birthday,
+                                                              name,
+                                                              bio,
+                                                              username,
+                                                              gender);
                                                       Navigator.of(context)
                                                           .pop();
                                                     },
@@ -315,6 +311,7 @@ class _EditProfileState extends State<EditProfile> {
                           Container(
                             height: 40,
                             child: TextFormField(
+                              keyboardType: TextInputType.phone,
                               onChanged: (String text) {
                                 phone = text;
                               },
@@ -471,8 +468,8 @@ class _EditProfileState extends State<EditProfile> {
                       // if (_image != null) {
                       //   customProvider.uploadImage(File(_image.path));
                       // }
-                      // customProvider.updateProfile(
-                      //     picked, name, surname, bio, username, phone, gender);
+                      customProvider.updateProfile(
+                          picked, name, bio, phone, gender);
 
                       Navigator.of(context).pop();
                     },
