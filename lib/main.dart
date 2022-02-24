@@ -1,3 +1,4 @@
+import 'package:project_app/providers/HomeProvider.dart';
 import 'package:project_app/providers/LanguageProvider.dart';
 import 'package:project_app/providers/NotificationProvider.dart';
 import 'package:project_app/providers/UserProvider.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => UserProvider()),
+          ChangeNotifierProvider(create: (_) => HomeProvider()),
           ChangeNotifierProvider(create: (_) => LanguageProvider()),
           ChangeNotifierProvider(create: (_) => NotificationProvider())
         ],
@@ -30,8 +32,8 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-             Locale('it', ''), // it
-             Locale('en', ''), // English
+            Locale('it', ''), // it
+            Locale('en', ''), // English
           ],
           debugShowCheckedModeBanner: false,
           title: 'Needfy',

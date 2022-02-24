@@ -4,8 +4,11 @@ import 'package:project_app/Engine/Communication/request.dart';
 import 'package:project_app/Model/ShowcaseEventsModel.dart';
 import 'package:project_app/Model/ShowcaseLiveModel.dart';
 import 'package:project_app/Model/UserModel.dart';
+import 'package:project_app/View/BottomTab/Search.dart';
 import 'package:project_app/View/Entities/User.dart';
+import 'package:project_app/View/Items/ShowcaseClubs.dart';
 import 'package:project_app/View/Items/ShowcaseEvents.dart';
+import 'package:project_app/providers/HomeProvider.dart';
 import 'package:project_app/providers/LanguageProvider.dart';
 import 'package:project_app/providers/NotificationProvider.dart';
 import 'package:project_app/providers/UserProvider.dart';
@@ -21,7 +24,7 @@ class Home extends StatefulWidget {
 }
 
 SharedPreferences prefs;
-Position currentPosition;
+
 ShowcaseEventsModel showcase;
 ShowcaseLiveModel showcase_live;
 UserModel user;
@@ -30,72 +33,21 @@ var flutterLocalNotificationsPlugin;
 class _HomeState extends State<Home> {
   bool locationDisabled = false;
 
-  Future<void> _getHome() async {
-    prefs = await SharedPreferences.getInstance();
-
-    _nearYou();
-  }
-
-  Future<void> _nearYou() async {
-    await _determinePosition();
-
-    String response = await Request.get('nearyou/' +
-        currentPosition.latitude.toString() +
-        '/' +
-        currentPosition.longitude.toString());
-
-    setState(() {
-      showcase = ShowcaseEventsModel.fromJson(jsonDecode(response));
-    });
-  }
-
-  Future<void> _live() async {
-    String response = await Request.get('live');
-
-    setState(() {
-      showcase_live = ShowcaseLiveModel.fromJson(jsonDecode(response));
-    });
-  }
-
-  Future<void> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      setState(() {
-        locationDisabled = true;
-      });
-      return Future.error('Location services are disabled.');
-    } else {
-      setState(() {
-        locationDisabled = false;
-      });
-      permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.deniedForever) {
-          return Future.error(
-              'Location permissions are permanently denied, we cannot request permissions.');
-        }
-
-        if (permission == LocationPermission.denied) {
-          return Future.error('Location permissions are denied');
-        }
-      }
-
-      currentPosition = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
-      print(currentPosition.latitude);
-    }
-  }
-
   @override
   void initState() {
-    _live();
-    _getHome();
+    // final userMdl = Provider.of<UserProvider>(context, listen: false);
+    loadHome();
+    // userMdl.getUserData(context);
+  }
+
+  void loadHome() async {
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
     final userMdl = Provider.of<UserProvider>(context, listen: false);
-    userMdl.getUserData(context);
+    await userMdl.getUserData();
+    await homeProvider.nearYou();
+    await homeProvider.nearClubs();
+    await homeProvider.electronicEvents();
+    await homeProvider.popRockEvents();
   }
 
   @override
@@ -103,8 +55,8 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColorDark,
-        body: Consumer2<UserProvider, LanguageProvider>(
-            builder: (context, userProvider, languageProvider, child) {
+        body: Consumer2<UserProvider, HomeProvider>(
+            builder: (context, userProvider, homeProvider, child) {
           return Container(
             height: size.height,
             child: ListView(
@@ -135,26 +87,26 @@ class _HomeState extends State<Home> {
                                             borderRadius:
                                                 BorderRadius.circular(50))),
                                     onPressed: () {
+                                      // Navigator.push(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) => User(
+                                      //             user: userProvider.user,
+                                      //             slug: userProvider
+                                      //                 .user.username,
+                                      //             image: userProvider
+                                      //                 .user.image)));
+
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => User(
-                                                  user: userProvider.user,
-                                                  slug: userProvider
-                                                      .user.username,
-                                                  image: userProvider
-                                                      .user.image)));
+                                              builder: (context) => Search()));
                                     },
                                     child: Hero(
                                         tag: 'propic',
                                         child: Container(
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      userProvider.user.image)),
-                                              color: Colors.grey[300],
-                                              borderRadius:
-                                                  BorderRadius.circular(50)),
+                                          child: Icon(Icons.search,
+                                              color: Colors.white),
                                           height: 40,
                                           width: 40,
                                         ))))
@@ -164,24 +116,92 @@ class _HomeState extends State<Home> {
                                 },
                                 child: Container(
                                     margin: EdgeInsets.all(20),
-                                    child: Text(
-                                        languageProvider.text.login.login,
+                                    child: Text("Accedi",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w400,
                                             fontSize: 20))))
                       ],
                     )),
-                showcase != null
-                    ? locationDisabled
-                        ? Container(
-                            margin: EdgeInsets.all(20),
-                            child: Text(
-                              "Servizi di geolocalizzazione disattivati. Attivali per vedere gli eventi vicini a te",
-                              style: Theme.of(context).textTheme.bodyText1,
-                            ))
-                        : ShowcaseEvents(data: showcase)
+                Row(children: [
+                  Expanded(
+                      child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "Eventi vicino a te",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                          ))),
+                  Container(
+                      margin: EdgeInsets.all(10),
+                      child: Icon(Icons.arrow_forward, color: Colors.white))
+                ]),
+                Container(height: 10),
+                homeProvider.nearyouevents != null
+                    ? ShowcaseEvents(data: homeProvider.nearyouevents)
                     : Center(child: CircularProgressIndicator()),
+                Container(height: 30),
+                Row(children: [
+                  Expanded(
+                      child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "Club vicino a te",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                          ))),
+                  Container(
+                      margin: EdgeInsets.all(10),
+                      child: Icon(Icons.arrow_forward, color: Colors.white))
+                ]),
+                homeProvider.nearyouclubs != null
+                    ? ShowcaseClubs(data: homeProvider.nearyouclubs)
+                    : Center(child: CircularProgressIndicator()),
+                Container(height: 30),
+                Row(children: [
+                  Expanded(
+                      child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "Il meglio dell'Elettronica",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                          ))),
+                  Container(
+                      margin: EdgeInsets.all(10),
+                      child: Icon(Icons.arrow_forward, color: Colors.white))
+                ]),
+                Container(height: 10),
+                homeProvider.electronicevents != null
+                    ? ShowcaseEvents(data: homeProvider.electronicevents)
+                    : Center(child: CircularProgressIndicator()),
+                Container(height: 30),
+                Row(children: [
+                  Expanded(
+                      child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            "Il meglio del Rock",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                          ))),
+                  Container(
+                      margin: EdgeInsets.all(10),
+                      child: Icon(Icons.arrow_forward, color: Colors.white))
+                ]),
+                Container(height: 10),
+                homeProvider.poprockevents != null
+                    ? ShowcaseEvents(data: homeProvider.poprockevents)
+                    : Center(child: CircularProgressIndicator()),
+                Container(height: 30),
               ],
             ),
           );

@@ -75,7 +75,7 @@ class _ReviewVState extends State<ReviewV> {
                       MaterialPageRoute(
                           builder: (context) => Club(
                               name: "",
-                              slug: int.parse(widget.reviewV.slug),
+                              slug: widget.reviewV.slug,
                               image: widget.reviewV.image)));
                 } else if (widget.reviewV.type.toLowerCase() == 'organizer') {
                   Navigator.push(
@@ -101,10 +101,8 @@ class _ReviewVState extends State<ReviewV> {
                                 slug: widget.reviewV.username,
                                 image: widget.reviewV.image)));
                   } else {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Profile(
-                            slug: widget.reviewV.slug,
-                            image: widget.reviewV.image)));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Profile()));
                   }
                 }
               },

@@ -639,7 +639,6 @@ class _ArtistState extends State<Artist> {
                           child: ShowcaseReviews(
                             getReviews: _getReviews,
                             data: showcasereviews,
-                            languagePack: languagePack,
                           ))
                       : Container(
                           width: size.width,

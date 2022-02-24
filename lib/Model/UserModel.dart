@@ -25,17 +25,19 @@ class UserModel {
 
   UserModel(data) {
     if (data != null) {
-      this.id = data['id'];
-      this.name = data['name'];
-      this.username = data['username'];
-      this.surname = data['surname'];
-      this.api_token = data['api_token'];
-      this.email = data['email'];
-      this.phone = data['phone'];
-      this.birthday = DateTime.parse(data['birthday']);
-      this.image = data['image'];
-      this.gender = data['gender'];
-      this.motto = data['biography'];
+      this.id = data['id'] ?? 0;
+      this.name = data['name'] ?? "";
+      this.username = data['username'] ?? "";
+      this.surname = data['surname'] ?? "";
+      this.api_token = data['api_token'] ?? "";
+      this.email = data['email'] ?? "";
+      this.phone = data['phone'] ?? "";
+      this.birthday =
+          data['birthday'] != null ? DateTime.parse(data['birthday']) : null;
+      this.image = data['image'] ??
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+      this.gender = data['gender'] ?? "";
+      this.motto = data['biography'] ?? "";
     }
   }
 

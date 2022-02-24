@@ -57,11 +57,9 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Consumer2<UserProvider, LanguageProvider>(
-        builder: (context, customProvider, languageProvider, _) {
+    return Consumer<UserProvider>(builder: (context, customProvider, _) {
       return Scaffold(
-        appBar: basicAppBar(
-            context, languageProvider.text.profileText.modify_profile),
+        appBar: basicAppBar(context, "Modifica Profilo"),
         backgroundColor: Theme.of(context).primaryColorDark,
         body: Stack(
           alignment: Alignment.center,
@@ -78,16 +76,16 @@ class _EditProfileState extends State<EditProfile> {
                           builder: (BuildContext bc) {
                             return SafeArea(
                               child: Container(
-                                child: new Wrap(
+                                child: Wrap(
                                   children: <Widget>[
-                                    new ListTile(
+                                    ListTile(
                                         leading: new Icon(Icons.photo_library),
                                         title: new Text('Photo Library'),
                                         onTap: () {
                                           _imgFromGallery();
                                           Navigator.of(context).pop();
                                         }),
-                                    new ListTile(
+                                    ListTile(
                                       leading: new Icon(Icons.photo_camera),
                                       title: new Text('Camera'),
                                       onTap: () {
@@ -119,7 +117,7 @@ class _EditProfileState extends State<EditProfile> {
                 Container(
                     alignment: Alignment.center,
                     child: Text(
-                      languageProvider.text.profileText.image_text,
+                      "Immagine del Profilo",
                       style: Theme.of(context).textTheme.bodyText1,
                     )),
                 Container(
@@ -127,67 +125,9 @@ class _EditProfileState extends State<EditProfile> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(children: [
-                            Expanded(
-                                child: Container(
-                                    child: Text("Username",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1
-                                            .copyWith(
-                                                color: Color(0xFF999999),
-                                                fontSize: 14)))),
-                            customProvider.loading
-                                ? Container(
-                                    height: 18,
-                                    width: 18,
-                                    child: CircularProgressIndicator(
-                                      backgroundColor: Colors.white,
-                                    ))
-                                : customProvider.usernameTaken
-                                    ? Container(
-                                        alignment: Alignment.centerRight,
-                                        child: Text(
-                                            languageProvider
-                                                .text.profileText.username_used,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1
-                                                .copyWith(
-                                                    color: Colors.red,
-                                                    fontSize: 11)))
-                                    : Container(),
-                          ]),
-                          Container(
-                            height: 40,
-                            child: TextFormField(
-                              onChanged: (String text) {
-                                username = text;
-                                customProvider.checkUsername(text);
-                              },
-                              style: Theme.of(context).textTheme.bodyText1,
-                              cursorColor: Theme.of(context).primaryColorLight,
-                              initialValue: customProvider.user.username,
-                              decoration: InputDecoration(
-                                suffixIcon: Icon(Icons.error,
-                                    color: customProvider.usernameTaken
-                                        ? Colors.red
-                                        : Colors.transparent),
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 1,
-                                        color: Theme.of(context).primaryColor)),
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 1,
-                                        color: Theme.of(context).accentColor)),
-                              ),
-                            ),
-                          ),
                           Container(
                               margin: EdgeInsets.only(top: 30),
-                              child: Text(
-                                  languageProvider.text.profileText.name,
+                              child: Text("Nome",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -217,39 +157,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           Container(
                               margin: EdgeInsets.only(top: 30),
-                              child: Text(
-                                  languageProvider.text.profileText.surname,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      .copyWith(
-                                          color: Color(0xFFaaaaaa),
-                                          fontSize: 14))),
-                          Container(
-                            height: 40,
-                            child: TextFormField(
-                              onChanged: (String text) {
-                                surname = text;
-                              },
-                              style: Theme.of(context).textTheme.bodyText1,
-                              cursorColor: Theme.of(context).primaryColorLight,
-                              initialValue: customProvider.user.surname,
-                              decoration: InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 1,
-                                        color: Theme.of(context).primaryColor)),
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        width: 1,
-                                        color: Theme.of(context).accentColor)),
-                              ),
-                            ),
-                          ),
-                          Container(
-                              margin: EdgeInsets.only(top: 30),
-                              child: Text(
-                                  languageProvider.text.profileText.biography,
+                              child: Text("Biografia",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -281,16 +189,12 @@ class _EditProfileState extends State<EditProfile> {
                           Container(height: 60),
                           Container(
                               margin: EdgeInsets.only(top: 10),
-                              child: Text(
-                                  languageProvider
-                                      .text.profileText.additional_information,
+                              child: Text("Ulteriori info",
                                   style:
                                       Theme.of(context).textTheme.bodyText1)),
                           Container(
                               margin: EdgeInsets.only(top: 10, bottom: 10),
-                              child: Text(
-                                  languageProvider.text.profileText
-                                      .additional_information_text,
+                              child: Text("Altre info su di te",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -299,8 +203,7 @@ class _EditProfileState extends State<EditProfile> {
                                           color: Colors.grey[700]))),
                           Container(
                               margin: EdgeInsets.only(top: 40),
-                              child: Text(
-                                  languageProvider.text.profileText.gender,
+                              child: Text("Sesso",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -327,17 +230,17 @@ class _EditProfileState extends State<EditProfile> {
                                                 InkWell(
                                                     onTap: () {
                                                       gender = "m";
-                                                      customProvider
-                                                          .updateProfile(
-                                                              customProvider
-                                                                  .user
-                                                                  .birthday,
-                                                              name,
-                                                              surname,
-                                                              bio,
-                                                              username,
-                                                              phone,
-                                                              gender);
+                                                      // customProvider
+                                                      //     .updateProfile(
+                                                      //         customProvider
+                                                      //             .user
+                                                      //             .birthday,
+                                                      //         name,
+                                                      //         surname,
+                                                      //         bio,
+                                                      //         username,
+                                                      //         phone,
+                                                      //         gender);
                                                       Navigator.of(context)
                                                           .pop();
                                                     },
@@ -346,28 +249,24 @@ class _EditProfileState extends State<EditProfile> {
                                                             EdgeInsets.all(20),
                                                         alignment: Alignment
                                                             .centerLeft,
-                                                        child: Text(
-                                                            languageProvider
-                                                                .text
-                                                                .profileText
-                                                                .male,
+                                                        child: Text("Uomo",
                                                             style: TextStyle(
                                                                 color: Colors
                                                                     .white)))),
                                                 InkWell(
                                                     onTap: () {
                                                       gender = "f";
-                                                      customProvider
-                                                          .updateProfile(
-                                                              customProvider
-                                                                  .user
-                                                                  .birthday,
-                                                              name,
-                                                              surname,
-                                                              bio,
-                                                              username,
-                                                              phone,
-                                                              gender);
+                                                      // customProvider
+                                                      //     .updateProfile(
+                                                      //         customProvider
+                                                      //             .user
+                                                      //             .birthday,
+                                                      //         name,
+                                                      //         surname,
+                                                      //         bio,
+                                                      //         username,
+                                                      //         phone,
+                                                      //         gender);
                                                       Navigator.of(context)
                                                           .pop();
                                                     },
@@ -376,11 +275,7 @@ class _EditProfileState extends State<EditProfile> {
                                                             EdgeInsets.all(20),
                                                         alignment: Alignment
                                                             .centerLeft,
-                                                        child: Text(
-                                                            languageProvider
-                                                                .text
-                                                                .profileText
-                                                                .female,
+                                                        child: Text("Donna",
                                                             style: TextStyle(
                                                                 color: Colors
                                                                     .white)))),
@@ -399,11 +294,9 @@ class _EditProfileState extends State<EditProfile> {
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         customProvider.user.gender == 'm'
-                                            ? languageProvider
-                                                .text.profileText.male
+                                            ? "Uomo"
                                             : customProvider.user.gender == 'f'
-                                                ? languageProvider
-                                                    .text.profileText.female
+                                                ? "Donna"
                                                 : "",
                                         style: Theme.of(context)
                                             .textTheme
@@ -412,8 +305,7 @@ class _EditProfileState extends State<EditProfile> {
                                       )))),
                           Container(
                               margin: EdgeInsets.only(top: 20),
-                              child: Text(
-                                  languageProvider.text.profileText.phone,
+                              child: Text("Numero di telefono",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -444,8 +336,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           Container(
                               margin: EdgeInsets.only(top: 20),
-                              child: Text(
-                                  languageProvider.text.profileText.birthday,
+                              child: Text("Data di nascita",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText1
@@ -547,15 +438,18 @@ class _EditProfileState extends State<EditProfile> {
                                       height: 40,
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                        customProvider.user.birthday.day
-                                                .toString() +
-                                            ' ' +
-                                            getMonth(customProvider
-                                                    .user.birthday.month -
-                                                1) +
-                                            ' ' +
-                                            customProvider.user.birthday.year
-                                                .toString(),
+                                        customProvider.user.birthday != null
+                                            ? (customProvider.user.birthday.day
+                                                    .toString() +
+                                                ' ' +
+                                                getMonth(customProvider
+                                                        .user.birthday.month -
+                                                    1) +
+                                                ' ' +
+                                                customProvider
+                                                    .user.birthday.year
+                                                    .toString())
+                                            : "Seleziona",
                                         textAlign: TextAlign.left,
                                         style: Theme.of(context)
                                             .textTheme
@@ -574,11 +468,11 @@ class _EditProfileState extends State<EditProfile> {
                         padding: EdgeInsets.all(0),
                         primary: Colors.transparent.withOpacity(0)),
                     onPressed: () {
-                      if (_image != null) {
-                        customProvider.uploadImage(File(_image.path));
-                      }
-                      customProvider.updateProfile(
-                          picked, name, surname, bio, username, phone, gender);
+                      // if (_image != null) {
+                      //   customProvider.uploadImage(File(_image.path));
+                      // }
+                      // customProvider.updateProfile(
+                      //     picked, name, surname, bio, username, phone, gender);
 
                       Navigator.of(context).pop();
                     },
@@ -595,7 +489,7 @@ class _EditProfileState extends State<EditProfile> {
                         child: Padding(
                             padding: EdgeInsets.symmetric(vertical: 10),
                             child: Text(
-                              languageProvider.text.profileText.update,
+                              "Aggiorna",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 22,

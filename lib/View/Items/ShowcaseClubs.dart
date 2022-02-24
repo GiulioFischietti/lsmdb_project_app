@@ -15,14 +15,7 @@ class ShowcaseClubs extends StatefulWidget {
 class _ShowcaseClubstate extends State<ShowcaseClubs> {
   @override
   Widget build(BuildContext context) {
-    return new Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Container(
-          margin: EdgeInsets.only(bottom: 0, left: 20, top: 30),
-          child: Text(widget.data.title,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500))),
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(
           height: 275,
           child: ListView.builder(

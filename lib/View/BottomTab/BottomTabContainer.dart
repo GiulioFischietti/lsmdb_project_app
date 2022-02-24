@@ -1,4 +1,5 @@
 import 'package:project_app/View/BottomTab/Animatedlist.dart';
+import 'package:project_app/View/Entities/Profile.dart';
 import 'package:project_app/providers/LanguageProvider.dart';
 import 'package:project_app/providers/UserProvider.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +23,9 @@ class _BottomTabContainerState extends State<BottomTabContainer> {
   TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   List<Widget> _widgetOptions = <Widget>[
     Home(),
-    Search(),
-    Notifications()
+
+    Notifications(),
+    Profile()
     // AnimatedListSample(),
   ];
 
@@ -35,6 +37,7 @@ class _BottomTabContainerState extends State<BottomTabContainer> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: missing_return
     return WillPopScope(onWillPop: () {
       if (_selectedIndex > 0) {
         setState(() {
@@ -52,18 +55,17 @@ class _BottomTabContainerState extends State<BottomTabContainer> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Theme.of(context).primaryColor,
-          items: <BottomNavigationBarItem>[
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: languageProvider.text.needfy.search,
-            ),
+                icon: Icon(Icons.notifications), label: "Notifiche"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.notifications),
-                label: languageProvider.text.profileText.notifications),
+              icon: Icon(Icons.person),
+              label: "Profilo",
+            ),
           ],
           currentIndex: _selectedIndex,
           unselectedItemColor: Colors.grey[300],

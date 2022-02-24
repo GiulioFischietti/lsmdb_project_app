@@ -651,7 +651,6 @@ class _OrganizerState extends State<Organizer> {
                           child: ShowcaseReviews(
                             getReviews: _getReviews,
                             data: showcasereviews,
-                            languagePack: languagePack,
                           ))
                       : Container(
                           width: size.width,

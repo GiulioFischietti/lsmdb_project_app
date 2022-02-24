@@ -3,8 +3,12 @@ import 'dart:convert';
 import 'package:project_app/Engine/Communication/request.dart';
 import 'package:project_app/Engine/Utility.dart/Translate.dart';
 import 'package:project_app/Model/LoginEmailResponse.dart';
+import 'package:project_app/Model/UserModel.dart';
 import 'package:project_app/View/BottomTab/BottomTabContainer.dart';
+import 'package:project_app/View/Entities/User.dart';
+import 'package:project_app/View/Other/ResponseData.dart';
 import 'package:project_app/providers/LanguageProvider.dart';
+import 'package:project_app/providers/UserProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,57 +28,6 @@ class _LoginEmailState extends State<LoginEmail> {
 
   TextEditingController emailController = new TextEditingController();
   TextEditingController pwdController = new TextEditingController();
-
-  Future<void> _login() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    setState(() {
-      isLoading = true;
-    });
-
-    String response = await Request.post('login',
-        {"email": emailController.text, "password": pwdController.text});
-    print(response);
-    LoginEmailResponse loginResponse =
-        LoginEmailResponse.fromJson(jsonDecode(response));
-
-    if (loginResponse.error) {
-      print('error');
-      showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Errore'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(loginResponse.message),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Chiudi'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    } else {
-      prefs.setBool("social_login", false);
-      prefs.setString("access_token", loginResponse.access_token);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => BottomTabContainer()));
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +166,14 @@ class _LoginEmailState extends State<LoginEmail> {
                                                   backgroundColor:
                                                       Color(0xFFF9b701)),
                                               onPressed: () {
-                                                _login();
+                                                final userMdl =
+                                                    Provider.of<UserProvider>(
+                                                        context,
+                                                        listen: false);
+                                                userMdl.login(
+                                                    emailController.text,
+                                                    pwdController.text,
+                                                    context);
                                               },
                                               child: Container(
                                                 margin: EdgeInsets.symmetric(

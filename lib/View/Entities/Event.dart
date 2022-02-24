@@ -271,14 +271,16 @@ class _EventState extends State<Event> {
                                                     MaterialPageRoute(
                                                         builder: (context) => Club(
                                                             id: event
-                                                                .organizer.id,
+                                                                .organizer.id
+                                                                .toString(),
                                                             image: event
                                                                 .organizer
                                                                 .image,
                                                             name: event
                                                                 .organizer.name,
                                                             slug: event
-                                                                .organizer.id,
+                                                                .organizer.id
+                                                                .toString(),
                                                             tag: "clubimage" +
                                                                 event.organizer
                                                                     .id
@@ -372,7 +374,7 @@ class _EventState extends State<Event> {
                                                                                   onPressed: () {
                                                                                     print(event.other_organizers[index].type);
                                                                                     if (event.other_organizers[index].type.toLowerCase() == "club") {
-                                                                                      Navigator.push(context, MaterialPageRoute(builder: (context) => Club(id: event.other_organizers[index].id, image: event.other_organizers[index].image, name: event.other_organizers[index].name, slug: event.other_organizers[index].id, tag: "clubimage" + event.other_organizers[index].id.toString())));
+                                                                                      Navigator.push(context, MaterialPageRoute(builder: (context) => Club(id: event.other_organizers[index].id.toString(), image: event.other_organizers[index].image, name: event.other_organizers[index].name, slug: event.other_organizers[index].id.toString(), tag: "clubimage" + event.other_organizers[index].id.toString())));
                                                                                     } else if (event.other_organizers[index].type.toLowerCase() == "organizer") {
                                                                                       Navigator.push(context, MaterialPageRoute(builder: (context) => Organizer(id: event.other_organizers[index].id, image: event.other_organizers[index].image, name: event.other_organizers[index].name, slug: event.other_organizers[index].id, tag: "clubimage" + event.organizer.id.toString())));
                                                                                     }
@@ -462,7 +464,7 @@ class _EventState extends State<Event> {
                                                                                       onPressed: () {
                                                                                         print(event.other_organizers[index].type);
                                                                                         if (event.other_organizers[index].type.toLowerCase() == "club") {
-                                                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => Club(id: event.other_organizers[index].id, image: event.other_organizers[index].image, name: event.other_organizers[index].name, slug: event.other_organizers[index].id, tag: "clubimage" + event.other_organizers[index].id.toString())));
+                                                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => Club(id: event.other_organizers[index].id.toString(), image: event.other_organizers[index].image, name: event.other_organizers[index].name, slug: event.other_organizers[index].id.toString(), tag: "clubimage" + event.other_organizers[index].id.toString())));
                                                                                         } else if (event.other_organizers[index].type.toLowerCase() == "organizer") {
                                                                                           Navigator.push(context, MaterialPageRoute(builder: (context) => Organizer(id: event.other_organizers[index].id, image: event.other_organizers[index].image, name: event.other_organizers[index].name, slug: event.other_organizers[index].id, tag: "clubimage" + event.organizer.id.toString())));
                                                                                         }

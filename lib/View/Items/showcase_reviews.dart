@@ -13,8 +13,8 @@ import 'ReviewV.dart';
 class ShowcaseReviews extends StatefulWidget {
   ShowcaseReviewsModel data;
   VoidCallback getReviews;
-  Translator languagePack;
-  ShowcaseReviews({this.data, this.languagePack, @required this.getReviews});
+
+  ShowcaseReviews({this.data, @required this.getReviews});
   @override
   _ShowcaseReviewstate createState() => _ShowcaseReviewstate();
 }
@@ -63,10 +63,10 @@ class _ShowcaseReviewstate extends State<ShowcaseReviews> {
                     remove: () {
                       _removeReview(index);
                     },
-                    post: widget.languagePack.reviewText.post,
+                    post: "widget.languagePack.reviewText.post",
                     placeholder:
-                        widget.languagePack.reviewText.textarea_placeholder,
-                    new_review: widget.languagePack.reviewText.modify_review,
+                        "widget.languagePack.reviewText.textarea_placeholder",
+                    new_review: "widget.languagePack.reviewText.modify_review",
                   ));
             },
           ))

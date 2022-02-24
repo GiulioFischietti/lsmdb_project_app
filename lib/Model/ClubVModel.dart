@@ -4,7 +4,7 @@
 //
 class ClubVModel {
   String name;
-  int id;
+  String id;
   int slug;
   String place;
   String image;
@@ -13,12 +13,12 @@ class ClubVModel {
 
   ClubVModel(data) {
     this.name = data['name'];
-    this.id = data['id'];
+    this.id = data['_id'];
     this.image = data['image'];
-    this.slug = data['slug'];
-    this.live_status = data['live_status'];
-    this.place = data['place'];
-    this.rating = double.parse(data['rating']);
+    // this.slug = data['slug'];
+    // this.live_status = data['live_status'];
+    this.place = (data['address'] as String).split(", ")[1];
+    this.rating = double.parse(data['rating'] ?? "0");
   }
 
   factory ClubVModel.fromJson(Map<String, dynamic> parsedJson) {

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Request {
-  static String _host = "https://refactoring.needfy.it/api/";
+  static String _host = "http://192.168.1.18:3000/";
 
   Request() {}
   String get host {
@@ -14,20 +14,12 @@ class Request {
       {dynamic params, int timeout: 5}) async {
     String message = "error";
 
-    final prefs = await SharedPreferences.getInstance();
-    final String accessToken = prefs.getString('access_token');
-
     Uri uri = Uri.parse(_host + action);
     final newURI = uri.replace(queryParameters: params);
 
     Map<String, String> headers = {
-      'Accept': 'application/json',
+      'Content-Type': 'application/json',
     };
-    if (accessToken != null) {
-      headers.addAll({'Authorization': 'Bearer $accessToken'});
-      print("Ho effettuato una richiesta con access_token =" + accessToken);
-    }
-
     final response = await http
         .get(newURI, headers: headers)
         .timeout(Duration(seconds: timeout));
@@ -65,22 +57,16 @@ class Request {
     final String accessToken = prefs.getString('access_token');
 
     Map<String, String> headers = {
-      'Accept': 'application/json',
+      'Content-Type': 'application/json',
     };
     if (accessToken != null) {
       headers.addAll({'Authorization': 'Bearer $accessToken'});
       // print("Ho effettuato una richiesta con access_token =" + accessToken);
     }
     final response = await http.post(Uri.parse(_host + action),
-        headers: headers, body: body);
-    message = response.body;
+        headers: headers, body: jsonEncode(body));
 
-    if (response.statusCode != 200) {
-      dynamic res = json.decode(response.body);
-      res['error'] = true;
-      return json.encode(res);
-    }
-    return message;
+    return response.body;
   }
 
   static Future<String> delete(String action) async {

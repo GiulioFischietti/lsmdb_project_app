@@ -50,7 +50,8 @@ class _UserState extends State<User> {
 
   @override
   void initState() {
-    _getUser();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.getUserData();
     _getSavedEvents();
   }
 
@@ -59,15 +60,6 @@ class _UserState extends State<User> {
     // print(response);
     setState(() {
       showcaseclubsfollowed = ShowcaseClubModel.fromJson(jsonDecode(response));
-    });
-  }
-
-  Future<void> _getUser() async {
-    String query = widget.slug != null ? ("/" + widget.slug) : "";
-    String response = await Request.get('user' + query);
-    print(response);
-    setState(() {
-      widget.user = UserModel.fromJson(jsonDecode(response));
     });
   }
 
@@ -310,7 +302,6 @@ class _UserState extends State<User> {
                           children: [
                             showcasereviews != null
                                 ? ShowcaseReviews(
-                                    languagePack: languageprovider.text,
                                     data: showcasereviews,
                                   )
                                 : Container(

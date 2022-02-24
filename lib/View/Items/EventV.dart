@@ -80,6 +80,13 @@ class _EventVState extends State<EventV> with SingleTickerProviderStateMixin {
                           child: Image(
                             height: 110,
                             width: 220,
+                            errorBuilder: (BuildContext context,
+                                Object exception, StackTrace stackTrace) {
+                              return Container(
+                                  color: Colors.grey[800],
+                                  width: 220,
+                                  height: 110);
+                            },
                             image: NetworkImage(
                               widget.eventV.image,
                             ),
@@ -118,12 +125,14 @@ class _EventVState extends State<EventV> with SingleTickerProviderStateMixin {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => Club(
-                                              id: widget.eventV.id,
+                                              id: widget.eventV.organizer.id
+                                                  .toString(),
                                               image:
                                                   widget.eventV.organizer.image,
                                               name:
                                                   widget.eventV.organizer.name,
-                                              slug: widget.eventV.organizer.id,
+                                              slug: widget.eventV.organizer.id
+                                                  .toString(),
                                               tag: "clubimage" +
                                                   widget.eventV.organizer.id
                                                       .toString())));

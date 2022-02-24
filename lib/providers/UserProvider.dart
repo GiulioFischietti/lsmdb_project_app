@@ -13,7 +13,9 @@ import 'package:project_app/Model/ShowcaseOrganizersModel.dart';
 import 'package:project_app/Model/ShowcaseReviewsModel.dart';
 import 'package:project_app/Model/UploadImageResponse.dart';
 import 'package:project_app/Model/UserModel.dart';
+import 'package:project_app/View/BottomTab/BottomTabContainer.dart';
 import 'package:project_app/View/BottomTab/Home.dart';
+import 'package:project_app/View/Other/ResponseData.dart';
 import 'package:project_app/services/UserServices.dart';
 
 import 'package:dio/dio.dart';
@@ -25,61 +27,42 @@ class UserProvider extends ChangeNotifier {
   UserModel user;
   bool usernameTaken = false;
   bool loading = false;
+  bool passwordsNotEqual = false;
+  Future<void> login(String email, String psw, BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
 
-  getUserData(context) async {
-    user = await getPersonalProfile();
+    loading = true;
+
+    String response =
+        await Request.post('login', {"email": email, "password": psw});
+
+    dynamic loginResponse = jsonDecode(response);
+
+    loading = false;
+    user = UserModel.fromJson(loginResponse['data']);
+    await prefs.setString("user_id", loginResponse['data']['_id']);
     notifyListeners();
+    if (loginResponse['success']) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (ctx) => BottomTabContainer()));
+    }
   }
 
-  uploadImage(File file) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String accessToken = prefs.getString('access_token');
-    String fileName = file.path.split('/').last;
-    FormData formData = FormData.fromMap({
-      "image": await MultipartFile.fromFile(file.path, filename: fileName),
-    });
-
-    Response<Map> response = await Dio().post(
-      "https://refactoring.needfy.it/api/modifyimageprofile",
-      data: formData,
-      options: Options(
-        headers: {'Authorization': "Bearer " + accessToken},
-      ),
-    );
-    print(response);
-
-    user.image = response.data['image'];
+  Future<dynamic> signup(dynamic body) async {
+    passwordsNotEqual = (body['password'] != body['repeat_password']);
     notifyListeners();
+    if (!passwordsNotEqual) {
+      final response = await Request.post('signup', body);
+      dynamic responseData = jsonDecode(response);
+      return responseData;
+    } else {
+      return null;
+    }
   }
 
-  editProfile() async {
-    String response = await Request.post('modifyinfoprofile', {
-      "username": user.username,
-      "birthday": DateFormat('yyyy-MM-dd').format(user.birthday),
-      "name": user.name ?? "",
-      "surname": user.surname ?? "",
-      "biography": user.motto ?? "",
-      "phone": user.phone ?? "",
-    });
-  }
-
-  updateProfile(DateTime birthday, String name, String surname, String bio,
-      String username, String phone, String gender) {
-    if (birthday != null) user.birthday = birthday;
-    if (name != "") user.name = name;
-    if (surname != "") user.surname = surname;
-    if (username != "") user.username = username;
-    if (bio != "") user.motto = bio;
-    if (phone != "") user.phone = phone;
-    if (gender != "") user.gender = gender;
-    notifyListeners();
-    editProfile();
-  }
-
-  checkUsername(String username) async {
-    String response = await Request.get("checkusername/" + username);
-    var responseJson = json.decode(response);
-    usernameTaken = responseJson['is_exist'];
+  getUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    user = await getPersonalProfile(prefs.getString("user_id"));
     notifyListeners();
   }
 }

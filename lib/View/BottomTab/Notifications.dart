@@ -51,9 +51,7 @@ class _NotificationsState extends State<Notifications> {
                               child: Container(
                                   margin: EdgeInsets.only(
                                       left: 20, top: 10, bottom: 20),
-                                  child: Text(
-                                      languageProvider
-                                          .text.profileText.notifications,
+                                  child: Text("Notifiche",
                                       style: TextStyle(
                                           color: Color(0xFFf9b701),
                                           fontWeight: FontWeight.w700,
@@ -68,7 +66,7 @@ class _NotificationsState extends State<Notifications> {
                                       margin:
                                           EdgeInsets.only(top: 20, left: 20),
                                       child: Text(
-                                        customProvider.notifications.title_new,
+                                        "Nuove",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                             color: Theme.of(context)
@@ -123,7 +121,8 @@ class _NotificationsState extends State<Notifications> {
                                                                 .notifications
                                                                 .new_notifications[
                                                                     index]
-                                                                .entity_id,
+                                                                .entity_id
+                                                                .toString(),
                                                             name: "",
                                                             image: customProvider
                                                                 .notifications
@@ -134,7 +133,8 @@ class _NotificationsState extends State<Notifications> {
                                                                 .notifications
                                                                 .new_notifications[
                                                                     index]
-                                                                .entity_id)));
+                                                                .entity_id
+                                                                .toString())));
                                                 break;
                                               case "organizer":
                                                 Navigator.push(
@@ -264,9 +264,7 @@ class _NotificationsState extends State<Notifications> {
                                       margin:
                                           EdgeInsets.only(top: 20, left: 20),
                                       child: Text(
-                                        customProvider
-                                                .notifications.title_old ??
-                                            "",
+                                        "Vecchie",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                             color: Theme.of(context)

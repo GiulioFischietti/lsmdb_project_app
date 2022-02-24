@@ -7,22 +7,13 @@ import 'package:project_app/Model/UserModel.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<UserModel> getPersonalProfile() async {
+Future<UserModel> getPersonalProfile(String id) async {
   UserModel user;
-  var prefs = await SharedPreferences.getInstance();
 
-  var jsonUser;
-  // if (prefs.getString('user') != null) {
-  //   String userLocal = prefs.getString("user");
-  //   jsonUser = json.decode(userLocal);
-  //   user = UserModel.fromJson(jsonUser);
-  // }
-  // else {
-  String response = await Request.get('user');
+  String response = await Request.get('userbyid', params: {"_id": id});
   if (response != "error") {
-    jsonUser = json.decode(response);
-    user = UserModel.fromJson(jsonUser);
+    user = UserModel.fromJson(json.decode(response)['data']);
   }
-  // }
+
   return user;
 }

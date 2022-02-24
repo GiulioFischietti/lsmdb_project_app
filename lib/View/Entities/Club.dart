@@ -29,8 +29,8 @@ class Club extends StatefulWidget {
   String image;
   String name;
   String tag;
-  int id;
-  int slug;
+  String id;
+  String slug;
   Club({this.image, this.tag, this.id, this.slug, this.name});
   @override
   _ClubState createState() => _ClubState();
@@ -46,7 +46,7 @@ class _ClubState extends State<Club> {
 
   Future<void> _addReview() async {
     final userMdl = Provider.of<UserProvider>(context, listen: false);
-    userMdl.getUserData(context);
+    // userMdl.getUserData(context);
     var response = await Request.put('addreview', {
       "type": "club",
       "organizer": widget.slug.toString(),
@@ -744,7 +744,6 @@ class _ClubState extends State<Club> {
                           child: ShowcaseReviews(
                             getReviews: _getReviews,
                             data: showcasereviews,
-                            languagePack: languagePack,
                           ))
                       : Container(
                           width: size.width,
