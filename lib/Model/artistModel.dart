@@ -2,7 +2,7 @@
 // ignore: file_names
 // ignore_for_file: unnecessary_this, file_names
 class ArtistModel {
-  int id;
+  String id;
   String slug;
 
   String image;
@@ -22,7 +22,7 @@ class ArtistModel {
   int rating_count;
 
   ArtistModel(data) {
-    this.id = data['id'];
+    this.id = data['_id'];
     this.description = data['description'];
     this.slug = data['slug'];
     this.name = data['name'];

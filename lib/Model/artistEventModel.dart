@@ -3,12 +3,12 @@
 // ignore_for_file: unnecessary_this, file_names
 
 class ArtistEventModel {
-  int _id;
+  String _id;
   String _name;
   String _image;
   String _type;
 
-  int get id {
+  String get id {
     return this._id;
   }
 
@@ -25,7 +25,7 @@ class ArtistEventModel {
   }
 
   ArtistEventModel(data) {
-    this._id = data['id'];
+    this._id = data['_id'];
     this._name = data['name'];
     this._image = data['image'];
     this._type = data['type'];

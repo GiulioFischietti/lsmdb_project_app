@@ -37,7 +37,6 @@ class Club extends StatefulWidget {
 }
 
 class _ClubState extends State<Club> {
-  String username;
   double _height = 0;
   FocusNode myFocusNode;
   Translator text;
@@ -54,11 +53,10 @@ class _ClubState extends State<Club> {
       "description": reviewDescription.text ?? ""
     });
     print(response);
-    ReviewModel new_rev = new ReviewModel({
+    ReviewModel new_rev = ReviewModel({
       "id": 0,
       "slug": "0",
-      "username": username,
-      "name": username,
+      "name": "name",
       "type": "user",
       "link": "test",
       "rating": rating,
@@ -87,14 +85,6 @@ class _ClubState extends State<Club> {
   UserModel user;
   bool buttonvisible = true;
 
-  void getUsername() async {
-    final userMdl = Provider.of<UserProvider>(context, listen: false);
-
-    setState(() {
-      username = userMdl.user.username;
-    });
-  }
-
   Future<void> _getReviews() async {
     final response = await Request.get('clubreviews/' + widget.slug.toString());
 
@@ -103,17 +93,17 @@ class _ClubState extends State<Club> {
     });
     final userMdl = Provider.of<UserProvider>(context, listen: false);
 
-    setState(() {
-      username = userMdl.user.username;
-    });
+    // setState(() {
+    //   username = userMdl.user.username;
+    // });
 
-    for (ReviewModel review in showcasereviews.reviews) {
-      if (review.username == username) {
-        setState(() {
-          buttonvisible = false;
-        });
-      }
-    }
+    // for (ReviewModel review in showcasereviews.reviews) {
+    //   if (review.username == username) {
+    //     setState(() {
+    //       buttonvisible = false;
+    //     });
+    //   }
+    // }
   }
 
   void followClub() async {
@@ -150,27 +140,25 @@ class _ClubState extends State<Club> {
 
   bool visiblebutton() {
     for (ReviewModel review in showcasereviews.reviews) {
-      if (review.username == username) {
-        return true;
-      }
+      // if (review.username == username) {
+      //   return true;
+      // }
     }
     return false;
   }
 
   bool isLoading = true;
   ClubModel club;
-  Translator languagePack;
   Future<void> getClub() async {
     final prefs = await SharedPreferences.getInstance();
-    String text = prefs.getString('languagepack');
 
-    String response = await Request.get('club/' + widget.slug.toString());
+    String response = await Request.get('clubbyid?_id=' + widget.id);
 
     setState(() {
       isLoading = false;
-      languagePack = Translator.fromJson(jsonDecode(text));
-      club = ClubModel.fromJson(jsonDecode(response));
-      rating = club.rating;
+
+      club = ClubModel.fromJson(jsonDecode(response)['data']);
+      rating = club.rating ?? 0;
     });
     _getReviews();
   }
@@ -178,7 +166,7 @@ class _ClubState extends State<Club> {
   @override
   void initState() {
     super.initState();
-    getUsername();
+
     getClub();
 
     myFocusNode = FocusNode();
@@ -238,15 +226,13 @@ class _ClubState extends State<Club> {
                     flexibleSpace: FlexibleSpaceBar(
                         background: Stack(children: [
                       Positioned(
-                          child: Hero(
-                              tag: 'clubimage' + widget.id.toString(),
-                              child: Container(
-                                height: size.width,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(widget.image),
-                                        fit: BoxFit.cover)),
-                              ))),
+                          child: Container(
+                        height: size.width,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: NetworkImage(widget.image),
+                                fit: BoxFit.cover)),
+                      )),
                       Container(
                         height: size.width,
                         decoration: BoxDecoration(
@@ -312,9 +298,7 @@ class _ClubState extends State<Club> {
                                         print(rating);
                                       },
                                     )),
-                                Text(
-                                    (club?.rating_count?.toString() ?? '') +
-                                        " Reviews",
+                                Text(("0") + " Recensioni",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -347,12 +331,7 @@ class _ClubState extends State<Club> {
                                     child: Container(
                                         margin:
                                             EdgeInsets.only(top: 20, left: 10),
-                                        child: Text(
-                                            club.street +
-                                                ", " +
-                                                club.province +
-                                                ',  ' +
-                                                club.province_acronym,
+                                        child: Text(club.address,
                                             style: TextStyle(
                                                 decoration:
                                                     TextDecoration.underline,
@@ -583,9 +562,7 @@ class _ClubState extends State<Club> {
                                                         alignment:
                                                             Alignment.center,
                                                         child: Text(
-                                                            languagePack
-                                                                ?.reviewText
-                                                                ?.new_review,
+                                                            "Nuova recensione",
                                                             style: TextStyle(
                                                                 fontSize: 24,
                                                                 fontWeight:
@@ -660,9 +637,8 @@ class _ClubState extends State<Club> {
                                                                   fontSize: 16,
                                                                   color: Color(
                                                                       0xFF999999)),
-                                                              hintText: languagePack
-                                                                  ?.reviewText
-                                                                  ?.textarea_placeholder),
+                                                              hintText:
+                                                                  "Motiva la tua recensione"),
                                                           cursorColor:
                                                               Color(0xFFcccccc),
                                                         ),
@@ -694,9 +670,7 @@ class _ClubState extends State<Club> {
                                                                       0xFFf9b701)),
                                                           child: Container(
                                                               child: Text(
-                                                                  languagePack
-                                                                      ?.reviewText
-                                                                      ?.post,
+                                                                  "Invia",
                                                                   style: TextStyle(
                                                                       fontSize:
                                                                           18,
@@ -724,10 +698,7 @@ class _ClubState extends State<Club> {
                                             child: Container(
                                                 margin:
                                                     EdgeInsets.only(right: 20),
-                                                child: Text(
-                                                    languagePack?.reviewText
-                                                            ?.new_review ??
-                                                        "",
+                                                child: Text("Nuova recensione",
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         color:
@@ -738,17 +709,17 @@ class _ClubState extends State<Club> {
                                       ]))))
                       : Container(),
 
-                  showcasereviews != null
-                      ? Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: ShowcaseReviews(
-                            getReviews: _getReviews,
-                            data: showcasereviews,
-                          ))
-                      : Container(
-                          width: size.width,
-                          margin: EdgeInsets.only(top: 135),
-                          child: Center(child: CircularProgressIndicator())),
+                  // showcasereviews != null
+                  //     ? Container(
+                  //         margin: EdgeInsets.only(top: 20),
+                  //         child: ShowcaseReviews(
+                  //           getReviews: _getReviews,
+                  //           data: showcasereviews,
+                  //         ))
+                  //     : Container(
+                  //         width: size.width,
+                  //         margin: EdgeInsets.only(top: 135),
+                  //         child: Center(child: CircularProgressIndicator())),
                 ],
               )),
           Positioned(
@@ -762,14 +733,12 @@ class _ClubState extends State<Club> {
                     onPressed: () {
                       if (club.followed) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(languagePack
-                                ?.organizerText?.unfollow_success)));
+                            content: Text("Club rimosso dai seguiti")));
 
                         unfollowClub();
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                languagePack?.organizerText?.follow_success)));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Ora segui questo Club")));
                         followClub();
                       }
                       setState(() {
@@ -791,8 +760,8 @@ class _ClubState extends State<Club> {
                             child: Text(
                               club != null
                                   ? club.followed
-                                      ? languagePack?.organizerText?.unfollow
-                                      : languagePack?.organizerText?.follow
+                                      ? "Non seguire più"
+                                      : "Segui"
                                   : "",
                               style: TextStyle(
                                   color: Colors.white,

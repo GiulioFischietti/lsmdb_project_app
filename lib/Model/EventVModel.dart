@@ -5,7 +5,7 @@
 import 'package:project_app/Model/OrganizerEvent.dart';
 
 class EventVModel {
-  int id;
+  String id;
   int slug;
   String name;
   String image;
@@ -17,7 +17,7 @@ class EventVModel {
   OrganizerEventModel organizer;
 
   EventVModel(data) {
-    this.id = data['id'];
+    this.id = data['_id'];
     this.slug = data['slug'];
     this.name = data['name'];
     this.image = data['image'];

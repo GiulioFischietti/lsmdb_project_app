@@ -4,7 +4,7 @@
 //
 class ArtistVModel {
   String name;
-  int id;
+  String id;
   int slug;
   String image;
   double rating;
@@ -12,7 +12,7 @@ class ArtistVModel {
 
   ArtistVModel(data) {
     this.name = data['name'];
-    this.id = data['id'];
+    this.id = data['_id'];
     this.image = data['image'];
     this.slug = data['slug'];
     this.live_status = data['live_status'];

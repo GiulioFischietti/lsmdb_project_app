@@ -35,8 +35,7 @@ class NotificationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  deleteNotification(int id) async {
-    String response =
-        await Request.delete('removenotification/' + id.toString());
+  deleteNotification(String id) async {
+    String response = await Request.delete('removenotification/' + id);
   }
 }

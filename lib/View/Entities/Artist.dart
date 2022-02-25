@@ -27,7 +27,7 @@ class Artist extends StatefulWidget {
   String image;
   String name;
   String tag;
-  int id;
+  String id;
   int slug;
   Artist({this.image, this.tag, this.id, this.slug, this.name});
   @override

@@ -81,7 +81,8 @@ class HomeProvider extends ChangeNotifier {
   }
 
   determinePosition() async {
-    if (currentPosition == null) {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('current_position')) {
       bool serviceEnabled;
       LocationPermission permission;
 
@@ -108,8 +109,14 @@ class HomeProvider extends ChangeNotifier {
 
         currentPosition = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.medium);
+        notifyListeners();
+        prefs.setString("current_poisition", jsonEncode(currentPosition));
       }
       print(currentPosition.latitude);
+    } else {
+      var pos = jsonDecode(prefs.getString('current_position'));
+      currentPosition =
+          Position(latitude: pos['latitude'], longitude: pos['longitude']);
     }
   }
 }

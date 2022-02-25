@@ -65,7 +65,6 @@ class _EventVState extends State<EventV> with SingleTickerProviderStateMixin {
                         id: widget.eventV.id,
                         image: widget.eventV.image,
                         name: widget.eventV.name,
-                        slug: widget.eventV.slug,
                         tag: "eventimage" + widget.index.toString())));
           },
           child: Container(
@@ -74,25 +73,21 @@ class _EventVState extends State<EventV> with SingleTickerProviderStateMixin {
                 children: [
                   Stack(children: [
                     (Container(
-                        color: Theme.of(context).primaryColor,
-                        child: Hero(
-                          tag: 'eventimage' + widget.eventV.id.toString(),
-                          child: Image(
-                            height: 110,
-                            width: 220,
-                            errorBuilder: (BuildContext context,
-                                Object exception, StackTrace stackTrace) {
-                              return Container(
-                                  color: Colors.grey[800],
-                                  width: 220,
-                                  height: 110);
-                            },
-                            image: NetworkImage(
-                              widget.eventV.image,
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                        ))),
+                      color: Theme.of(context).primaryColor,
+                      child: Image(
+                        height: 110,
+                        width: 220,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace stackTrace) {
+                          return Container(
+                              color: Colors.grey[800], width: 220, height: 110);
+                        },
+                        image: NetworkImage(
+                          widget.eventV.image,
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                    )),
                     Positioned(
                         top: 10,
                         right: 10,
@@ -147,7 +142,6 @@ class _EventVState extends State<EventV> with SingleTickerProviderStateMixin {
                                                   widget.eventV.organizer.image,
                                               name:
                                                   widget.eventV.organizer.name,
-                                              slug: widget.eventV.organizer.id,
                                               tag: "clubimage" +
                                                   widget.eventV.organizer.id
                                                       .toString())));

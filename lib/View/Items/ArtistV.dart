@@ -34,7 +34,6 @@ class _ArtistVState extends State<ArtistV> {
                         id: widget.artistV.id,
                         image: widget.artistV.image,
                         name: widget.artistV.name,
-                        slug: widget.artistV.id,
                         tag: "artistimage" + widget.artistV.id.toString())));
           },
           child: Column(

@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Request {
-  static String _host = "http://192.168.1.18:3000/";
+  static String _host = "http://192.168.1.28:3000/";
 
   Request() {}
   String get host {

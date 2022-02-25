@@ -3,18 +3,18 @@
 // ignore_for_file: unnecessary_this, file_names
 //
 class NotificationVModel {
-  int id;
+  String id;
   String name_sender;
   String image_sender;
   String text_notification;
   String image_notification;
   int seen;
   String type_entity;
-  int entity_id;
+  String entity_id;
 
   NotificationVModel(data) {
     if (data != null) {
-      this.id = data['id'];
+      this.id = data['_id'];
       this.name_sender = data['name_sender'];
       this.image_sender = data['image_sender'];
       this.text_notification = data['text_notification'];

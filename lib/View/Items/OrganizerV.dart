@@ -29,10 +29,9 @@ class _OrganizerVState extends State<OrganizerV> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => Organizer(
-                        id: widget.organizerV.id,
+                        id: widget.organizerV.id.toString(),
                         image: widget.organizerV.image,
                         name: widget.organizerV.name,
-                        slug: widget.organizerV.id,
                         tag: "organizerimage" +
                             widget.organizerV.id.toString())));
           },

@@ -27,7 +27,7 @@ class Organizer extends StatefulWidget {
   String image;
   String name;
   String tag;
-  int id;
+  String id;
   int slug;
   Organizer({this.image, this.tag, this.id, this.slug, this.name});
   @override

@@ -7,7 +7,7 @@ import 'package:project_app/Model/OrganizerEvent.dart';
 import 'artistEventModel.dart';
 
 class OrganizerModel {
-  int id;
+  String id;
   String slug;
 
   String image;
@@ -27,7 +27,7 @@ class OrganizerModel {
   int rating_count;
 
   OrganizerModel(data) {
-    this.id = data['id'];
+    this.id = data['_id'];
     this.description = data['description'];
     this.slug = data['slug'];
     this.name = data['name'];

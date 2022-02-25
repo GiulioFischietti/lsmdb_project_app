@@ -95,11 +95,6 @@ class _NotificationsState extends State<Notifications> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) => Event(
-                                                            slug: customProvider
-                                                                .notifications
-                                                                .new_notifications[
-                                                                    index]
-                                                                .entity_id,
                                                             name: "",
                                                             image: customProvider
                                                                 .notifications
@@ -110,7 +105,8 @@ class _NotificationsState extends State<Notifications> {
                                                                 .notifications
                                                                 .new_notifications[
                                                                     index]
-                                                                .entity_id)));
+                                                                .entity_id
+                                                                .toString())));
                                                 break;
                                               case "club":
                                                 Navigator.push(
@@ -140,34 +136,26 @@ class _NotificationsState extends State<Notifications> {
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) => Organizer(
-                                                            slug: customProvider
-                                                                .notifications
-                                                                .new_notifications[
-                                                                    index]
-                                                                .entity_id,
-                                                            name: "",
-                                                            image: customProvider
-                                                                .notifications
-                                                                .new_notifications[
-                                                                    index]
-                                                                .image_sender,
-                                                            id: customProvider
-                                                                .notifications
-                                                                .new_notifications[
-                                                                    index]
-                                                                .entity_id)));
+                                                        builder: (context) =>
+                                                            Organizer(
+                                                              id: customProvider
+                                                                  .notifications
+                                                                  .new_notifications[
+                                                                      index]
+                                                                  .entity_id,
+                                                              name: "",
+                                                              image: customProvider
+                                                                  .notifications
+                                                                  .new_notifications[
+                                                                      index]
+                                                                  .image_sender,
+                                                            )));
                                                 break;
                                               case "artist":
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) => Artist(
-                                                            slug: customProvider
-                                                                .notifications
-                                                                .new_notifications[
-                                                                    index]
-                                                                .entity_id,
                                                             name: "",
                                                             image: customProvider
                                                                 .notifications
