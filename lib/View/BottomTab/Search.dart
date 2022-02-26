@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:project_app/View/Other/search_results.dart';
 import 'package:project_app/providers/LanguageProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,9 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   double lat;
   double lon;
-  GoogleMapsPlaces _places;
+  GoogleMapsPlaces _places =
+      GoogleMapsPlaces(apiKey: "AIzaSyAwWTijFIGQvx-BnhSVpI_yX4ANZUc2BJM");
+  String placename;
   TextEditingController genreController = TextEditingController();
   TextEditingController _controller = new TextEditingController();
 
@@ -33,10 +36,12 @@ class _SearchState extends State<Search> {
   FocusNode whereNode;
   bool searchingGenres = false;
   bool searchWhere = false;
-
+  bool selectedGenre = false;
+  bool selectedWhere = false;
   @override
   void initState() {
     super.initState();
+
     whereNode = FocusNode();
     _controller.addListener(() {
       _onChanged();
@@ -82,7 +87,7 @@ class _SearchState extends State<Search> {
 
       lat = detail.result.geometry.location.lat;
       lon = detail.result.geometry.location.lng;
-
+      placename = p.description;
       setState(() {
         _controller.text = detail.result.formattedAddress;
       });
@@ -130,7 +135,15 @@ class _SearchState extends State<Search> {
                               keyboardType: TextInputType.name,
                               autocorrect: false,
                               controller: genreController,
-                              style: TextStyle(color: Colors.white),
+                              onEditingComplete: () {
+                                setState(() {
+                                  selectedGenre = true;
+                                });
+                              },
+                              style: TextStyle(
+                                  color: selectedGenre
+                                      ? Colors.white
+                                      : Colors.grey[400]),
                               onChanged: (String text) {
                                 if (text != "") {
                                   searchGenresResult = [];
@@ -152,7 +165,10 @@ class _SearchState extends State<Search> {
                               },
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.only(left: 20.0),
-                                labelStyle: TextStyle(color: Colors.white),
+                                labelStyle: TextStyle(
+                                    color: selectedGenre
+                                        ? Colors.white
+                                        : Colors.grey[400]),
                                 filled: true,
                                 fillColor: Color(0xFF333333),
                                 enabledBorder: OutlineInputBorder(
@@ -169,7 +185,10 @@ class _SearchState extends State<Search> {
                                     borderRadius: BorderRadius.zero),
                                 focusColor: Colors.transparent,
                                 hoverColor: Color(0xFF333333),
-                                hintStyle: TextStyle(color: Colors.white),
+                                hintStyle: TextStyle(
+                                    color: selectedGenre
+                                        ? Colors.white
+                                        : Colors.grey[400]),
                                 hintText:
                                     'Cosa (Genere musicale, es: House, Techno...)',
                               ))),
@@ -178,12 +197,23 @@ class _SearchState extends State<Search> {
                           child: TextFormField(
                               controller: _controller,
                               focusNode: whereNode,
+                              onEditingComplete: () {
+                                setState(() {
+                                  selectedWhere = true;
+                                });
+                              },
                               keyboardType: TextInputType.emailAddress,
                               autocorrect: false,
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color: selectedWhere
+                                      ? Colors.white
+                                      : Colors.grey[400]),
                               decoration: InputDecoration(
                                   contentPadding: EdgeInsets.only(left: 20.0),
-                                  labelStyle: TextStyle(color: Colors.white),
+                                  labelStyle: TextStyle(
+                                      color: selectedWhere
+                                          ? Colors.white
+                                          : Colors.grey[400]),
                                   filled: true,
                                   fillColor: Color(0xFF333333),
                                   enabledBorder: OutlineInputBorder(
@@ -201,7 +231,10 @@ class _SearchState extends State<Search> {
                                   focusColor: Colors.transparent,
                                   hoverColor: Color(0xFF333333),
                                   hintText: 'Dove',
-                                  hintStyle: TextStyle(color: Colors.white)))),
+                                  hintStyle: TextStyle(
+                                      color: selectedWhere
+                                          ? Colors.white
+                                          : Colors.grey[400])))),
                       // Container(
                       //     padding: EdgeInsets.only(bottom: 10),
                       //     child: TextFormField(
@@ -244,6 +277,7 @@ class _SearchState extends State<Search> {
                             setState(() {
                               genreController.text = searchGenresResult[index];
                               searchWhere = true;
+                              selectedGenre = true;
                               searchingGenres = false;
                             });
                             whereNode.requestFocus();
@@ -278,7 +312,16 @@ class _SearchState extends State<Search> {
                     ? Column(children: [
                         InkWell(
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SearchResults()))
+                              setState(() {
+                                selectedWhere = true;
+                                _controller.text = "Posizione Attuale";
+                              });
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (ctx) => SearchResults(
+                                        placename: "Posizione Attuale",
+                                        genre: genreController.text,
+                                        position: {"lat": null, "lon": null},
+                                      )));
                             },
                             child: Container(
                                 margin: EdgeInsets.all(18),
@@ -298,16 +341,19 @@ class _SearchState extends State<Search> {
                           itemCount: _placeList.length,
                           itemBuilder: (context, index) {
                             return ListTile(
-                              onTap: () {
-                            
+                              onTap: () async {
                                 setState(() {
+                                  selectedWhere = true;
                                   whereNode.unfocus();
-                                  _controller.text =
-                                      _placeList[index].description;
                                 });
-                                displayPrediction(_placeList[index]);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SearchResults()))
-                            
+                                await displayPrediction(_placeList[index]);
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (ctx) => SearchResults(
+                                          placename:
+                                              _placeList[index].description,
+                                          position: {"lat": lat, "lon": lon},
+                                          genre: genreController.text,
+                                        )));
                               },
                               leading: Icon(Icons.pin_drop,
                                   color: Color(0xFFF9b701)),
@@ -324,6 +370,7 @@ class _SearchState extends State<Search> {
                                 setState(() {
                                   genreController.text = "Tutti gli eventi";
                                   searchWhere = true;
+                                  selectedGenre = true;
                                   searchingGenres = false;
                                 });
                                 whereNode.requestFocus();
@@ -353,6 +400,7 @@ class _SearchState extends State<Search> {
                                     ],
                                   ))),
                           Container(
+                              alignment: Alignment.centerLeft,
                               padding: EdgeInsets.all(20),
                               child: Text(
                                 "Ricerche suggerite",
@@ -366,6 +414,7 @@ class _SearchState extends State<Search> {
                                   genreController.text = "House";
                                   searchWhere = true;
                                   searchingGenres = false;
+                                  selectedGenre = true;
                                 });
                                 whereNode.requestFocus();
                               },
@@ -398,6 +447,7 @@ class _SearchState extends State<Search> {
                                 setState(() {
                                   genreController.text = "Pop";
                                   searchWhere = true;
+                                  selectedGenre = true;
                                   searchingGenres = false;
                                 });
                                 whereNode.requestFocus();
@@ -432,6 +482,7 @@ class _SearchState extends State<Search> {
                                   genreController.text = "Rock";
                                   searchWhere = true;
                                   searchingGenres = false;
+                                  selectedGenre = true;
                                 });
                                 whereNode.requestFocus();
                               },
