@@ -5,7 +5,6 @@ import 'package:eventi_in_zona/models/book.dart';
 import 'package:eventi_in_zona/models/monitor.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
 import 'package:eventi_in_zona/repositories/cart_repo.dart';
-import 'package:eventi_in_zona/screens/user/monitordetails.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -32,9 +31,9 @@ class _CardWidgetMonitorState extends State<CardWidgetMonitor> {
         child: Column(children: [
           InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (ctx) =>
-                        MonitorDetails(id: widget.monitor.productId)));
+                // Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (ctx) =>
+                //         MonitorDetails(id: widget.monitor.productId)));
               },
               child: Container(
                   decoration: BoxDecoration(
@@ -70,13 +69,13 @@ class _CardWidgetMonitorState extends State<CardWidgetMonitor> {
                       });
                       final userProvider =
                           Provider.of<UserProvider>(context, listen: false);
-                      addToCart(
-                          name: widget.monitor.name,
-                          price: widget.monitor.price,
-                          category: widget.monitor.category,
-                          image_url: widget.monitor.image,
-                          product_id: widget.monitor.productId,
-                          user_id: userProvider.user.id);
+                      // addToCart(
+                      //     name: widget.monitor.name,
+                      //     price: widget.monitor.price,
+                      //     category: widget.monitor.category,
+                      //     image_url: widget.monitor.image,
+                      //     product_id: widget.monitor.productId,
+                      //     user_id: userProvider.user.id);
                       const snackBar = SnackBar(
                         content: Text('Item added to cart'),
                       );

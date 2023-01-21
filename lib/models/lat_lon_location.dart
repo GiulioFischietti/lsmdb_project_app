@@ -4,8 +4,9 @@ class LatLonLocation {
   late double longitude;
 
   LatLonLocation(data) {
-    type = data['type'];
-    latitude = data['coordinates'][1];
-    longitude = data['coordinates'][0];
+    data = data ?? {};
+    type = data['type'] ?? "";
+    latitude = data['coordinates'] != null ? data['coordinates'][1] : 0;
+    longitude = data['coordinates'] != null ? data['coordinates'][0] : 0;
   }
 }

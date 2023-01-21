@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/providers/home_provider.dart';
-import 'package:eventi_in_zona/widgets/user/card_widget_product_result.dart';
 import 'package:provider/provider.dart';
 
 class SearchResults extends StatefulWidget {
@@ -51,15 +50,15 @@ class _SearchResultsState extends State<SearchResults> {
                           child: Text(widget.keyword,
                               style: GoogleFonts.poppins())))
                 ]))),
-        Expanded(
-            child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: searchProvider.productsResult.length,
-          itemBuilder: (BuildContext context, int index) {
-            return CardWidgetProductResult(
-                product: searchProvider.productsResult[index]);
-          },
-        )),
+        // Expanded(
+        //     child: ListView.builder(
+        //   shrinkWrap: true,
+        //   itemCount: searchProvider.productsResult.length,
+        //   itemBuilder: (BuildContext context, int index) {
+        //     return CardWidgetProductResult(
+        //         product: searchProvider.productsResult[index]);
+        //   },
+        // )),
       ]);
     })));
   }

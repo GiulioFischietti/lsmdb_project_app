@@ -6,7 +6,6 @@ import 'package:eventi_in_zona/providers/user_provider.dart';
 import 'package:eventi_in_zona/repositories/cart_repo.dart';
 import 'package:eventi_in_zona/screens/manager/edit_book.dart';
 import 'package:eventi_in_zona/screens/user/bottomtabcontainer.dart';
-import 'package:eventi_in_zona/screens/user/cart.dart';
 import 'package:provider/provider.dart';
 
 class BookDetails extends StatefulWidget {

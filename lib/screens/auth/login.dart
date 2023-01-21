@@ -1,16 +1,11 @@
 import 'package:eventi_in_zona/providers/constants.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
-import 'package:eventi_in_zona/repositories/cart_repo.dart';
-import 'package:eventi_in_zona/screens/auth/forgot_password.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'package:http/http.dart' as http;
 import 'package:eventi_in_zona/screens/auth/login_manager.dart';
 import 'package:eventi_in_zona/screens/user/bottomtabcontainer.dart';
-import 'package:eventi_in_zona/screens/user/home.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../user/consent_location.dart';
@@ -217,44 +212,50 @@ class _LoginState extends State<Login> {
                         ],
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(15.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.orange[300],
-                      ),
-                      margin: EdgeInsets.only(
-                          left: 20, right: 20, bottom: 10, top: 20),
-                      child: InkWell(
-                        onTap: () async {
-                          final prefs = await SharedPreferences.getInstance();
-                          final userProvider =
-                              Provider.of<UserProvider>(context, listen: false);
-                          bool success = await userProvider.logIn(
-                              usernameController.text, pwdController.text);
+                    InkWell(
+                      onTap: () async {
+                        setState(() {
+                          loading = true;
+                        });
+                        final prefs = await SharedPreferences.getInstance();
+                        final userProvider =
+                            Provider.of<UserProvider>(context, listen: false);
+                        bool success = await userProvider.logIn(
+                            usernameController.text, pwdController.text);
 
-                          if (success) {
-                            if (prefs.containsKey('delivery_address')) {
-                              // ignore: use_build_context_synchronously
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BottomTabContainer(
-                                            initialIndex: 0,
-                                          )));
-                            } else {
-                              // ignore: use_build_context_synchronously
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (ctx) => ConsentLocation()));
-                            }
+                        if (success) {
+                          if (prefs.containsKey('delivery_address')) {
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BottomTabContainer(
+                                          initialIndex: 0,
+                                        )));
+                          } else {
+                            // ignore: use_build_context_synchronously
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (ctx) => ConsentLocation()));
                           }
-                        },
-                        // color: Colors.orange[300],
-                        // shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(10.0)),
-                        // padding: EdgeInsets.all(15.0),
+                        }
+                        setState(() {
+                          loading = false;
+                        });
+                      },
+                      // color: Colors.orange[300],
+                      // shape: RoundedRectangleBorder(
+                      //     borderRadius: BorderRadius.circular(10.0)),
+                      // padding: EdgeInsets.all(15.0),
+                      child: Container(
+                        padding: EdgeInsets.all(15.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.orange[300],
+                        ),
+                        margin: EdgeInsets.only(
+                            left: 20, right: 20, bottom: 10, top: 20),
                         child: Container(
                           alignment: Alignment.center,
                           child: Text(

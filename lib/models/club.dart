@@ -17,7 +17,7 @@ class Club extends Entity {
     Map<String, dynamic> result = <String, dynamic>{};
     result.addAll(super.toJson());
     result.addAll({'address': address});
-    result.addAll({'location': location});
+    // result.addAll({'location': location});
     return result;
   }
 

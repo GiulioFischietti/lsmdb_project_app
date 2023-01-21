@@ -1,25 +1,33 @@
 import 'package:eventi_in_zona/models/review.dart';
 import 'package:eventi_in_zona/providers/entity_provider.dart';
+import 'package:eventi_in_zona/providers/event_provider.dart';
 import 'package:eventi_in_zona/screens/user/add_review.dart';
 import 'package:eventi_in_zona/widgets/user/card_widget_event.dart';
+import 'package:eventi_in_zona/widgets/user/card_widget_minimal_entity.dart';
+import 'package:eventi_in_zona/utils/constants.dart';
 import 'package:eventi_in_zona/widgets/user/card_widget_social.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:eventi_in_zona/models/beer.dart';
+import 'package:eventi_in_zona/providers/home_provider.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
+import 'package:eventi_in_zona/repositories/cart_repo.dart';
+import 'package:eventi_in_zona/screens/user/bottomtabcontainer.dart';
 import 'package:objectid/objectid.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/user/card_widget_review.dart';
 
-class ClubDetails extends StatefulWidget {
+class OrganizerDetails extends StatefulWidget {
   ObjectId id;
-  ClubDetails({Key? key, required this.id}) : super(key: key);
+  OrganizerDetails({Key? key, required this.id}) : super(key: key);
 
   @override
-  _ClubDetailsState createState() => _ClubDetailsState();
+  _OrganizerDetailsState createState() => _OrganizerDetailsState();
 }
 
-class _ClubDetailsState extends State<ClubDetails> {
+class _OrganizerDetailsState extends State<OrganizerDetails> {
   @override
   void initState() {
     super.initState();
@@ -48,7 +56,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                     child: Icon(Icons.arrow_back_ios,
                         size: 18, color: Colors.black)),
                 backgroundColor: Colors.grey[100],
-                title: Text("Club",
+                title: Text("Organizer",
                     style: GoogleFonts.poppins(
                         color: Colors.black, fontWeight: FontWeight.w500)),
               ),
@@ -63,7 +71,8 @@ class _ClubDetailsState extends State<ClubDetails> {
                       decoration: BoxDecoration(
                           image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: NetworkImage(entityProvider.club.image))),
+                              image: NetworkImage(
+                                  entityProvider.organizer.image))),
                     ),
                     Container(
                         margin: EdgeInsets.only(left: 20, top: 20, bottom: 0),
@@ -78,13 +87,14 @@ class _ClubDetailsState extends State<ClubDetails> {
                                 children: [
                                   Expanded(
                                       child: Container(
-                                          child: Text(entityProvider.club.name,
+                                          child: Text(
+                                              entityProvider.organizer.name,
                                               style: GoogleFonts.poppins(
                                                   fontSize: 20)))),
-                                  entityProvider.club.followedByUser
+                                  entityProvider.organizer.followedByUser
                                       ? InkWell(
                                           onTap: () async {
-                                            entityProvider.unfollowClub(
+                                            entityProvider.unfollowOrganizer(
                                                 userProvider.user.id);
                                           },
                                           child: Container(
@@ -107,7 +117,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                                               )))
                                       : InkWell(
                                           onTap: () async {
-                                            entityProvider.followClub(
+                                            entityProvider.followOrganizer(
                                                 userProvider.user.id);
                                           },
                                           child: Container(
@@ -136,7 +146,7 @@ class _ClubDetailsState extends State<ClubDetails> {
                                       wrapAlignment: WrapAlignment.start,
                                       onRatingUpdate: (rate) {},
                                       initialRating:
-                                          entityProvider.club.avgRate,
+                                          entityProvider.organizer.avgRate,
                                       minRating: 1,
                                       unratedColor: Colors.grey[400],
                                       itemCount: 5,
@@ -148,25 +158,25 @@ class _ClubDetailsState extends State<ClubDetails> {
                                   Container(
                                       margin: EdgeInsets.only(left: 10),
                                       child: Text(
-                                        entityProvider.club.avgRate.toString(),
+                                        entityProvider.organizer.avgRate
+                                            .toString(),
                                         style: GoogleFonts.poppins(),
                                       ))
                                 ],
                               )
                             ])),
-
-                    field("Description", entityProvider.club.description),
+                    field("Description", entityProvider.organizer.description),
                     Container(
                         margin: EdgeInsets.all(20),
                         child: Text(
                           "Social Medias",
                           style: GoogleFonts.poppins(fontSize: 18),
                         )),
-                    entityProvider.club.socialMedias.isEmpty
+                    entityProvider.organizer.socialMedias.isEmpty
                         ? Container(
                             margin: EdgeInsets.only(left: 20),
                             child: Text(
-                              "No SocialMedias info available for this club",
+                              "No SocialMedias info available for this Organizer",
                               style: GoogleFonts.poppins(
                                   fontSize: 16, color: Colors.grey[500]),
                             ))
@@ -176,11 +186,11 @@ class _ClubDetailsState extends State<ClubDetails> {
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount:
-                                  entityProvider.club.socialMedias.length,
+                                  entityProvider.organizer.socialMedias.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return CardWidgetSocial(
                                     social: entityProvider
-                                        .club.socialMedias[index]);
+                                        .organizer.socialMedias[index]);
                               },
                             ),
                           ),
@@ -190,11 +200,11 @@ class _ClubDetailsState extends State<ClubDetails> {
                           "Websites",
                           style: GoogleFonts.poppins(fontSize: 18),
                         )),
-                    entityProvider.club.websites.isEmpty
+                    entityProvider.organizer.websites.isEmpty
                         ? Container(
                             margin: EdgeInsets.only(left: 20),
                             child: Text(
-                              "No Websites info available for this club",
+                              "No Websites info available for this Organizer",
                               style: GoogleFonts.poppins(
                                   fontSize: 16, color: Colors.grey[500]),
                             ))
@@ -203,14 +213,16 @@ class _ClubDetailsState extends State<ClubDetails> {
                             child: ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
-                              itemCount: entityProvider.club.websites.length,
+                              itemCount:
+                                  entityProvider.organizer.websites.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return InkWell(
                                     onTap: () {},
                                     child: Container(
                                         margin: EdgeInsets.only(bottom: 5),
                                         child: Text(
-                                            entityProvider.club.websites[index],
+                                            entityProvider
+                                                .organizer.websites[index],
                                             style: GoogleFonts.poppins(
                                               color: Colors.blue,
                                               decoration:
@@ -219,12 +231,6 @@ class _ClubDetailsState extends State<ClubDetails> {
                               },
                             ),
                           ),
-                    field("Address", entityProvider.club.address),
-                    // field(
-                    //     "Phone",
-                    //     (entityProvider.club.phones)
-                    //         .reduce((a, b) => a + '\n' + b)
-                    //         .toString()),
                     Container(
                         color: Colors.white,
                         padding:
@@ -234,12 +240,11 @@ class _ClubDetailsState extends State<ClubDetails> {
                           "Upcoming Events",
                           style: GoogleFonts.poppins(fontSize: 18),
                         )),
-
-                    entityProvider.club.upcomingEvents.isEmpty
+                    entityProvider.organizer.upcomingEvents.isEmpty
                         ? Container(
                             margin: EdgeInsets.only(left: 20),
                             child: Text(
-                              "No Upcoming Events info available for this club",
+                              "No Upcoming Events info available for this Organizer",
                               style: GoogleFonts.poppins(
                                   fontSize: 16, color: Colors.grey[500]),
                             ))
@@ -249,16 +254,20 @@ class _ClubDetailsState extends State<ClubDetails> {
                             margin: EdgeInsets.only(top: 10),
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  entityProvider.club.upcomingEvents.length,
+                              itemCount: entityProvider
+                                  .organizer.upcomingEvents.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return CardWidgetEventMinimal(
+                                    // isFav: userProvider.user.likesEvents.any(
+                                    //     ((element) =>
+                                    //         element ==
+                                    //         entityProvider.organizer
+                                    //             .upcomingEvents[index].id)),
                                     eventMinimal: entityProvider
-                                        .club.upcomingEvents[index]);
+                                        .organizer.upcomingEvents[index]);
                               },
                             ),
                           ),
-
                     Row(
                       children: [
                         Expanded(
@@ -271,15 +280,15 @@ class _ClubDetailsState extends State<ClubDetails> {
                                   "Reviews",
                                   style: GoogleFonts.poppins(fontSize: 18),
                                 ))),
-                        entityProvider.club.reviewedByUser
+                        entityProvider.organizer.reviewedByUser
                             ? Container()
                             : InkWell(
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (ctx) => AddReview(
                                           entityId: widget.id,
-                                          name: entityProvider.club.name,
-                                          type: "club",
+                                          name: entityProvider.organizer.name,
+                                          type: "organizer",
                                           my_review: Review({}))));
                                 },
                                 child: Container(
@@ -296,11 +305,11 @@ class _ClubDetailsState extends State<ClubDetails> {
                                     ))),
                       ],
                     ),
-                    entityProvider.club.reviews.isEmpty
+                    entityProvider.organizer.reviews.isEmpty
                         ? Container(
                             margin: EdgeInsets.only(left: 20),
                             child: Text(
-                              "No Reviews available for this club",
+                              "No Reviews available for this Organizer",
                               style: GoogleFonts.poppins(
                                   fontSize: 16, color: Colors.grey[500]),
                             ))
@@ -311,35 +320,36 @@ class _ClubDetailsState extends State<ClubDetails> {
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: entityProvider.club.reviews.length,
+                              itemCount:
+                                  entityProvider.organizer.reviews.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return entityProvider.club.reviews.isEmpty
+                                return entityProvider.organizer.reviews.isEmpty
                                     ? Container(
                                         margin: EdgeInsets.all(20),
                                         child: Text(
-                                          "No Reviews available for this Club",
+                                          "No Reviews available for this Organizer",
                                           style: GoogleFonts.poppins(
                                               fontSize: 16,
                                               color: Colors.grey[800]),
                                         ))
                                     : CardWidgetReview(
-                                        isMine: entityProvider
-                                                .club.reviews[index].user.id ==
+                                        isMine: entityProvider.organizer
+                                                .reviews[index].user.id ==
                                             userProvider.user.id,
-                                        review:
-                                            entityProvider.club.reviews[index]);
+                                        review: entityProvider
+                                            .organizer.reviews[index]);
                               },
                             ),
                           ),
-                    (entityProvider.club.reviews.length <
-                            entityProvider.club.nReviews)
+                    (entityProvider.organizer.reviews.length <
+                            entityProvider.organizer.nReviews)
                         ? entityProvider.loadingReviews
                             ? Container(
                                 child:
                                     Center(child: CircularProgressIndicator()))
                             : InkWell(
                                 onTap: () {
-                                  entityProvider.getMoreReviewsClub();
+                                  entityProvider.getMoreReviewsOrganizer();
                                 },
                                 child: Container(
                                     alignment: Alignment.center,
@@ -355,13 +365,6 @@ class _ClubDetailsState extends State<ClubDetails> {
                                           color: Colors.white),
                                     )))
                         : Container()
-                    // field(
-                    //     "Alcohol Percentage",
-                    //     entityProvider.club.alcoholPercentage
-                    //             .toStringAsFixed(1) +
-                    //         '%'),
-                    // field("Volume",
-                    //     entityProvider.club.volumeMl.toString() + 'mL'),
                   ],
                 )),
               ]));

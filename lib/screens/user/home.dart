@@ -1,19 +1,9 @@
 import 'package:eventi_in_zona/widgets/user/card_widget_entity.dart';
 import 'package:eventi_in_zona/widgets/user/card_widget_event.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/providers/home_provider.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
-import 'package:eventi_in_zona/screens/user/beers_by_brand.dart';
-import 'package:eventi_in_zona/screens/user/books_by_brand.dart';
-import 'package:eventi_in_zona/screens/user/monitors_by_brand.dart';
-import 'package:eventi_in_zona/screens/user/search.dart';
-import 'package:eventi_in_zona/widgets/user/Category.dart';
-import 'package:eventi_in_zona/widgets/user/card_widget_beer.dart';
-import 'package:eventi_in_zona/widgets/user/card_widget_book.dart';
-import 'package:eventi_in_zona/widgets/user/card_widget_monitor.dart';
-import 'package:eventi_in_zona/widgets/user/menu_tile_widget.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -162,10 +152,10 @@ class _HomeState extends State<Home> {
                             itemCount: homeProvider.nearEvents.length,
                             itemBuilder: (BuildContext context, int index) {
                               return (CardWidgetEventMinimal(
-                                  isFav: userProvider.user.likesEvents.any(
-                                      ((element) =>
-                                          element ==
-                                          homeProvider.nearEvents[index].id)),
+                                  // isFav: userProvider.user.likesEvents.any(
+                                  //     ((element) =>
+                                  //         element ==
+                                  //         homeProvider.nearEvents[index].id)),
                                   eventMinimal:
                                       homeProvider.nearEvents[index]));
                             },

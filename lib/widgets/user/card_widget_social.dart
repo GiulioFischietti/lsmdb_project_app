@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CardWidgetSocial extends StatefulWidget {
   String social;
@@ -14,8 +15,11 @@ class _CardWidgetSocialState extends State<CardWidgetSocial> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () {},
+        onTap: () {
+          launchUrl(Uri.parse(widget.social));
+        },
         child: Container(
+            margin: EdgeInsets.only(right: 20),
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
@@ -31,10 +35,10 @@ class _CardWidgetSocialState extends State<CardWidgetSocial> {
                 Container(
                     height: 40,
                     width: 40,
-                    margin: EdgeInsets.only(right: 5),
+                    margin: EdgeInsets.only(right: 10),
                     decoration: BoxDecoration(
                         // color: Colors.grey,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(5),
                         image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(

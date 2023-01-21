@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:eventi_in_zona/models/monitor.dart';
 import 'package:eventi_in_zona/providers/home_provider.dart';
-import 'package:eventi_in_zona/providers/user_provider.dart';
-import 'package:eventi_in_zona/repositories/cart_repo.dart';
 import 'package:eventi_in_zona/screens/manager/edit_monitor.dart';
-import 'package:eventi_in_zona/screens/user/bottomtabcontainer.dart';
-import 'package:eventi_in_zona/screens/user/cart.dart';
 import 'package:provider/provider.dart';
 
 class MonitorDetails extends StatefulWidget {

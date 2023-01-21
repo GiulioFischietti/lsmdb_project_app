@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/models/order.dart';
-import 'package:eventi_in_zona/screens/user/order_details.dart';
 
 class CardWidgetOrder extends StatefulWidget {
   Order order;
@@ -16,9 +15,9 @@ class _CardWidgetOrderState extends State<CardWidgetOrder> {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (ctx) =>
-                  OrderDetails(order: widget.order, id: widget.order.id)));
+          // Navigator.of(context).push(MaterialPageRoute(
+          //     builder: (ctx) =>
+          //         OrderDetails(order: widget.order, id: widget.order.id)));
         },
         child: Container(
             decoration: BoxDecoration(

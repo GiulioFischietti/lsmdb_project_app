@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/providers/manager_provider.dart';
-import 'package:eventi_in_zona/providers/user_provider.dart';
 import 'package:eventi_in_zona/screens/manager/edit_profile.dart';
-import 'package:eventi_in_zona/screens/user/orders.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {

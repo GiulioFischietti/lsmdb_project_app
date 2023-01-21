@@ -355,12 +355,12 @@ class _EditProfileState extends State<EditProfile> {
                   ])),
                   InkWell(
                       onTap: () async {
-                        await userProvider.updateUser(
-                            name_controller.text,
-                            username_controller.text,
-                            phone_controller.text,
-                            address_controller.text);
-                        Navigator.of(context).pop();
+                        // await userProvider.updateUser(
+                        //     name_controller.text,
+                        //     username_controller.text,
+                        //     phone_controller.text,
+                        //     address_controller.text);
+                        // Navigator.of(context).pop();
                       },
                       child: Container(
                           padding: EdgeInsets.only(top: 20, bottom: 20),

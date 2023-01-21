@@ -6,7 +6,7 @@ import 'package:eventi_in_zona/screens/manager/customer_analytics.dart';
 import 'package:eventi_in_zona/screens/manager/edit_profile.dart';
 import 'package:eventi_in_zona/screens/manager/expences_analytics.dart';
 import 'package:eventi_in_zona/screens/manager/product_analytics.dart';
-import 'package:eventi_in_zona/screens/user/orders.dart';
+// import 'package:eventi_in_zona/screens/user/orders.dart';
 import 'package:provider/provider.dart';
 
 class Analytics extends StatefulWidget {

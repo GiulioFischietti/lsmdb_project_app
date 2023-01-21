@@ -1,7 +1,8 @@
 import 'package:eventi_in_zona/models/user.dart';
+import 'package:objectid/objectid.dart';
 
 class Manager extends User {
-  late int id;
+  late ObjectId id;
   late String title;
   late DateTime hiredDate;
 

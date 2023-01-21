@@ -83,8 +83,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   onTap: () async {
                     final postMdl =
                         Provider.of<UserProvider>(context, listen: false);
-                    var response =
-                        await postMdl.recoverPassword(emailController.text);
+                    // var response =
+                    //     await postMdl.recoverPassword(emailController.text);
                     // showDialog(
                     //     context: context,
                     //     builder: (context) => CustomDialog(

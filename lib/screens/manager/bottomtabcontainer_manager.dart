@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/screens/manager/analytics.dart';
 import 'package:eventi_in_zona/screens/manager/home_screen.dart';
-import 'package:eventi_in_zona/screens/manager/products_by_category.dart';
-import 'package:eventi_in_zona/screens/user/cart.dart';
 import 'package:eventi_in_zona/screens/manager/profile.dart';
 
 class BottomTabContainerManager extends StatefulWidget {
@@ -29,7 +27,7 @@ class _BottomTabContainerManagerState extends State<BottomTabContainerManager> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static final List<Widget> _widgetOptions = <Widget>[
     Scaffold(body: HomeManager()),
-    Scaffold(body: ProductsByCategory()),
+    // Scaffold(body: ProductsByCategory()),
     Scaffold(body: Analytics()),
     // Scaffold(body: Cart()),
     Scaffold(body: Profile()),

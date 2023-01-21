@@ -1,5 +1,7 @@
 import 'package:eventi_in_zona/models/entity_minimal.dart';
+import 'package:eventi_in_zona/screens/user/artist_details.dart';
 import 'package:eventi_in_zona/screens/user/club_details.dart';
+import 'package:eventi_in_zona/screens/user/organizer_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,18 +24,21 @@ class _CardWidetMinimalEntityState extends State<CardWidetMinimalEntity> {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (ctx) => ClubDetails(id: widget.entityMinimal.id)));
               break;
-            // case "organizer":
-            //   Navigator.of(context).push(MaterialPageRoute(
-            //       builder: (ctx) => OrganizerDetails(id: widget.entityMinimal.id)));
-            //   break;
-            // case "artist":
-            //   Navigator.of(context).push(MaterialPageRoute(
-            //       builder: (ctx) => ClubDetails(id: widget.entityMinimal.id)));
-            //   break;
+            case "organizer":
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (ctx) =>
+                      OrganizerDetails(id: widget.entityMinimal.id)));
+              break;
+            case "artist":
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (ctx) =>
+                      ArtistDetails(id: widget.entityMinimal.id)));
+              break;
 
             default:
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) => ClubDetails(id: widget.entityMinimal.id)));
+                  builder: (ctx) =>
+                      OrganizerDetails(id: widget.entityMinimal.id)));
               break;
           }
         },

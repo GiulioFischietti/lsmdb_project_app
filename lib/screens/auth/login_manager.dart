@@ -1,21 +1,10 @@
 import 'package:eventi_in_zona/providers/constants.dart';
 import 'package:eventi_in_zona/providers/manager_provider.dart';
-import 'package:eventi_in_zona/providers/user_provider.dart';
-import 'package:eventi_in_zona/repositories/cart_repo.dart';
-import 'package:eventi_in_zona/screens/auth/forgot_password.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
-import 'package:http/http.dart' as http;
 import 'package:eventi_in_zona/screens/auth/signup_manager.dart';
 import 'package:eventi_in_zona/screens/manager/bottomtabcontainer_manager.dart';
-import 'package:eventi_in_zona/screens/user/bottomtabcontainer.dart';
-import 'package:eventi_in_zona/screens/user/home.dart';
 import 'package:provider/provider.dart';
-import 'SignUp.dart';
-import 'dart:convert';
 
 bool isLoggedIn = false;
 bool loading = false;

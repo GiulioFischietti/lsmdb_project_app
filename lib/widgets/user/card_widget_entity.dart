@@ -1,13 +1,9 @@
-import 'package:eventi_in_zona/models/book.dart';
-import 'package:eventi_in_zona/models/entity.dart';
 import 'package:eventi_in_zona/models/entity_minimal.dart';
+import 'package:eventi_in_zona/screens/user/artist_details.dart';
 import 'package:eventi_in_zona/screens/user/club_details.dart';
+import 'package:eventi_in_zona/screens/user/organizer_details.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:eventi_in_zona/models/book.dart';
-import 'package:eventi_in_zona/providers/user_provider.dart';
-import 'package:eventi_in_zona/repositories/cart_repo.dart';
-import 'package:eventi_in_zona/screens/user/bookdetails.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -39,18 +35,20 @@ class _CardWidgetEntityState extends State<CardWidgetEntity> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (ctx) => ClubDetails(id: widget.entity.id)));
                     break;
-                  // case "organizer":
-                  //   Navigator.of(context).push(MaterialPageRoute(
-                  //       builder: (ctx) => OrganizerDetails(id: widget.entity.id)));
-                  //   break;
-                  // case "artist":
-                  //   Navigator.of(context).push(MaterialPageRoute(
-                  //       builder: (ctx) => ClubDetails(id: widget.entity.id)));
-                  //   break;
+                  case "organizer":
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) =>
+                            OrganizerDetails(id: widget.entity.id)));
+                    break;
+                  case "artist":
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) => ArtistDetails(id: widget.entity.id)));
+                    break;
 
                   default:
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (ctx) => ClubDetails(id: widget.entity.id)));
+                        builder: (ctx) =>
+                            OrganizerDetails(id: widget.entity.id)));
                     break;
                 }
               },

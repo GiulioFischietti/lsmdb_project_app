@@ -3,12 +3,7 @@ import 'package:eventi_in_zona/widgets/user/card_widget_minimal_entity.dart';
 import 'package:eventi_in_zona/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:eventi_in_zona/models/beer.dart';
-import 'package:eventi_in_zona/providers/home_provider.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
-import 'package:eventi_in_zona/repositories/cart_repo.dart';
-import 'package:eventi_in_zona/screens/user/bottomtabcontainer.dart';
-import 'package:eventi_in_zona/screens/user/cart.dart';
 import 'package:objectid/objectid.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +20,9 @@ class _EventDetailsState extends State<EventDetails> {
   void initState() {
     super.initState();
     final eventProvider = Provider.of<EventProvider>(context, listen: false);
-    eventProvider.getEventById(widget.id.hexString);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    eventProvider.getEventById(
+        widget.id.hexString, userProvider.user.id.hexString);
   }
 
   @override
@@ -37,18 +34,24 @@ class _EventDetailsState extends State<EventDetails> {
           ? Scaffold(
               body: Container(
                   height: size.height,
-                  child: Center(child: CircularProgressIndicator.adaptive())))
+                  child: const Center(
+                      child: CircularProgressIndicator.adaptive())))
           : Scaffold(
               appBar: AppBar(
                 actions: [
                   InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        if (eventProvider.event.likedByUser) {
+                          eventProvider.dislikeEvent(userProvider.user.id);
+                        } else {
+                          eventProvider.likeEvent(userProvider.user.id);
+                        }
+                      },
                       child: Container(
                           alignment: Alignment.center,
                           margin: EdgeInsets.only(right: 10, left: 10),
                           child: Icon(
-                              userProvider.user.likesEvents
-                                      .any(((element) => element == widget.id))
+                              eventProvider.event.likedByUser
                                   ? Icons.favorite
                                   : Icons.favorite_outline,
                               color: Colors.black))),

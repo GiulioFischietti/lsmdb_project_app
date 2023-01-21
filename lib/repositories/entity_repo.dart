@@ -1,20 +1,25 @@
-import 'dart:convert';
-import 'package:eventi_in_zona/models/beer.dart';
-import 'package:eventi_in_zona/models/book.dart';
-import 'package:eventi_in_zona/models/monitor.dart';
-import 'package:eventi_in_zona/providers/constants.dart';
+import 'package:eventi_in_zona/models/review.dart';
 import 'package:eventi_in_zona/repositories/repo.dart';
-import 'package:eventi_in_zona/screens/user/BottomTabContainer.dart';
-import 'package:eventi_in_zona/screens/user/Home.dart';
-import 'package:http/http.dart' as http;
-import 'package:eventi_in_zona/widgets/user/custom_dialog.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:objectid/objectid.dart';
 
 Future<dynamic> getNearClubsJson(body) async {
   return await Repo().postData("entity/search", body);
 }
 
-Future<dynamic> getEntityByIdJson(String id) async {
-  return await Repo().getData("entity/entitybyid?_id=$id");
+Future<dynamic> getEntityByIdJson(String id, String userId) async {
+  return await Repo().getData("entity/entitybyid?_id=$id&userId=$userId");
+}
+
+Future<dynamic> addReviewEntity(Review review) async {
+  return await Repo().postData("entity/addreview", review);
+}
+
+Future<dynamic> followEntity(ObjectId entityId, ObjectId userId) async {
+  return await Repo().postData("entity/followentity",
+      {"entityId": entityId.hexString, "userId": userId.hexString});
+}
+
+Future<dynamic> unfollowEntity(ObjectId entityId, ObjectId userId) async {
+  return await Repo().postData("entity/unfollowentity",
+      {"entityId": entityId.hexString, "userId": userId.hexString});
 }

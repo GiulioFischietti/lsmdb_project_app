@@ -4,9 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/models/product.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
 import 'package:eventi_in_zona/repositories/cart_repo.dart';
-import 'package:eventi_in_zona/screens/user/beerdetails.dart';
-import 'package:eventi_in_zona/screens/user/bookdetails.dart';
-import 'package:eventi_in_zona/screens/user/monitordetails.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -39,21 +36,21 @@ class _CardWidgetProductResultState extends State<CardWidgetProductResult> {
       margin: EdgeInsets.all(20),
       child: InkWell(
         onTap: () {
-          switch (widget.product.category) {
-            case "beer":
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) => BeerDetails(id: widget.product.id)));
-              break;
-            case "book":
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) => BookDetails(id: widget.product.id)));
-              break;
-            case "monitor":
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) => MonitorDetails(id: widget.product.id)));
-              break;
-            default:
-          }
+          // switch (widget.product.category) {
+          //   case "beer":
+          //     Navigator.of(context).push(MaterialPageRoute(
+          //         builder: (ctx) => BeerDetails(id: widget.product.id)));
+          //     break;
+          //   case "book":
+          //     Navigator.of(context).push(MaterialPageRoute(
+          //         builder: (ctx) => BookDetails(id: widget.product.id)));
+          //     break;
+          //   case "monitor":
+          //     Navigator.of(context).push(MaterialPageRoute(
+          //         builder: (ctx) => MonitorDetails(id: widget.product.id)));
+          //     break;
+          //   default:
+          // }
         },
         child: Column(
           children: [
@@ -98,13 +95,13 @@ class _CardWidgetProductResultState extends State<CardWidgetProductResult> {
                                 final userProvider = Provider.of<UserProvider>(
                                     context,
                                     listen: false);
-                                addToCart(
-                                    name: widget.product.name,
-                                    price: widget.product.price,
-                                    category: widget.product.category,
-                                    image_url: widget.product.image,
-                                    product_id: widget.product.id,
-                                    user_id: userProvider.user.id);
+                                // addToCart(
+                                //     name: widget.product.name,
+                                //     price: widget.product.price,
+                                //     category: widget.product.category,
+                                //     image_url: widget.product.image,
+                                //     product_id: widget.product.id,
+                                //     user_id: userProvider.user.id);
                                 const snackBar = SnackBar(
                                   content: Text('Item added to cart'),
                                 );
