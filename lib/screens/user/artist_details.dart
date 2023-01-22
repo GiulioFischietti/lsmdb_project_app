@@ -231,6 +231,44 @@ class _ArtistDetailsState extends State<ArtistDetails> {
                             ),
                           ),
                     Container(
+                        margin: EdgeInsets.all(20),
+                        child: Text(
+                          "Phones",
+                          style: GoogleFonts.poppins(fontSize: 18),
+                        )),
+                    entityProvider.artist.phones.isEmpty
+                        ? Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "No Phones info available for this Artist",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16, color: Colors.grey[500]),
+                            ))
+                        : Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: entityProvider.artist.phones.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                    onTap: () {
+                                      launchUrl(Uri.parse(
+                                          "tel:${entityProvider.artist.phones[index]}"));
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.only(bottom: 5),
+                                        child: Text(
+                                            entityProvider.artist.phones[index],
+                                            style: GoogleFonts.poppins(
+                                              color: Colors.blue,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ))));
+                              },
+                            ),
+                          ),
+                    Container(
                         color: Colors.white,
                         padding:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 10),

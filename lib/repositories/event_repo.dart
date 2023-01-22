@@ -1,7 +1,7 @@
 import 'package:eventi_in_zona/repositories/repo.dart';
 import 'package:objectid/objectid.dart';
 
-Future<dynamic> getNearEventsJson(body) async {
+Future<dynamic> searchEvents(body) async {
   return await Repo().postData("event/searchevents", body);
 }
 

@@ -9,6 +9,7 @@ import 'package:eventi_in_zona/providers/user_provider.dart';
 import 'package:objectid/objectid.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/user/card_widget_review.dart';
 
 class ClubDetails extends StatefulWidget {
@@ -211,6 +212,44 @@ class _ClubDetailsState extends State<ClubDetails> {
                                         margin: EdgeInsets.only(bottom: 5),
                                         child: Text(
                                             entityProvider.club.websites[index],
+                                            style: GoogleFonts.poppins(
+                                              color: Colors.blue,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ))));
+                              },
+                            ),
+                          ),
+                    Container(
+                        margin: EdgeInsets.all(20),
+                        child: Text(
+                          "Phones",
+                          style: GoogleFonts.poppins(fontSize: 18),
+                        )),
+                    entityProvider.club.phones.isEmpty
+                        ? Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "No Phones info available for this Club",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16, color: Colors.grey[500]),
+                            ))
+                        : Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: entityProvider.club.phones.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                    onTap: () {
+                                      launchUrl(Uri.parse(
+                                          "tel:${entityProvider.club.phones[index]}"));
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.only(bottom: 5),
+                                        child: Text(
+                                            entityProvider.club.phones[index],
                                             style: GoogleFonts.poppins(
                                               color: Colors.blue,
                                               decoration:

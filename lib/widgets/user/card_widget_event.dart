@@ -31,7 +31,7 @@ class _CardWidgetEventMinimalState extends State<CardWidgetEventMinimal> {
     // widget._con.product = widget.product;
     return Container(
       width: size.width / 1.6,
-      margin: EdgeInsets.only(left: 20, top: 20),
+      margin: EdgeInsets.only(left: 20, top: 20, right: 20),
       child: InkWell(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(

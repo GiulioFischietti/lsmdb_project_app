@@ -13,3 +13,38 @@ List<String> months = [
   "Nov",
   "Dec"
 ];
+List<String> days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+List<String> genres = [
+  "Any",
+  "Blues",
+  "Celtic",
+  "Country",
+  "Dancehall",
+  "Deep House",
+  "Dub",
+  "Folk",
+  "Funk",
+  "oa",
+  "Hardcore",
+  "Hip-hop",
+  "House",
+  "Indie",
+  "Jazz",
+  "Merengue",
+  "Metal",
+  "Opera",
+  "Pop",
+  "Punk",
+  "Rap",
+  "Reggae",
+  "Rock",
+  "Salsa",
+  "Samba",
+  "Soul",
+  "Swing",
+  "Tango",
+  "Tech House",
+  "Techno",
+  "Trap",
+  "Tribal"
+];

@@ -27,7 +27,7 @@ class Event {
     description = data['description'];
     likedByUser = data['likedByUser'];
     genres = (data['genres'] as List).map((e) => e.toString()).toList();
-    image = "http://192.168.1.109:3000/images/" +
+    image = "http://192.168.1.4:3000/images/" +
         (data['image'] ?? data['name'] + ".jpg");
     organizers =
         (data['organizers'] as List).map((e) => EntityMinimal(e)).toList();

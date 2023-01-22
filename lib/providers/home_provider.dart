@@ -44,7 +44,7 @@ class HomeProvider extends ChangeNotifier {
       "start": DateTime.now().toIso8601String(),
       "maxDistance": 100000
     };
-    var json = await getNearEventsJson(body);
+    var json = await searchEvents(body);
     nearEvents = (json['data'] as List).map((e) => EventMinimal(e)).toList();
     // loading = false;
     notifyListeners();

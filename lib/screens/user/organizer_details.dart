@@ -232,6 +232,45 @@ class _OrganizerDetailsState extends State<OrganizerDetails> {
                             ),
                           ),
                     Container(
+                        margin: EdgeInsets.all(20),
+                        child: Text(
+                          "Phones",
+                          style: GoogleFonts.poppins(fontSize: 18),
+                        )),
+                    entityProvider.organizer.phones.isEmpty
+                        ? Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "No Phones info available for this Organizer",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16, color: Colors.grey[500]),
+                            ))
+                        : Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: entityProvider.organizer.phones.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                    onTap: () {
+                                      launchUrl(Uri.parse(
+                                          "tel:${entityProvider.organizer.phones[index]}"));
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.only(bottom: 5),
+                                        child: Text(
+                                            entityProvider
+                                                .organizer.phones[index],
+                                            style: GoogleFonts.poppins(
+                                              color: Colors.blue,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ))));
+                              },
+                            ),
+                          ),
+                    Container(
                         color: Colors.white,
                         padding:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 10),

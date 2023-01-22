@@ -1,3 +1,4 @@
+import 'package:eventi_in_zona/screens/user/select_genre.dart';
 import 'package:eventi_in_zona/widgets/user/card_widget_entity.dart';
 import 'package:eventi_in_zona/widgets/user/card_widget_event.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,10 @@ class _HomeState extends State<Home> {
                         style: Theme.of(context).textTheme.headline1),
                   )),
                   InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (ctx) => Search()));
+                      },
                       child: Container(
                           padding:
                               EdgeInsets.only(top: 20, right: 20, bottom: 0),
@@ -131,7 +136,7 @@ class _HomeState extends State<Home> {
                       child: Row(children: [
                         Expanded(
                             child: Container(
-                                child: Text('Local Events',
+                                child: Text('Events in your area (100km)',
                                     textAlign: TextAlign.left,
                                     style: GoogleFonts.poppins(
                                         textStyle: TextStyle(

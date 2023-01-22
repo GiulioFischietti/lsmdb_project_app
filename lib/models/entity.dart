@@ -25,7 +25,7 @@ class Entity {
         '_id': id.hexString,
         'name': name,
         'type': type,
-        'image': image.replaceAll("http://192.168.1.109:3000/images/", "")
+        'image': image.replaceAll("http://192.168.1.4:3000/images/", "")
       };
 
   Entity(data) {
@@ -49,7 +49,7 @@ class Entity {
         .map((e) => ObjectId.fromHexString(e))
         .toList();
     nReviews = reviewIds.length;
-    image = "http://192.168.1.109:3000/images/" +
+    image = "http://192.168.1.4:3000/images/" +
         (data['image'] ?? data['name'] + ".jpg");
     upcomingEvents = ((data['upcomingEvents'] ?? []) as List)
         .map((e) => EventMinimal(e))

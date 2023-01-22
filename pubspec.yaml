@@ -46,6 +46,9 @@ dependencies:
   location: ^4.4.0
   flutter_rating_bar: ^4.0.1
   url_launcher: ^6.1.7
+  uuid: ^3.0.7
+  google_maps_webservice: ^0.0.19
+  syncfusion_flutter_sliders: ^20.4.44
 dev_dependencies:
   flutter_test:
     sdk: flutter
