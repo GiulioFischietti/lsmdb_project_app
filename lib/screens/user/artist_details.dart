@@ -181,8 +181,8 @@ class _ArtistDetailsState extends State<ArtistDetails> {
                                   fontSize: 16, color: Colors.grey[500]),
                             ))
                         : Container(
-                            height: 60,
-                            margin: EdgeInsets.only(left: 20),
+                            height: 80,
+                            margin: EdgeInsets.only(left: 10),
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount:
