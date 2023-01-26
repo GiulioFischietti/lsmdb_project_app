@@ -16,6 +16,7 @@ String nameInitialValue = "";
 String usernameInitialValue = "";
 String phoneInitialValue = "";
 String addressInitialValue = "";
+// String emailInitialValue = "";
 
 class _EditProfileState extends State<EditProfile> {
   XFile? _image;
@@ -44,10 +45,9 @@ class _EditProfileState extends State<EditProfile> {
       new TextEditingController(text: nameInitialValue);
   TextEditingController username_controller =
       new TextEditingController(text: usernameInitialValue);
-  TextEditingController address_controller =
-      new TextEditingController(text: addressInitialValue);
-  TextEditingController phone_controller =
-      new TextEditingController(text: phoneInitialValue);
+
+  // TextEditingController email_controller =
+  //     new TextEditingController(text: emailInitialValue);
   TextEditingController password_controller =
       new TextEditingController(text: "Password");
 
@@ -65,8 +65,7 @@ class _EditProfileState extends State<EditProfile> {
     setState(() {
       name_controller.text = userProvider.user.name;
       username_controller.text = userProvider.user.username;
-      phone_controller.text = userProvider.user.phone;
-      address_controller.text = userProvider.user.address;
+      // email_controller.text = userProvider.user.email;
     });
   }
 
@@ -109,21 +108,21 @@ class _EditProfileState extends State<EditProfile> {
                                       builder: (BuildContext bc) {
                                         return SafeArea(
                                           child: Container(
-                                            child: new Wrap(
+                                            child: Wrap(
                                               children: <Widget>[
-                                                new ListTile(
-                                                    leading: new Icon(
+                                                ListTile(
+                                                    leading: Icon(
                                                         Icons.photo_library),
-                                                    title: new Text('Galleria'),
+                                                    title: Text('Galleria'),
                                                     onTap: () {
                                                       _imgFromGallery();
                                                       Navigator.of(context)
                                                           .pop();
                                                     }),
-                                                new ListTile(
-                                                  leading: new Icon(
-                                                      Icons.photo_camera),
-                                                  title: new Text('Fotocamera'),
+                                                ListTile(
+                                                  leading:
+                                                      Icon(Icons.photo_camera),
+                                                  title: Text('Fotocamera'),
                                                   onTap: () {
                                                     _imgFromCamera();
                                                     Navigator.of(context).pop();
@@ -229,54 +228,29 @@ class _EditProfileState extends State<EditProfile> {
                                     ),
                                     style: GoogleFonts.poppins()),
                               ),
-                              Container(
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 30),
-                                  child: Text("Phone",
-                                      style: GoogleFonts.poppins())),
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                // margin: EdgeInsets.only(top: 20),
-                                child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    controller: phone_controller,
-                                    decoration: InputDecoration(
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.grey[300]!,
-                                        ),
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.grey[300]!,
-                                        ),
-                                      ),
-                                    ),
-                                    style: GoogleFonts.poppins()),
-                              ),
-                              Container(
-                                  alignment: Alignment.centerLeft,
-                                  margin: EdgeInsets.only(top: 30),
-                                  child: Text("Address",
-                                      style: GoogleFonts.poppins())),
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                child: TextFormField(
-                                    controller: address_controller,
-                                    decoration: InputDecoration(
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.grey[300]!,
-                                        ),
-                                      ),
-                                      enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.grey[300]!,
-                                        ),
-                                      ),
-                                    ),
-                                    style: GoogleFonts.poppins()),
-                              ),
+                              // Container(
+                              //     alignment: Alignment.centerLeft,
+                              //     margin: EdgeInsets.only(top: 30),
+                              //     child: Text("Email",
+                              //         style: GoogleFonts.poppins())),
+                              // Container(
+                              //   alignment: Alignment.centerLeft,
+                              //   child: TextFormField(
+                              //       controller: email_controller,
+                              //       decoration: InputDecoration(
+                              //         focusedBorder: UnderlineInputBorder(
+                              //           borderSide: BorderSide(
+                              //             color: Colors.grey[300]!,
+                              //           ),
+                              //         ),
+                              //         enabledBorder: UnderlineInputBorder(
+                              //           borderSide: BorderSide(
+                              //             color: Colors.grey[300]!,
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       style: GoogleFonts.poppins()),
+                              // ),
                               Container(
                                   alignment: Alignment.centerLeft,
                                   margin: EdgeInsets.only(top: 30),
@@ -355,12 +329,14 @@ class _EditProfileState extends State<EditProfile> {
                   ])),
                   InkWell(
                       onTap: () async {
-                        // await userProvider.updateUser(
-                        //     name_controller.text,
-                        //     username_controller.text,
-                        //     phone_controller.text,
-                        //     address_controller.text);
-                        // Navigator.of(context).pop();
+                        final userProvider =
+                            Provider.of<UserProvider>(context, listen: false);
+                        // await userProvider.updateUser(name_controller.text,
+                        //     username_controller.text, email_controller.text
+                        //     // phone_controller.text,
+                        //     // address_controller.text);
+                        //     );
+                        Navigator.of(context).pop();
                       },
                       child: Container(
                           padding: EdgeInsets.only(top: 20, bottom: 20),

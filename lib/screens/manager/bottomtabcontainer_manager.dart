@@ -1,3 +1,4 @@
+import 'package:eventi_in_zona/screens/manager/create_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,7 +49,19 @@ class _BottomTabContainerManagerState extends State<BottomTabContainerManager> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+        ),
         child: Scaffold(
+          floatingActionButton: _selectedIndex == 0
+              ? FloatingActionButton(
+                  backgroundColor: Colors.orange,
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (ctx) => CreateEvent()));
+                  },
+                  child: const Icon(Icons.add, color: Colors.white))
+              : null,
           body: Center(
             child: _widgetOptions.elementAt(_selectedIndex),
           ),
@@ -58,12 +71,7 @@ class _BottomTabContainerManagerState extends State<BottomTabContainerManager> {
             unselectedItemColor: Colors.black,
             backgroundColor: Colors.grey[100],
             items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.local_shipping_outlined), label: 'Orders'),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.task),
-                label: "Products",
-              ),
+              BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
               BottomNavigationBarItem(
                 icon: Icon(Icons.analytics_outlined),
                 label: "Analytics",
@@ -75,9 +83,6 @@ class _BottomTabContainerManagerState extends State<BottomTabContainerManager> {
             selectedItemColor: Colors.amber[800],
             onTap: _onItemTapped,
           ),
-        ),
-        value: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
         ));
   }
 }

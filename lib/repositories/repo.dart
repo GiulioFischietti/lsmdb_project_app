@@ -38,7 +38,7 @@ class Repo {
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-
+      print(response.body);
       throw Exception('Failed to load');
     }
   }

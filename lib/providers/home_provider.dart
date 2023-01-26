@@ -4,6 +4,7 @@ import 'package:eventi_in_zona/models/beer.dart';
 import 'package:eventi_in_zona/models/beers_by_brand.dart';
 import 'package:eventi_in_zona/models/book.dart';
 import 'package:eventi_in_zona/models/books_by_brand.dart';
+import 'package:eventi_in_zona/models/entity.dart';
 import 'package:eventi_in_zona/models/entity_minimal.dart';
 import 'package:eventi_in_zona/models/monitor.dart';
 import 'package:eventi_in_zona/models/monitors_by_brand.dart';
@@ -23,6 +24,8 @@ class HomeProvider extends ChangeNotifier {
   late Book book;
   late Monitor monitor;
 
+  bool loadingNearEventsPagination = false;
+  bool loadingTopRatedEntitiesPagination = false;
   List<Book> books = [];
   List<Monitor> monitors = [];
   List<Product> productsResult = [];
@@ -33,12 +36,15 @@ class HomeProvider extends ChangeNotifier {
 
   List<EventMinimal> nearEvents = [];
   List<EntityMinimal> nearClubs = [];
+  List<Entity> topRatedEntities = [];
 
   void getNearEvents(BuildContext context) async {
-    // loading = true;
+    // loadingNearEventsPagination = true;
     // notifyListeners();
+    nearEvents = [];
     var position = await getStoredLocation(context);
     Map<String, dynamic> body = {
+      "skip": 0,
       "lat": double.parse(position['lat']),
       "lon": double.parse(position['lon']),
       "start": DateTime.now().toIso8601String(),
@@ -50,18 +56,78 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getNearClubs(BuildContext context) async {
-    // loading = true;
-    // notifyListeners();
+  void getMoreNearEvents(BuildContext context) async {
+    loadingNearEventsPagination = true;
+    notifyListeners();
+
     var position = await getStoredLocation(context);
     Map<String, dynamic> body = {
+      "skip": nearEvents.length,
       "lat": double.parse(position['lat']),
       "lon": double.parse(position['lon']),
       "start": DateTime.now().toIso8601String(),
       "maxDistance": 100000
     };
+    var json = await searchEvents(body);
+    nearEvents = nearEvents +
+        (json['data'] as List).map((e) => EventMinimal(e)).toList();
+    loadingNearEventsPagination = false;
+    notifyListeners();
+  }
+
+  void getNearClubs(BuildContext context) async {
+    // loading = true;
+    // notifyListeners();
+    var position = await getStoredLocation(context);
+    Map<String, dynamic> body = {
+      "skip": 0,
+      "type": "club",
+      "lat": double.parse(position['lat']),
+      "lon": double.parse(position['lon']),
+      "maxDistance": 100000
+    };
     var json = await getNearClubsJson(body);
     nearClubs = (json['data'] as List).map((e) => EntityMinimal(e)).toList();
+
+    // loading = false;
+    notifyListeners();
+  }
+
+  void getTopRatedEntities(BuildContext context) async {
+    var json = await getTopRated(0);
+
+    topRatedEntities = (json['data'] as List).map((e) => Entity(e)).toList();
+    // loading = false;
+    notifyListeners();
+  }
+
+  void getMoreTopRatedEntities(BuildContext context) async {
+    loadingTopRatedEntitiesPagination = true;
+    notifyListeners();
+
+    print(topRatedEntities.length);
+    var json = await getTopRated(topRatedEntities.length);
+
+    topRatedEntities = topRatedEntities +
+        (json['data'] as List).map((e) => Entity(e)).toList();
+    loadingTopRatedEntitiesPagination = false;
+    notifyListeners();
+  }
+
+  void getMoreNearClubs(BuildContext context) async {
+    // loading = true;
+    // notifyListeners();
+    var position = await getStoredLocation(context);
+    Map<String, dynamic> body = {
+      "skip": nearClubs.length,
+      "type": "club",
+      "lat": double.parse(position['lat']),
+      "lon": double.parse(position['lon']),
+      "maxDistance": 100000
+    };
+    var json = await getNearClubsJson(body);
+    nearClubs = nearClubs +
+        (json['data'] as List).map((e) => EntityMinimal(e)).toList();
     // loading = false;
     notifyListeners();
   }

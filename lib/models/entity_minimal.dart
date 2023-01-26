@@ -10,12 +10,12 @@ class EntityMinimal {
   late String name;
 
   EntityMinimal(data) {
-    id = ObjectId.fromHexString(data['_id']);
-    type = data['type'];
-    image = "http://192.168.1.4:3000/images/" +
-        ((data['image'] as String).replaceAll(".png", ".jpg") ??
+    id = data['_id'] != null ? ObjectId.fromHexString(data['_id']) : ObjectId();
+    type = data['type'] ?? "";
+    image = "http://192.168.1.109:3000/images/" +
+        (((data['image'] ?? "") as String).replaceAll(".png", ".jpg") ??
             data['name'] + ".jpg");
-    name = data['name'];
+    name = data['name'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -24,7 +24,7 @@ class EntityMinimal {
     result.addAll({'_id': id.hexString});
     result.addAll({'type': type});
     result.addAll(
-        {'image': image.replaceAll("http://192.168.1.4:3000/images/", "")});
+        {'image': image.replaceAll("http://192.168.1.109:3000/images/", "")});
     result.addAll({'name': name});
 
     return result;

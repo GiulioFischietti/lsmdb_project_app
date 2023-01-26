@@ -1,5 +1,6 @@
 import 'package:eventi_in_zona/providers/constants.dart';
 import 'package:eventi_in_zona/providers/manager_provider.dart';
+import 'package:eventi_in_zona/providers/user_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:eventi_in_zona/screens/auth/signup_manager.dart';
@@ -168,10 +169,9 @@ class _LoginAsManagerState extends State<LoginAsManager> {
                           left: 20, right: 20, bottom: 10, top: 20),
                       child: InkWell(
                         onTap: () async {
-                          final managerProvider = Provider.of<ManagerProvider>(
-                              context,
-                              listen: false);
-                          bool success = await managerProvider.logInAsManager(
+                          final managerProvider =
+                              Provider.of<UserProvider>(context, listen: false);
+                          bool success = await managerProvider.logIn(
                               usernameController.text, pwdController.text);
                           if (success) {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -180,11 +180,12 @@ class _LoginAsManagerState extends State<LoginAsManager> {
                                     )));
                           }
                         },
-                        // color: Colors.orange[300],
-                        // shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(10.0)),
-                        // padding: EdgeInsets.all(15.0),
                         child: Container(
+                          padding: EdgeInsets.all(15.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: Colors.orange[300],
+                          ),
                           alignment: Alignment.center,
                           child: Text(
                             "Log In as Manager",

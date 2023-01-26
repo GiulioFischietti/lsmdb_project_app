@@ -24,7 +24,7 @@ List<String> genres = [
   "Dub",
   "Folk",
   "Funk",
-  "oa",
+  "Goa",
   "Hardcore",
   "Hip-hop",
   "House",

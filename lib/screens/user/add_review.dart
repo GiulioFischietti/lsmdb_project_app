@@ -124,7 +124,7 @@ class _AddReviewState extends State<AddReview> {
                       Provider.of<EntityProvider>(context, listen: false);
                   final userProvider =
                       Provider.of<UserProvider>(context, listen: false);
-                  userProvider.addReviewedEntity(widget.entityId);
+                  // userProvider.addReviewedEntity(widget.entityId);
                   review.user = UserMinimal(userProvider.user.toJson());
 
                   switch (widget.type) {

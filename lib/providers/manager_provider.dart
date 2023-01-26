@@ -1,6 +1,7 @@
 import 'package:eventi_in_zona/models/beer.dart';
 import 'package:eventi_in_zona/models/book.dart';
 import 'package:eventi_in_zona/models/customer.dart';
+import 'package:eventi_in_zona/models/event.dart';
 import 'package:eventi_in_zona/models/manager.dart';
 import 'package:eventi_in_zona/models/monitor.dart';
 import 'package:eventi_in_zona/models/order.dart';
@@ -9,6 +10,7 @@ import 'package:eventi_in_zona/models/product_order.dart';
 import 'package:eventi_in_zona/models/products_by_category.dart';
 import 'package:eventi_in_zona/repositories/auth_repo.dart';
 import 'package:eventi_in_zona/repositories/order_repo.dart';
+import 'package:eventi_in_zona/repositories/event_repo.dart' as eventRepo;
 import 'package:eventi_in_zona/repositories/product_repo.dart';
 import 'package:eventi_in_zona/repositories/analytics_repo.dart';
 

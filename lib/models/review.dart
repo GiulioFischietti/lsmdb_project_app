@@ -10,6 +10,7 @@ class Review {
   late String description;
   late int rate;
   late DateTime createdAt;
+  List<String> images = [];
   late DateTime updatedAt;
   late EntityMinimal entity;
   late UserMinimal user;
@@ -20,6 +21,9 @@ class Review {
       description = data['description'];
       rate = data['rate'];
       createdAt = DateTime.parse(data['createdAt']);
+      images = ((data['images'] ?? []) as List)
+          .map((item) => item as String)
+          .toList();
       updatedAt = DateTime.parse(data['updatedAt'] ?? data['createdAt']);
       entity = EntityMinimal(data['entity']);
       user = UserMinimal(data['user']);

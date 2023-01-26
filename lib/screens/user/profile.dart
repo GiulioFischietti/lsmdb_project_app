@@ -1,7 +1,10 @@
+import 'package:eventi_in_zona/providers/event_provider.dart';
+import 'package:eventi_in_zona/screens/user/edit_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key});
@@ -11,6 +14,13 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  @override
+  void initState() {
+    super.initState();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.getUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: SafeArea(
@@ -66,28 +76,23 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
               Expanded(child: Container()),
-              Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.orange!)),
-                  margin: const EdgeInsets.only(top: 30, right: 20),
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                  child: Text("Edit",
-                      style: GoogleFonts.poppins(color: Colors.orange)))
+              InkWell(
+                  onTap: () async {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (ctx) => EditProfile()));
+                  },
+                  child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.orange!)),
+                      margin: const EdgeInsets.only(top: 30, right: 20),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      child: Text("Edit",
+                          style: GoogleFonts.poppins(color: Colors.orange))))
             ],
           ),
           Container(
-              // decoration: BoxDecoration(
-              //     color: Colors.grey[100],
-              //     borderRadius: BorderRadius.circular(10),
-              //     // border:
-              //     //     Border.all(color: Colors.grey[400]!.withOpacity(0.5))),
-              //     boxShadow: [
-              //       BoxShadow(
-              //           spreadRadius: 2,
-              //           blurRadius: 7,
-              //           color: Colors.grey.withOpacity(0.2))
-              //     ]),
               margin: EdgeInsets.symmetric(horizontal: 10),
               padding: EdgeInsets.all(10),
               child: Row(
@@ -95,7 +100,7 @@ class _ProfileState extends State<Profile> {
                   Expanded(
                       child: Column(
                     children: [
-                      Text("999",
+                      Text("${userProvider.user.nFollowers}",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       Text("Followers",
@@ -107,7 +112,7 @@ class _ProfileState extends State<Profile> {
                   Expanded(
                       child: Column(
                     children: [
-                      Text("999",
+                      Text("${userProvider.user.nFollowings}",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       Text("Followings",
@@ -119,10 +124,10 @@ class _ProfileState extends State<Profile> {
                   Expanded(
                       child: Column(
                     children: [
-                      Text("999",
+                      Text("${userProvider.user.nLikes}",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.bold, fontSize: 16)),
-                      Text("Favorite Events",
+                      Text("Liked Events",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.normal,
                               color: Colors.grey[600]))
@@ -144,8 +149,7 @@ class _ProfileState extends State<Profile> {
             //     .push(MaterialPageRoute(builder: (ctx) => EditProfile()));
           }),
           Expanded(child: Container()),
-          logOutTile("Log Out", Icons.exit_to_app_outlined, () async {
-            userProvider.user.username = "";
+          logOutTile("Log Out", Icons.exit_to_app_outlined, () {
             Navigator.pop(context);
           })
         ],

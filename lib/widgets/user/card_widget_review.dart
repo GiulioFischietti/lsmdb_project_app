@@ -167,6 +167,35 @@ class _CardWidgetReviewState extends State<CardWidgetReview> {
                           style: GoogleFonts.poppins(
                               fontSize: 13, color: Colors.grey[800]),
                         )),
+                    widget.review.images.isNotEmpty
+                        ? Container(
+                            height: 192,
+                            margin: EdgeInsets.only(top: 5),
+                            child: PageView.builder(
+                              padEnds: false,
+                              controller: PageController(
+                                viewportFraction: 0.85,
+                                initialPage: 0,
+                              ),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: widget.review.images.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  width: 240,
+                                  height: 220,
+                                  margin: EdgeInsets.only(right: 10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      image: DecorationImage(
+                                          // fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                              widget.review.images[index])),
+                                      borderRadius: BorderRadius.circular(20)),
+                                );
+                              },
+                            ),
+                          )
+                        : Container(),
                   ],
                 )))
       ],

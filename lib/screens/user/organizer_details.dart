@@ -271,6 +271,34 @@ class _OrganizerDetailsState extends State<OrganizerDetails> {
                             ),
                           ),
                     Container(
+                        margin: EdgeInsets.all(20),
+                        child: Text(
+                          "Email",
+                          style: GoogleFonts.poppins(fontSize: 18),
+                        )),
+                    entityProvider.organizer.email == ""
+                        ? Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: Text(
+                              "No Email info available for this Organizer",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16, color: Colors.grey[500]),
+                            ))
+                        : Container(
+                            margin: EdgeInsets.only(left: 20),
+                            child: InkWell(
+                                onTap: () {
+                                  launchUrl(Uri.parse(
+                                      "mailto:${entityProvider.organizer.email}"));
+                                },
+                                child: Container(
+                                    margin: EdgeInsets.only(bottom: 5),
+                                    child: Text(entityProvider.organizer.email,
+                                        style: GoogleFonts.poppins(
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                        ))))),
+                    Container(
                         color: Colors.white,
                         padding:
                             EdgeInsets.symmetric(horizontal: 20, vertical: 10),

@@ -15,6 +15,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late ScrollController eventScrollController;
+  late ScrollController entityScrollController;
   @override
   void initState() {
     super.initState();
@@ -22,12 +24,36 @@ class _HomeState extends State<Home> {
 
     homeProvider.getNearEvents(context);
     homeProvider.getNearClubs(context);
+    eventScrollController = ScrollController()
+      ..addListener(() {
+        eventScrollListener();
+      });
+    entityScrollController = ScrollController()
+      ..addListener(() {
+        entityScrollListener();
+      });
     // homeProvider.getBeers();
     // homeProvider.getBooks();
     // homeProvider.getMonitors();
 
     // final userProvider = Provider.of<UserProvider>(context, listen: false);
     // userProvider.getUserCart();
+  }
+
+  void eventScrollListener() {
+    if (eventScrollController.position.extentAfter == 0) {
+      final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+
+      homeProvider.getMoreNearEvents(context);
+    }
+  }
+
+  void entityScrollListener() {
+    if (entityScrollController.position.extentAfter == 0) {
+      final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+
+      homeProvider.getMoreNearClubs(context);
+    }
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -152,15 +178,12 @@ class _HomeState extends State<Home> {
                       builder: (context, homeProvider, _) {
                     return homeProvider.nearEvents.isNotEmpty
                         ? ListView.builder(
+                            controller: eventScrollController,
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemCount: homeProvider.nearEvents.length,
                             itemBuilder: (BuildContext context, int index) {
                               return (CardWidgetEventMinimal(
-                                  // isFav: userProvider.user.likesEvents.any(
-                                  //     ((element) =>
-                                  //         element ==
-                                  //         homeProvider.nearEvents[index].id)),
                                   eventMinimal:
                                       homeProvider.nearEvents[index]));
                             },
@@ -185,7 +208,7 @@ class _HomeState extends State<Home> {
                       child: Row(children: [
                         Expanded(
                             child: Container(
-                                child: Text('Near Clubs and Organizers',
+                                child: Text('Near Clubs',
                                     textAlign: TextAlign.left,
                                     style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
@@ -201,6 +224,7 @@ class _HomeState extends State<Home> {
                       builder: (context, homeProvider, _) {
                     return homeProvider.nearClubs.isNotEmpty
                         ? ListView.builder(
+                            controller: entityScrollController,
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemCount: homeProvider.nearClubs.length,

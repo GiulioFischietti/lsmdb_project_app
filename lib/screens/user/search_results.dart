@@ -13,11 +13,26 @@ class SearchResults extends StatefulWidget {
 }
 
 class _SearchResultsState extends State<SearchResults> {
+  late ScrollController eventScrollController;
   @override
   void initState() {
     super.initState();
     final eventProvider = Provider.of<EventProvider>(context, listen: false);
     eventProvider.searchEvents(context);
+
+    eventScrollController = ScrollController()
+      ..addListener(() {
+        entityScrollListener();
+      });
+  }
+
+  void entityScrollListener() {
+    // print(eventScrollController.position.extentAfter);
+    if (eventScrollController.position.extentAfter == 0) {
+      final eventProvider = Provider.of<EventProvider>(context, listen: false);
+
+      eventProvider.searchMoreEvents(context);
+    }
   }
 
   @override
@@ -37,13 +52,17 @@ class _SearchResultsState extends State<SearchResults> {
             ? Center(child: CircularProgressIndicator())
             : Expanded(
                 child: ListView.builder(
+                controller: eventScrollController,
                 shrinkWrap: true,
                 itemCount: searchProvider.searchResults.length,
                 itemBuilder: (BuildContext context, int index) {
                   return CardWidgetEventMinimal(
                       eventMinimal: searchProvider.searchResults[index]);
                 },
-              ))
+              )),
+        searchProvider.loadingMore
+            ? Center(child: CircularProgressIndicator())
+            : Container()
       ]);
     })));
   }

@@ -13,6 +13,7 @@ class Entity {
   bool followedByUser = false;
   bool reviewedByUser = false;
   late double avgRate;
+  late double relevance;
   List<String> socialMedias = [];
   List<String> websites = [];
   List<String> phones = [];
@@ -25,18 +26,31 @@ class Entity {
         '_id': id.hexString,
         'name': name,
         'type': type,
-        'image': image.replaceAll("http://192.168.1.4:3000/images/", "")
+        'image': image.replaceAll("http://192.168.1.109:3000/images/", "")
+      };
+
+  Map<String, dynamic> toJsonComplete() => {
+        '_id': id.hexString,
+        'name': name,
+        'type': type,
+        'image': image.replaceAll("http://192.168.1.109:3000/images/", ""),
+        'email': email,
+        'socialMedias': socialMedias,
+        'websites': websites,
+        'description': description,
+        'phones': phones
       };
 
   Entity(data) {
     id = ObjectId.fromHexString(data['_id']);
     name = data['name'] ?? "";
-    type = data['type'];
-    followedByUser = data['followedByUser'];
-    reviewedByUser = data['reviewedByUser'];
+    type = data['type'] ?? "";
+    followedByUser = data['followedByUser'] ?? false;
+    reviewedByUser = data['reviewedByUser'] ?? false;
     description = data['description'] ?? "";
     email = data['email'] ?? "";
     avgRate = double.parse((data['avgRate'] ?? 0).toStringAsFixed(2));
+    relevance = double.parse((data['relevance'] ?? 0).toStringAsFixed(2));
     phones = ((data['phones'] ?? []) as List).map((e) => e.toString()).toList();
 
     websites =
@@ -49,8 +63,9 @@ class Entity {
         .map((e) => ObjectId.fromHexString(e))
         .toList();
     nReviews = reviewIds.length;
-    image = "http://192.168.1.4:3000/images/" +
-        (data['image'] ?? data['name'] + ".jpg");
+    image = "http://192.168.1.109:3000/images/" +
+        ((data['image'] as String).replaceAll(".png", ".jpg") ??
+            data['name'] + ".jpg");
     upcomingEvents = ((data['upcomingEvents'] ?? []) as List)
         .map((e) => EventMinimal(e))
         .toList();
