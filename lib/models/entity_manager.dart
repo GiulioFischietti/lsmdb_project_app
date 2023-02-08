@@ -8,7 +8,7 @@ import 'package:objectid/objectid.dart';
 class EntityManager extends User {
   late Club managedEntity;
   EntityManager(data) : super(data) {
-    managedEntity = Club(data['managedEntity']);
+    managedEntity = Club(data['managedEntity'] ?? {});
   }
 
   Map<String, dynamic> toJson() {

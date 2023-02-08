@@ -8,6 +8,8 @@ class EntityMinimal {
   String type = "";
   String image = "";
   late String name;
+  double avgRate = 0;
+  double score = 0;
 
   EntityMinimal(data) {
     id = data['_id'] != null ? ObjectId.fromHexString(data['_id']) : ObjectId();
@@ -16,6 +18,8 @@ class EntityMinimal {
         (((data['image'] ?? "") as String).replaceAll(".png", ".jpg") ??
             data['name'] + ".jpg");
     name = data['name'] ?? "";
+    avgRate = double.parse((data['avgRate'] ?? 0).toStringAsFixed(2));
+    score = double.parse((data['score'] ?? 0).toStringAsFixed(2));
   }
 
   Map<String, dynamic> toJson() {

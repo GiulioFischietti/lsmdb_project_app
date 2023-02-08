@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class CardWidgetEntityResult extends StatefulWidget {
-  Entity entity;
+  EntityMinimal entity;
 
   CardWidgetEntityResult({
     Key? key,
@@ -112,7 +112,7 @@ class _CardWidgetEntityResultState extends State<CardWidgetEntityResult> {
             Container(
                 margin: EdgeInsets.only(left: 5),
                 child: Text(
-                  "${widget.entity.relevance}",
+                  "${widget.entity.score}",
                   style: GoogleFonts.poppins(),
                 )),
           ]),

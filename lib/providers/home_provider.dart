@@ -36,7 +36,7 @@ class HomeProvider extends ChangeNotifier {
 
   List<EventMinimal> nearEvents = [];
   List<EntityMinimal> nearClubs = [];
-  List<Entity> topRatedEntities = [];
+  List<EntityMinimal> topRatedEntities = [];
 
   void getNearEvents(BuildContext context) async {
     // loadingNearEventsPagination = true;
@@ -95,9 +95,12 @@ class HomeProvider extends ChangeNotifier {
 
   void getTopRatedEntities(BuildContext context) async {
     var json = await getTopRated(0);
+    loading = true;
+    notifyListeners();
 
-    topRatedEntities = (json['data'] as List).map((e) => Entity(e)).toList();
-    // loading = false;
+    topRatedEntities =
+        (json['data'] as List).map((e) => EntityMinimal(e)).toList();
+    loading = false;
     notifyListeners();
   }
 
@@ -109,7 +112,7 @@ class HomeProvider extends ChangeNotifier {
     var json = await getTopRated(topRatedEntities.length);
 
     topRatedEntities = topRatedEntities +
-        (json['data'] as List).map((e) => Entity(e)).toList();
+        (json['data'] as List).map((e) => EntityMinimal(e)).toList();
     loadingTopRatedEntitiesPagination = false;
     notifyListeners();
   }

@@ -33,3 +33,8 @@ Future<dynamic> updateEntity(ObjectId userId, Entity entity) async {
   return await Repo().postData("entity/updateentity",
       {"userId": userId.hexString, "entity": entity.toJsonComplete()});
 }
+
+Future<dynamic> searchEntity(String keyword, String type) async {
+  return await Repo()
+      .postData("entity/search", {"keyword": keyword, "type": type});
+}

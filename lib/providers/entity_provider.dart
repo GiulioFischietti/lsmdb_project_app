@@ -101,7 +101,8 @@ class EntityProvider extends ChangeNotifier {
     var jsonResponse = await reviewRepo.addReview(review);
     organizer.reviews[0].id =
         ObjectId.fromHexString(jsonResponse['data']['reviewId']);
-    organizer.avgRate = double.parse(jsonResponse['data']['avg'].toString());
+    organizer.avgRate =
+        double.parse(jsonResponse['data']['avg'].toStringAsFixed(2));
     notifyListeners();
   }
 
@@ -111,7 +112,8 @@ class EntityProvider extends ChangeNotifier {
     organizer.reviews[indexToEdit].description = review.description;
     organizer.reviews[indexToEdit].rate = review.rate;
     var jsonResponse = await reviewRepo.editReview(review);
-    organizer.avgRate = double.parse(jsonResponse['data']['avg'].toString());
+    organizer.avgRate =
+        double.parse(jsonResponse['data']['avg'].toStringAsFixed(2));
     notifyListeners();
   }
 
@@ -124,7 +126,8 @@ class EntityProvider extends ChangeNotifier {
 
     var jsonResponse =
         await reviewRepo.deleteReviewEntity(entityId, reviewId, userId);
-    organizer.avgRate = double.parse(jsonResponse['data']['avg'].toString());
+    organizer.avgRate =
+        double.parse(jsonResponse['data']['avg'].toStringAsFixed(2));
     notifyListeners();
   }
 
@@ -133,9 +136,10 @@ class EntityProvider extends ChangeNotifier {
     club.reviewedByUser = true;
     club.reviewIds.insert(0, review.id);
     var jsonResponse = await reviewRepo.addReview(review);
+    print(jsonResponse);
     club.reviews[0].id =
         ObjectId.fromHexString(jsonResponse['data']['reviewId']);
-    club.avgRate = double.parse(jsonResponse['data']['avg'].toString());
+    club.avgRate = double.parse(jsonResponse['data']['avg'].toStringAsFixed(2));
     notifyListeners();
   }
 
@@ -145,7 +149,7 @@ class EntityProvider extends ChangeNotifier {
     club.reviews[indexToEdit].description = review.description;
     club.reviews[indexToEdit].rate = review.rate;
     var jsonResponse = await reviewRepo.editReview(review);
-    club.avgRate = double.parse(jsonResponse['data']['avg'].toString());
+    club.avgRate = double.parse(jsonResponse['data']['avg'].toStringAsFixed(2));
     notifyListeners();
   }
 
@@ -157,7 +161,7 @@ class EntityProvider extends ChangeNotifier {
     club.nReviews--;
     var jsonResponse =
         await reviewRepo.deleteReviewEntity(entityId, reviewId, userId);
-    club.avgRate = double.parse(jsonResponse['data']['avg'].toString());
+    club.avgRate = double.parse(jsonResponse['data']['avg'].toStringAsFixed(2));
     notifyListeners();
   }
 
@@ -168,7 +172,8 @@ class EntityProvider extends ChangeNotifier {
     var jsonResponse = await reviewRepo.addReview(review);
     artist.reviews[0].id =
         ObjectId.fromHexString(jsonResponse['data']['reviewId']);
-    artist.avgRate = double.parse(jsonResponse['data']['avg'].toString());
+    artist.avgRate =
+        double.parse(jsonResponse['data']['avg'].toStringAsFixed(2));
     notifyListeners();
   }
 
@@ -179,7 +184,8 @@ class EntityProvider extends ChangeNotifier {
     artist.reviews[indexToEdit].rate = review.rate;
     artist.nReviews--;
     var jsonResponse = await reviewRepo.editReview(review);
-    artist.avgRate = double.parse(jsonResponse['data']['avg'].toString());
+    artist.avgRate =
+        double.parse(jsonResponse['data']['avg'].toStringAsFixed(2));
     notifyListeners();
   }
 
@@ -191,7 +197,8 @@ class EntityProvider extends ChangeNotifier {
 
     var jsonResponse =
         await reviewRepo.deleteReviewEntity(entityId, reviewId, userId);
-    artist.avgRate = double.parse(jsonResponse['data']['avg'].toString());
+    artist.avgRate =
+        double.parse(jsonResponse['data']['avg'].toStringAsFixed(2));
     notifyListeners();
   }
 

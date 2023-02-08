@@ -16,6 +16,7 @@ class AppUser extends RegisteredUser {
 
   Map<String, dynamic> toJson() {
     final result = <String, dynamic>{};
+    result.addAll(super.toJson());
     result.addAll({'nFollowers': nFollowers});
     result.addAll({'nFollowings': nFollowings});
     result.addAll({'nLikes': nLikes});

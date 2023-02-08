@@ -8,8 +8,8 @@ class Club extends Entity {
   String address = "";
   late LatLonLocation location;
   Club(data) : super(data) {
-    address = data['address'];
-    location = LatLonLocation(data['location']);
+    address = data['address'] ?? "";
+    location = LatLonLocation(data['location'] ?? {});
   }
 
   @override

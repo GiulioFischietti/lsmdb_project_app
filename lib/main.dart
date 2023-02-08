@@ -1,3 +1,4 @@
+import 'package:eventi_in_zona/providers/analytics_provider.dart';
 import 'package:eventi_in_zona/providers/entity_provider.dart';
 import 'package:eventi_in_zona/providers/event_provider.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => ManagerProvider()),
           ChangeNotifierProvider(create: (_) => EventProvider()),
           ChangeNotifierProvider(create: (_) => EntityProvider()),
+          ChangeNotifierProvider(create: (_) => AnalyticsProvider()),
         ],
         child: MaterialApp(
           theme: ThemeData(

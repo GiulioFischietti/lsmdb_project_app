@@ -97,11 +97,38 @@ class _CardWidgetReviewState extends State<CardWidgetReview> {
                                                     Provider.of<EntityProvider>(
                                                         context,
                                                         listen: false);
-                                                entityProvider
-                                                    .deleteReviewOrganizer(
-                                                        widget.review.entity.id,
-                                                        widget.review.id,
-                                                        widget.review.user.id);
+                                                switch (
+                                                    widget.review.entity.type) {
+                                                  case "club":
+                                                    entityProvider
+                                                        .deleteReviewClub(
+                                                            widget.review.entity
+                                                                .id,
+                                                            widget.review.id,
+                                                            widget.review.user
+                                                                .id);
+                                                    break;
+                                                  case "organizer":
+                                                    entityProvider
+                                                        .deleteReviewOrganizer(
+                                                            widget.review.entity
+                                                                .id,
+                                                            widget.review.id,
+                                                            widget.review.user
+                                                                .id);
+                                                    break;
+                                                  case "artist":
+                                                    entityProvider
+                                                        .deleteReviewArtist(
+                                                            widget.review.entity
+                                                                .id,
+                                                            widget.review.id,
+                                                            widget.review.user
+                                                                .id);
+                                                    break;
+                                                  default:
+                                                }
+
                                                 Navigator.of(context).pop();
                                               },
                                             ),

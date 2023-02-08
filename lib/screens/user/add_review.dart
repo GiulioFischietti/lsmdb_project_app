@@ -137,13 +137,13 @@ class _AddReviewState extends State<AddReview> {
                     case "club":
                       review.entity =
                           EntityMinimal(entityProvider.club.toJson());
-                      entityProvider.addReviewOrganizer(review);
+                      entityProvider.addReviewClub(review);
                       Navigator.of(context).pop();
                       break;
                     case "artist":
                       review.entity =
                           EntityMinimal(entityProvider.artist.toJson());
-                      entityProvider.addReviewOrganizer(review);
+                      entityProvider.addReviewArtist(review);
                       Navigator.of(context).pop();
                       break;
                     default:

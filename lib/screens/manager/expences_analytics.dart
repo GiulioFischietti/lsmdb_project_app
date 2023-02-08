@@ -32,6 +32,7 @@ class _ExpencesAnalyticsState extends State<ExpencesAnalytics> {
       "selected": false
     },
   ];
+
   @override
   void initState() {
     super.initState();

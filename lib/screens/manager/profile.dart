@@ -17,7 +17,7 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    userProvider.getUser();
+    userProvider.getManager();
   }
 
   @override
@@ -100,7 +100,9 @@ class _ProfileState extends State<Profile> {
                   Expanded(
                       child: Column(
                     children: [
-                      Text("4501",
+                      Text(
+                          userProvider.manager.managedEntity.nFollowers
+                              .toString(),
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       Text("Followers",
@@ -145,10 +147,6 @@ class _ProfileState extends State<Profile> {
           profileTile("Followings", Icons.person_outline, () {
             // Navigator.of(context)
             //     .push(MaterialPageRoute(builder: (ctx) => Orders()));
-          }),
-          profileTile("Favorite Events", Icons.bookmark_outline, () {
-            // Navigator.of(context)
-            //     .push(MaterialPageRoute(builder: (ctx) => EditProfile()));
           }),
           Expanded(child: Container()),
           logOutTile("Log Out", Icons.exit_to_app_outlined, () {

@@ -1,6 +1,8 @@
+import 'package:eventi_in_zona/models/entity_minimal.dart';
 import 'package:eventi_in_zona/models/event.dart';
 import 'package:eventi_in_zona/models/event_minimal.dart';
 import 'package:eventi_in_zona/repositories/event_repo.dart' as eventRepo;
+import 'package:eventi_in_zona/repositories/entity_repo.dart' as entityRepo;
 import 'package:eventi_in_zona/repositories/location_repo.dart';
 import 'package:eventi_in_zona/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +13,10 @@ class EventProvider extends ChangeNotifier {
 
   List<EventMinimal> eventsByEntity = [];
   List<EventMinimal> searchResults = [];
+
+  List<EntityMinimal> organizerSearchResults = [];
+  List<EntityMinimal> artistSearchResults = [];
+
   Map<String, dynamic> locationSearch = {};
   String genreSearch = "Non specificato";
   DateTime dateSearch = DateTime.now();
@@ -72,6 +78,15 @@ class EventProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void getManagerEventById(ObjectId eventId) async {
+    loading = true;
+    notifyListeners();
+    var json = await eventRepo.getManagerEventByIdJson(eventId);
+    event = Event(json['data']);
+    loading = false;
+    notifyListeners();
+  }
+
   void getEventsByEntity(ObjectId entityId) async {
     loading = true;
     eventsByEntity = [];
@@ -85,13 +100,13 @@ class EventProvider extends ChangeNotifier {
   }
 
   void getMoreEventsByEntity(ObjectId entityId) async {
-    loading = true;
+    loadingMore = true;
     notifyListeners();
     var json = await eventRepo.getEventsByEntity(
         entityId.hexString, eventsByEntity.length);
     eventsByEntity = eventsByEntity +
         (json['data'] as List).map((e) => EventMinimal(e)).toList();
-    loading = false;
+    loadingMore = false;
     notifyListeners();
   }
 
@@ -105,5 +120,55 @@ class EventProvider extends ChangeNotifier {
     event.likedByUser = false;
     notifyListeners();
     eventRepo.dislikeEvent(event.id, userId);
+  }
+
+  void searchOrganizers(String keyword) async {
+    var json = await entityRepo.searchEntity(keyword, "organizer");
+    organizerSearchResults =
+        (json['data'] as List).map((e) => EntityMinimal(e)).toList();
+    notifyListeners();
+  }
+
+  void clearSearch() {
+    artistSearchResults = [];
+    organizerSearchResults = [];
+    notifyListeners();
+  }
+
+  void searchArtists(String keyword) async {
+    var json = await entityRepo.searchEntity(keyword, "artist");
+    artistSearchResults =
+        (json['data'] as List).map((e) => EntityMinimal(e)).toList();
+    notifyListeners();
+  }
+
+  Future createEvent(Event event) async {
+    loading = true;
+    notifyListeners();
+    await eventRepo.createEvent(event);
+    // getEventsByEntity(entityId, skip)
+
+    loading = false;
+    notifyListeners();
+  }
+
+  Future updateEvent(Event event) async {
+    loading = true;
+    notifyListeners();
+    await eventRepo.updateEvent(event);
+    // getEventsByEntity(entityId, skip)
+
+    loading = false;
+    notifyListeners();
+  }
+
+  Future deleteEvent(Event event) async {
+    loading = true;
+    notifyListeners();
+    await eventRepo.deleteEvent(event);
+    // getEventsByEntity(entityId, skip)
+
+    loading = false;
+    notifyListeners();
   }
 }

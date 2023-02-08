@@ -14,6 +14,7 @@ import 'package:eventi_in_zona/repositories/auth_repo.dart' as authRepo;
 import 'package:eventi_in_zona/repositories/event_repo.dart' as eventRepo;
 
 import 'package:flutter/material.dart';
+import 'package:objectid/objectid.dart';
 
 class UserProvider extends ChangeNotifier {
   bool loading = false;
@@ -23,16 +24,6 @@ class UserProvider extends ChangeNotifier {
   List<Order> orders = [];
   List<ProductOrder> productOrders = [];
   List<ProductOrder> cartProducts = [];
-
-  void createEvent(Event event) async {
-    loading = true;
-    notifyListeners();
-    await eventRepo.createEvent(event);
-    // getEventsByEntity(entityId, skip)
-
-    loading = false;
-    notifyListeners();
-  }
 
   Future<bool> logIn(String username, String password) async {
     var data = await logInData(username, password);
@@ -62,7 +53,17 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getUser() async {
+  void getAppUser() async {
+    var data = await userRepo.getUser(user.id);
+    if (data['data']['role'] == "user") {
+      user = AppUser(data['data']);
+    } else {
+      manager = EntityManager(data['data']);
+    }
+    notifyListeners();
+  }
+
+  void getManager() async {
     var data = await userRepo.getUser(manager.id);
     if (data['data']['role'] == "user") {
       user = AppUser(data['data']);

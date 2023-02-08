@@ -50,7 +50,7 @@ class Event {
 
   Map<String, dynamic> toJson() {
     final result = <String, dynamic>{};
-
+    result.addAll({'_id': id.hexString});
     result.addAll({'name': name});
     result.addAll({'description': description});
     result.addAll({'genres': genres});

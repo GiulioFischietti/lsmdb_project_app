@@ -83,6 +83,9 @@ class SignUpAsManagerState extends State<SignUpAsManager> {
                       controller: nameController,
                       autocorrect: false,
                       style: TextStyle(color: Colors.grey[800]),
+                      onChanged: (String text) {
+                        entityManager.name = text;
+                      },
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.person, color: Colors.grey[800]),
                         labelStyle: GoogleFonts.poppins(
@@ -122,6 +125,9 @@ class SignUpAsManagerState extends State<SignUpAsManager> {
                       autocorrect: false,
                       keyboardType: TextInputType.emailAddress,
                       style: TextStyle(color: Colors.grey[800]),
+                      onChanged: (String text) {
+                        entityManager.username = text;
+                      },
                       decoration: InputDecoration(
                         filled: true,
                         prefixIcon:
@@ -201,6 +207,9 @@ class SignUpAsManagerState extends State<SignUpAsManager> {
                       obscureText: true,
                       controller: pwdController,
                       autocorrect: false,
+                      onChanged: (String text) {
+                        entityManager.password = text;
+                      },
                       style: TextStyle(color: Colors.grey[800]),
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.lock, color: Colors.grey[800]),
@@ -260,6 +269,13 @@ class SignUpAsManagerState extends State<SignUpAsManager> {
                       )),
                 )),
             Container(
+              padding: EdgeInsets.all(15.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: userProvider.usernameTaken
+                    ? Colors.grey
+                    : Colors.orange[300],
+              ),
               margin: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 20),
               child: InkWell(
                 onTap: () async {
@@ -307,7 +323,7 @@ class SignUpAsManagerState extends State<SignUpAsManager> {
                 child: Container(
                   alignment: Alignment.center,
                   child: Text(
-                    "Sign Up",
+                    "Sign Up as Manager",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                         textStyle: TextStyle(

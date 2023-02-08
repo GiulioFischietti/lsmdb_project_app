@@ -90,8 +90,8 @@ class _HomeManagerState extends State<HomeManager> {
                       Container(
                           margin: EdgeInsets.only(left: 20),
                           child: Text(
-                            "Manager ID: ${userProvider.manager.id}",
-                            style: GoogleFonts.poppins(),
+                            "@${userProvider.manager.username}",
+                            style: GoogleFonts.poppins(color: Colors.grey),
                           ))
                     ],
                   )),
@@ -119,19 +119,26 @@ class _HomeManagerState extends State<HomeManager> {
             margin: EdgeInsets.only(left: 20, top: 30),
             child: Text("Events Organized",
                 style: GoogleFonts.poppins(fontSize: 18))),
-        Flexible(
-            child: Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(left: 20, top: 0),
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    controller: eventScrollController,
-                    itemCount: eventProvider.eventsByEntity.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return TileIncomingEvent(
-                        eventMinimal: eventProvider.eventsByEntity[index],
-                      );
-                    })))
+        eventProvider.loading
+            ? Container(
+                height: 400, child: Center(child: CircularProgressIndicator()))
+            : Flexible(
+                child: Container(
+                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(left: 20, top: 0),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        controller: eventScrollController,
+                        itemCount: eventProvider.eventsByEntity.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return TileIncomingEvent(
+                            eventMinimal: eventProvider.eventsByEntity[index],
+                          );
+                        }))),
+        eventProvider.loadingMore
+            ? Container(
+                height: 40, child: Center(child: CircularProgressIndicator()))
+            : Container()
       ]);
     }));
   }

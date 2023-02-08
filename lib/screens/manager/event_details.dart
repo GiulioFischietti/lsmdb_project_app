@@ -1,5 +1,6 @@
 import 'package:eventi_in_zona/providers/event_provider.dart';
-import 'package:eventi_in_zona/widgets/user/card_widget_minimal_entity.dart';
+import 'package:eventi_in_zona/screens/manager/create_edit_event.dart';
+import 'package:eventi_in_zona/widgets/manager/card_widget_minimal_entity.dart';
 import 'package:eventi_in_zona/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,9 +21,7 @@ class _EventDetailsState extends State<EventDetails> {
   void initState() {
     super.initState();
     final eventProvider = Provider.of<EventProvider>(context, listen: false);
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    eventProvider.getEventById(
-        widget.id.hexString, userProvider.manager.id.hexString);
+    eventProvider.getManagerEventById(widget.id);
   }
 
   @override
@@ -162,20 +161,26 @@ class _EventDetailsState extends State<EventDetails> {
                     field("Address", eventProvider.event.address)
                   ],
                 )),
-                InkWell(
-                    onTap: () async {},
-                    child: Container(
-                        padding: EdgeInsets.only(top: 20, bottom: 20),
-                        alignment: Alignment.bottomCenter,
-                        decoration: const BoxDecoration(
-                            color: Colors.orange,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(50),
-                                topRight: Radius.circular(50))),
-                        child: Text("Update Event",
-                            style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold))))
+                eventProvider.event.start.isAfter(DateTime.now())
+                    ? InkWell(
+                        onTap: () async {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (ctx) => CreateEvent(
+                                  editMode: true, event: eventProvider.event)));
+                        },
+                        child: Container(
+                            padding: EdgeInsets.only(top: 20, bottom: 20),
+                            alignment: Alignment.bottomCenter,
+                            decoration: const BoxDecoration(
+                                color: Colors.orange,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(50),
+                                    topRight: Radius.circular(50))),
+                            child: Text("Update Event",
+                                style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold))))
+                    : Container()
               ]));
     });
   }

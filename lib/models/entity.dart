@@ -19,6 +19,7 @@ class Entity {
   List<String> phones = [];
   List<Review> reviews = [];
   List<ObjectId> reviewIds = [];
+  late int nFollowers;
   late int nReviews;
   List<EventMinimal> upcomingEvents = [];
 
@@ -42,7 +43,7 @@ class Entity {
       };
 
   Entity(data) {
-    id = ObjectId.fromHexString(data['_id']);
+    id = data['_id'] != null ? ObjectId.fromHexString(data['_id']) : ObjectId();
     name = data['name'] ?? "";
     type = data['type'] ?? "";
     followedByUser = data['followedByUser'] ?? false;
@@ -50,6 +51,7 @@ class Entity {
     description = data['description'] ?? "";
     email = data['email'] ?? "";
     avgRate = double.parse((data['avgRate'] ?? 0).toStringAsFixed(2));
+    nFollowers = data['nFollowers'] ?? 0;
     relevance = double.parse((data['relevance'] ?? 0).toStringAsFixed(2));
     phones = ((data['phones'] ?? []) as List).map((e) => e.toString()).toList();
 
@@ -64,7 +66,7 @@ class Entity {
         .toList();
     nReviews = reviewIds.length;
     image = "http://192.168.1.109:3000/images/" +
-        ((data['image'] as String).replaceAll(".png", ".jpg") ??
+        (((data['image'] ?? "") as String).replaceAll(".png", ".jpg") ??
             data['name'] + ".jpg");
     upcomingEvents = ((data['upcomingEvents'] ?? []) as List)
         .map((e) => EventMinimal(e))

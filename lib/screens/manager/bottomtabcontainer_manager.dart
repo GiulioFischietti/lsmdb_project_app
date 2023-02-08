@@ -1,4 +1,6 @@
-import 'package:eventi_in_zona/screens/manager/create_event.dart';
+import 'package:eventi_in_zona/models/event.dart';
+import 'package:eventi_in_zona/providers/user_provider.dart';
+import 'package:eventi_in_zona/screens/manager/create_edit_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/screens/manager/analytics.dart';
 import 'package:eventi_in_zona/screens/manager/home_screen.dart';
 import 'package:eventi_in_zona/screens/manager/profile.dart';
+import 'package:provider/provider.dart';
 
 class BottomTabContainerManager extends StatefulWidget {
   int initialIndex = 0;
@@ -57,8 +60,43 @@ class _BottomTabContainerManagerState extends State<BottomTabContainerManager> {
               ? FloatingActionButton(
                   backgroundColor: Colors.orange,
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (ctx) => CreateEvent()));
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (ctx) {
+                      final userProvider =
+                          Provider.of<UserProvider>(context, listen: false);
+                      Event event = Event({});
+                      if (userProvider.manager.managedEntity.type == "club") {
+                        event = Event({
+                          "organizers": [
+                            userProvider.manager.managedEntity.toJson()
+                          ],
+                          "club": userProvider.manager.managedEntity.toJson(),
+                          "address": userProvider.manager.managedEntity.address,
+                          "location": userProvider
+                              .manager.managedEntity.location
+                              .toJson(),
+                        });
+                      }
+                      if (userProvider.manager.managedEntity.type ==
+                          "organizer") {
+                        event = Event({
+                          "organizers": [
+                            userProvider.manager.managedEntity.toJson()
+                          ],
+                        });
+                      }
+                      if (userProvider.manager.managedEntity.type == "artist") {
+                        event = Event({
+                          "artists": [
+                            userProvider.manager.managedEntity.toJson()
+                          ],
+                        });
+                      }
+                      return CreateEvent(
+                        editMode: false,
+                        event: event,
+                      );
+                    }));
                   },
                   child: const Icon(Icons.add, color: Colors.white))
               : null,

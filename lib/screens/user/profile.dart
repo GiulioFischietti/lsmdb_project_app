@@ -18,7 +18,7 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    userProvider.getUser();
+    userProvider.getAppUser();
   }
 
   @override
