@@ -1,6 +1,6 @@
 import 'package:eventi_in_zona/providers/event_provider.dart';
 import 'package:eventi_in_zona/screens/user/edit_profile.dart';
-import 'package:eventi_in_zona/widgets/user/card_widget_minimal_user.dart';
+import 'package:eventi_in_zona/widgets/user/card_widget_minimal_follow.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
@@ -47,7 +47,7 @@ class _UserFollowingsState extends State<UserFollowings> {
           Container(
             margin: const EdgeInsets.only(top: 20, left: 20, bottom: 0),
             alignment: Alignment.centerLeft,
-            child: Text("Followers",
+            child: Text("Followings",
                 textScaleFactor: 1,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline1),
@@ -62,7 +62,7 @@ class _UserFollowingsState extends State<UserFollowings> {
                     itemCount: userProvider.followings.length,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
-                      return CardWidetMinimalUser(
+                      return CardWidetMinimalFollow(
                           followable: false,
                           myUserId: userProvider.user.id,
                           entityMinimal: userProvider.followings[index]);

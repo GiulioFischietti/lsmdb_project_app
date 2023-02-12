@@ -3,6 +3,7 @@ import 'package:eventi_in_zona/providers/analytics_provider.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
 import 'package:eventi_in_zona/screens/manager/critic_users.dart';
 import 'package:eventi_in_zona/screens/manager/most_used_words.dart';
+import 'package:eventi_in_zona/screens/manager/suggested_artists.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -109,6 +110,10 @@ class _AnalyticsState extends State<Analytics> {
       profileTile("Critic Users", Icons.person_remove, () {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (ctx) => CriticUsers()));
+      }),
+      profileTile("Suggested Artists", Icons.mic, () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (ctx) => SuggestedArtists()));
       })
     ]);
   }

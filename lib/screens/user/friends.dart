@@ -1,6 +1,7 @@
 import 'package:eventi_in_zona/providers/event_provider.dart';
 import 'package:eventi_in_zona/screens/user/edit_profile.dart';
-import 'package:eventi_in_zona/widgets/user/card_widget_minimal_user.dart';
+import 'package:eventi_in_zona/widgets/user/card_widget_minimal_follow.dart';
+import 'package:eventi_in_zona/widgets/user/card_widget_suggested_user.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
@@ -48,19 +49,18 @@ class _FriendsState extends State<Friends> {
                 style: Theme.of(context).textTheme.bodyText1),
           ),
           userProvider.loading
-              ? Container(
-                  height: size.height,
-                  width: size.width,
-                  child: Center(child: CircularProgressIndicator()))
+              ? Expanded(
+                  child: Container(
+                      child: Center(child: CircularProgressIndicator())))
               : Expanded(
                   child: ListView.builder(
                     itemCount: userProvider.suggestedFriends.length,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
-                      return CardWidetMinimalUser(
+                      return CardWidetSuggestedUser(
                           myUserId: userProvider.user.id,
                           followable: true,
-                          entityMinimal: userProvider.suggestedFriends[index]);
+                          userMinimal: userProvider.suggestedFriends[index]);
                     },
                   ),
                 )

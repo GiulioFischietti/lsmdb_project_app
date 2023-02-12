@@ -15,6 +15,7 @@ import 'package:eventi_in_zona/repositories/entity_repo.dart';
 import 'package:eventi_in_zona/repositories/user_repo.dart' as userRepo;
 import 'package:eventi_in_zona/repositories/auth_repo.dart' as authRepo;
 import 'package:eventi_in_zona/repositories/event_repo.dart' as eventRepo;
+import 'package:eventi_in_zona/repositories/entity_repo.dart' as entityRepo;
 
 import 'package:flutter/material.dart';
 import 'package:objectid/objectid.dart';
@@ -24,15 +25,19 @@ class UserProvider extends ChangeNotifier {
   bool loadingMoreFollowers = false;
 
   AppUser user = AppUser({});
+  AppUser otherUser = AppUser({});
   bool usernameTaken = false;
   late EntityManager manager;
   List<Order> orders = [];
 
-  List<EntityMinimal> suggestedFriends = [];
+  List<UserMinimal> suggestedFriends = [];
 
-  List<EntityMinimal> followers = [];
+  List<UserMinimal> entityFollowers = [];
+  List<UserMinimal> followers = [];
   List<EntityMinimal> followings = [];
   List<EventMinimal> likedEvents = [];
+
+  List<EntityMinimal> suggestedArtists = [];
 
   List<ProductOrder> productOrders = [];
   List<ProductOrder> cartProducts = [];
@@ -75,6 +80,28 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void getSuggestedArtists() async {
+    var data =
+        await entityRepo.getSuggestedArtists(manager.managedEntity.id, 0);
+    suggestedArtists =
+        (data['data'] as List).map((item) => EntityMinimal(item)).toList();
+    notifyListeners();
+  }
+
+  void getMoreSuggestedArtists() async {
+    var data = await entityRepo.getSuggestedArtists(
+        manager.managedEntity.id, suggestedArtists.length);
+    suggestedArtists = suggestedArtists +
+        (data['data'] as List).map((item) => EntityMinimal(item)).toList();
+    notifyListeners();
+  }
+
+  void getUserById(ObjectId userId) async {
+    var data = await userRepo.getUser(userId);
+    otherUser = AppUser(data['data']);
+    notifyListeners();
+  }
+
   void getManager() async {
     var data = await userRepo.getUser(manager.id);
     if (data['data']['role'] == "user") {
@@ -91,7 +118,7 @@ class UserProvider extends ChangeNotifier {
 
     var data = await userRepo.followersOfUser(userId, 0);
     followers =
-        (data['data'] as List).map((item) => EntityMinimal(item)).toList();
+        (data['data'] as List).map((item) => UserMinimal(item)).toList();
 
     loading = false;
     notifyListeners();
@@ -103,7 +130,31 @@ class UserProvider extends ChangeNotifier {
 
     var data = await userRepo.followersOfUser(userId, followers.length);
     followers = followers +
-        (data['data'] as List).map((item) => EntityMinimal(item)).toList();
+        (data['data'] as List).map((item) => UserMinimal(item)).toList();
+
+    loadingMoreFollowers = false;
+    notifyListeners();
+  }
+
+  void getEntityFollowers(ObjectId userId) async {
+    loading = true;
+    notifyListeners();
+
+    var data = await entityRepo.getFollowers(userId, 0);
+    entityFollowers =
+        (data['data'] as List).map((item) => UserMinimal(item)).toList();
+
+    loading = false;
+    notifyListeners();
+  }
+
+  void getMoreEntityFollowers(ObjectId userId) async {
+    loadingMoreFollowers = true;
+    notifyListeners();
+
+    var data = await entityRepo.getFollowers(userId, followers.length);
+    entityFollowers = entityFollowers +
+        (data['data'] as List).map((item) => UserMinimal(item)).toList();
 
     loadingMoreFollowers = false;
     notifyListeners();
@@ -163,7 +214,7 @@ class UserProvider extends ChangeNotifier {
 
     var data = await userRepo.getSuggestedFriendsBasedOnLikes(user.id, 0);
     suggestedFriends =
-        (data['data'] as List).map((item) => EntityMinimal(item)).toList();
+        (data['data'] as List).map((item) => UserMinimal(item)).toList();
 
     loading = false;
     notifyListeners();

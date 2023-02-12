@@ -1,4 +1,6 @@
 import 'package:eventi_in_zona/screens/manager/edit_profile.dart';
+import 'package:eventi_in_zona/screens/manager/entity_followers.dart';
+import 'package:eventi_in_zona/screens/user/user_followers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
@@ -98,19 +100,27 @@ class _ProfileState extends State<Profile> {
               child: Row(
                 children: [
                   Expanded(
-                      child: Column(
-                    children: [
-                      Text(
-                          userProvider.manager.managedEntity.nFollowers
-                              .toString(),
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.bold, fontSize: 16)),
-                      Text("Followers",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey[600]))
-                    ],
-                  )),
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (ctx) => EntityFollowers(
+                                    entityId: userProvider
+                                        .manager.managedEntity.id)));
+                          },
+                          child: Column(
+                            children: [
+                              Text(
+                                  userProvider.manager.managedEntity.nFollowers
+                                      .toString(),
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16)),
+                              Text("Followers",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.grey[600]))
+                            ],
+                          ))),
                   Expanded(
                       child: Column(
                     children: [
@@ -141,12 +151,9 @@ class _ProfileState extends State<Profile> {
               )),
           Container(height: 10),
           profileTile("Followers", Icons.person_outline, () {
-            // Navigator.of(context)
-            //     .push(MaterialPageRoute(builder: (ctx) => Orders()));
-          }),
-          profileTile("Followings", Icons.person_outline, () {
-            // Navigator.of(context)
-            //     .push(MaterialPageRoute(builder: (ctx) => Orders()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => EntityFollowers(
+                    entityId: userProvider.manager.managedEntity.id)));
           }),
           Expanded(child: Container()),
           logOutTile("Log Out", Icons.exit_to_app_outlined, () {

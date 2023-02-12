@@ -19,6 +19,16 @@ Future<dynamic> addReviewEntity(Review review) async {
   return await Repo().postData("entity/addreview", review);
 }
 
+Future<dynamic> getFollowers(ObjectId entityId, int skip) async {
+  return await Repo().postData(
+      "entity/followers", {"entityId": entityId.hexString, "skip": skip});
+}
+
+Future<dynamic> getSuggestedArtists(ObjectId entityId, int skip) async {
+  return await Repo().postData("entity/suggestedartists",
+      {"entityId": entityId.hexString, "skip": skip});
+}
+
 Future<dynamic> followEntity(ObjectId entityId, ObjectId userId) async {
   return await Repo().postData("entity/followentity",
       {"entityId": entityId.hexString, "userId": userId.hexString});
