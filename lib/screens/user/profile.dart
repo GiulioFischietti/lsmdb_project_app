@@ -1,5 +1,8 @@
 import 'package:eventi_in_zona/providers/event_provider.dart';
 import 'package:eventi_in_zona/screens/user/edit_profile.dart';
+import 'package:eventi_in_zona/screens/user/user_followers.dart';
+import 'package:eventi_in_zona/screens/user/user_followings.dart';
+import 'package:eventi_in_zona/screens/user/user_liked_events.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
@@ -98,53 +101,82 @@ class _ProfileState extends State<Profile> {
               child: Row(
                 children: [
                   Expanded(
-                      child: Column(
-                    children: [
-                      Text("${userProvider.user.nFollowers}",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.bold, fontSize: 16)),
-                      Text("Followers",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey[600]))
-                    ],
-                  )),
+                    child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (ctx) =>
+                                  UserFollowers(userId: userProvider.user.id)));
+                        },
+                        child: Column(
+                          children: [
+                            Text("${userProvider.user.nFollowers}",
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.bold, fontSize: 16)),
+                            Text("Followers",
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.grey[600]))
+                          ],
+                        )),
+                  ),
                   Expanded(
-                      child: Column(
-                    children: [
-                      Text("${userProvider.user.nFollowings}",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.bold, fontSize: 16)),
-                      Text("Followings",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey[600]))
-                    ],
-                  )),
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (ctx) => UserFollowings(
+                                    userId: userProvider.user.id)));
+                          },
+                          child: Column(
+                            children: [
+                              Text("${userProvider.user.nFollowings}",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16)),
+                              Text("Followings",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.grey[600]))
+                            ],
+                          ))),
                   Expanded(
-                      child: Column(
-                    children: [
-                      Text("${userProvider.user.nLikes}",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.bold, fontSize: 16)),
-                      Text("Liked Events",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey[600]))
-                    ],
-                  ))
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (ctx) => UserLikedEvents(
+                                    userId: userProvider.user.id)));
+                          },
+                          child: Column(
+                            children: [
+                              Text("${userProvider.user.nLikes}",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16)),
+                              Text("Liked Events",
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.grey[600]))
+                            ],
+                          )))
                 ],
               )),
           Container(height: 10),
           profileTile("Followers", Icons.person_outline, () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => UserFollowers(userId: userProvider.user.id)));
             // Navigator.of(context)
             //     .push(MaterialPageRoute(builder: (ctx) => Orders()));
           }),
           profileTile("Followings", Icons.person_outline, () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) =>
+                    UserFollowings(userId: userProvider.user.id)));
             // Navigator.of(context)
             //     .push(MaterialPageRoute(builder: (ctx) => Orders()));
           }),
           profileTile("Favorite Events", Icons.bookmark_outline, () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) =>
+                    UserLikedEvents(userId: userProvider.user.id)));
             // Navigator.of(context)
             //     .push(MaterialPageRoute(builder: (ctx) => EditProfile()));
           }),

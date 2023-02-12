@@ -1,4 +1,5 @@
 import 'package:eventi_in_zona/screens/user/discover.dart';
+import 'package:eventi_in_zona/screens/user/friends.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,6 +30,7 @@ class _BottomTabContainerState extends State<BottomTabContainer> {
     // Scaffold(body: NearActivities()),
     Scaffold(body: Home()),
     Scaffold(body: TopRated()),
+    Scaffold(body: Friends()),
     Scaffold(body: Profile()),
   ];
 
@@ -64,6 +66,8 @@ class _BottomTabContainerState extends State<BottomTabContainer> {
                   icon: Icon(Icons.home_filled), label: 'Home'),
               BottomNavigationBarItem(
                   icon: Icon(Icons.emoji_events), label: "Top Rated"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person_add_alt_outlined), label: "Friends"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person_outlined), label: "Profile"),
             ],

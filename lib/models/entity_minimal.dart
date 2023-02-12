@@ -8,6 +8,7 @@ class EntityMinimal {
   String type = "";
   String image = "";
   late String name;
+  String username = "";
   double avgRate = 0;
   double score = 0;
 
@@ -18,6 +19,7 @@ class EntityMinimal {
         (((data['image'] ?? "") as String).replaceAll(".png", ".jpg") ??
             data['name'] + ".jpg");
     name = data['name'] ?? "";
+    username = data['username'] ?? "";
     avgRate = double.parse((data['avgRate'] ?? 0).toStringAsFixed(2));
     score = double.parse((data['score'] ?? 0).toStringAsFixed(2));
   }
