@@ -33,7 +33,7 @@ class _EntityFollowersState extends State<EntityFollowers> {
     if (followersScrollController.position.extentAfter == 0) {
       final userProvider = Provider.of<UserProvider>(context, listen: false);
 
-      userProvider.getMoreFollowers(widget.entityId);
+      userProvider.getMoreEntityFollowers(widget.entityId);
     }
   }
 

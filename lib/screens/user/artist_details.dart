@@ -212,6 +212,7 @@ class _ArtistDetailsState extends State<ArtistDetails> {
                             margin: EdgeInsets.only(left: 20),
                             child: ListView.builder(
                               shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
                               scrollDirection: Axis.vertical,
                               itemCount: entityProvider.artist.websites.length,
                               itemBuilder: (BuildContext context, int index) {

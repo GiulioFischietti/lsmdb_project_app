@@ -211,6 +211,7 @@ class _OrganizerDetailsState extends State<OrganizerDetails> {
                         : Container(
                             margin: EdgeInsets.only(left: 20),
                             child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               itemCount:

@@ -152,7 +152,7 @@ class UserProvider extends ChangeNotifier {
     loadingMoreFollowers = true;
     notifyListeners();
 
-    var data = await entityRepo.getFollowers(userId, followers.length);
+    var data = await entityRepo.getFollowers(userId, entityFollowers.length);
     entityFollowers = entityFollowers +
         (data['data'] as List).map((item) => UserMinimal(item)).toList();
 
