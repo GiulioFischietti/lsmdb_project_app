@@ -38,3 +38,7 @@ Future<dynamic> getMostCriticUsers(DateTime fromDate) async {
   return await Repo()
       .getData("/user/criticusers?fromDate=${fromDate.toIso8601String()}");
 }
+
+Future<dynamic> getClubsStats() async {
+  return await Repo().getData("event/variegatedclubs");
+}

@@ -13,6 +13,7 @@ class EventProvider extends ChangeNotifier {
 
   List<EventMinimal> eventsByEntity = [];
   List<EventMinimal> searchResults = [];
+  List<EventMinimal> suggestedEvents = [];
 
   List<EntityMinimal> organizerSearchResults = [];
   List<EntityMinimal> artistSearchResults = [];

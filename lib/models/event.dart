@@ -54,7 +54,7 @@ class Event {
     result.addAll({'name': name});
     result.addAll({'description': description});
     result.addAll({'genres': genres});
-    result.addAll({'image': name + " " + start.toIso8601String() + '.jpg'});
+    // result.addAll({'image': name + " " + start.toIso8601String() + '.jpg'});
     result.addAll({'organizers': organizers.map((e) => e.toJson()).toList()});
     result.addAll({'artists': artists.map((e) => e.toJson()).toList()});
     result.addAll({'club': club.toJson()});

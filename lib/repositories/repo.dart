@@ -11,7 +11,7 @@ class Repo {
       Uri.parse(host + query),
       headers: {"Content-Type": "application/json"},
     );
-    // print(response.body);
+    print(response.body);
     if (response.statusCode == 200) {
       var loginResponse = json.decode(response.body);
       // print(loginResponse);

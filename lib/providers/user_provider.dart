@@ -34,6 +34,7 @@ class UserProvider extends ChangeNotifier {
   List<Order> orders = [];
 
   List<UserMinimal> suggestedFriends = [];
+  List<UserMinimal> suggestedFriendsOfUser = [];
 
   List<UserMinimal> entityFollowers = [];
   List<UserMinimal> followers = [];
@@ -180,6 +181,18 @@ class UserProvider extends ChangeNotifier {
     var data = await userRepo.likedEvents(0, userId);
     likedEvents =
         (data['data'] as List).map((item) => EventMinimal(item)).toList();
+
+    loading = false;
+    notifyListeners();
+  }
+
+  void getSuggestedFriendsOfUser() async {
+    loading = true;
+    notifyListeners();
+    var data =
+        await userRepo.getSuggestedFriendsOfUser(otherUser.id, user.id, 0);
+    suggestedFriendsOfUser =
+        (data['data'] as List).map((item) => UserMinimal(item)).toList();
 
     loading = false;
     notifyListeners();

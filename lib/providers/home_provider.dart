@@ -14,7 +14,7 @@ import 'package:eventi_in_zona/models/event_minimal.dart';
 import 'package:flutter/material.dart';
 
 import '../repositories/entity_repo.dart';
-import '../repositories/event_repo.dart';
+import '../repositories/event_repo.dart' as eventRepo;
 import '../repositories/location_repo.dart';
 
 class HomeProvider extends ChangeNotifier {
@@ -35,6 +35,7 @@ class HomeProvider extends ChangeNotifier {
   List<BooksByBrand> booksByBrand = [];
 
   List<EventMinimal> nearEvents = [];
+  List<EventMinimal> suggestedEvents = [];
   List<EntityMinimal> nearClubs = [];
   List<EntityMinimal> topRatedEntities = [];
 
@@ -50,7 +51,7 @@ class HomeProvider extends ChangeNotifier {
       "start": DateTime.now().toIso8601String(),
       "maxDistance": 100000
     };
-    var json = await searchEvents(body);
+    var json = await eventRepo.searchEvents(body);
     nearEvents = (json['data'] as List).map((e) => EventMinimal(e)).toList();
     // loading = false;
     notifyListeners();
@@ -68,7 +69,7 @@ class HomeProvider extends ChangeNotifier {
       "start": DateTime.now().toIso8601String(),
       "maxDistance": 100000
     };
-    var json = await searchEvents(body);
+    var json = await eventRepo.searchEvents(body);
     nearEvents = nearEvents +
         (json['data'] as List).map((e) => EventMinimal(e)).toList();
     loadingNearEventsPagination = false;
@@ -90,6 +91,25 @@ class HomeProvider extends ChangeNotifier {
     nearClubs = (json['data'] as List).map((e) => EntityMinimal(e)).toList();
 
     // loading = false;
+    notifyListeners();
+  }
+
+  void getSuggestedEvents(String userId) async {
+    loading = true;
+    notifyListeners();
+    var json = await eventRepo.getSuggestedEvents(0, userId);
+    suggestedEvents =
+        (json['data'] as List).map((e) => EventMinimal(e)).toList();
+    loading = false;
+    notifyListeners();
+  }
+
+  void getMoreSuggestedEvents(String userId) async {
+    var json =
+        await eventRepo.getSuggestedEvents(suggestedEvents.length, userId);
+    suggestedEvents +=
+        (json['data'] as List).map((e) => EventMinimal(e)).toList();
+
     notifyListeners();
   }
 

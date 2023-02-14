@@ -17,27 +17,38 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late ScrollController eventScrollController;
   late ScrollController entityScrollController;
+  late ScrollController suggestedEventsScrollController;
   @override
   void initState() {
     super.initState();
     final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     homeProvider.getNearEvents(context);
     homeProvider.getNearClubs(context);
+    homeProvider.getSuggestedEvents(userProvider.user.id.hexString);
+
     eventScrollController = ScrollController()
       ..addListener(() {
         eventScrollListener();
+      });
+    suggestedEventsScrollController = ScrollController()
+      ..addListener(() {
+        suggestedEventsScrollListener();
       });
     entityScrollController = ScrollController()
       ..addListener(() {
         entityScrollListener();
       });
-    // homeProvider.getBeers();
-    // homeProvider.getBooks();
-    // homeProvider.getMonitors();
+  }
 
-    // final userProvider = Provider.of<UserProvider>(context, listen: false);
-    // userProvider.getUserCart();
+  void suggestedEventsScrollListener() {
+    if (suggestedEventsScrollController.position.extentAfter == 0) {
+      final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+      homeProvider.getMoreSuggestedEvents(userProvider.user.id.hexString);
+    }
   }
 
   void eventScrollListener() {
@@ -98,79 +109,20 @@ class _HomeState extends State<Home> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [])),
-              // Container(
-              //     margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-              //     child: Container(
-              //         padding: EdgeInsets.all(12.5),
-              //         decoration: BoxDecoration(
-              //             border:
-              //                 Border.all(color: Colors.grey[300]!, width: 1),
-              //             color: Colors.white,
-              //             borderRadius: BorderRadius.circular(7.5)),
-              //         child: Row(children: [
-              //           // InkWell(
-              //           //     onTap: () {
-              //           //       _scaffoldKey.currentState!.openDrawer();
-              //           //     },
-              //           //     child: Container(
-              //           //         child:
-              //           //             Icon(Icons.menu, color: Colors.grey[700]))),
-
-              //           InkWell(
-              //               onTap: () {
-              //                 // Navigator.of(context).push(MaterialPageRoute(
-              //                 //     builder: (ctx) => MapResultsSearch(
-              //                 //         keyword: "",
-              //                 //         position: null,
-              //                 //         categories: [])));
-              //               },
-              //               child: Container(
-              //                   child: Icon(Icons.search,
-              //                       color: Colors.grey[700]))),
-              //           Expanded(
-              //               flex: 1,
-              //               child: InkWell(
-              //                   onTap: () {
-              //                     Navigator.push(
-              //                         context,
-              //                         MaterialPageRoute(
-              //                             builder: (context) => Search()));
-              //                   },
-              //                   child: Container(
-              //                       margin:
-              //                           EdgeInsets.only(left: 10, right: 10),
-              //                       child: Text("Search...",
-              //                           maxLines: 1,
-              //                           overflow: TextOverflow.ellipsis,
-              //                           style: GoogleFonts.poppins(
-              //                               textStyle: TextStyle(
-              //                                   color: Colors.grey[500],
-              //                                   fontSize: 14,
-              //                                   fontWeight:
-              //                                       FontWeight.w400)))))),
-              //         ]))),
-              InkWell(
-                  onTap: () async {
-                    // dynamic pos = await getStoredLocation(context);
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: (ctx) => MapResultsSearch(
-                    //         keyword: "", position: pos, categories: [])));
-                  },
-                  child: Container(
-                      padding: EdgeInsets.only(
-                          left: 20, right: 20, bottom: 10, top: 40),
-                      child: Row(children: [
-                        Expanded(
-                            child: Container(
-                                child: Text('Events in your area (100km)',
-                                    textAlign: TextAlign.left,
-                                    style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            color:
-                                                Colors.black.withOpacity(0.8),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w400))))),
-                      ]))),
+              Container(
+                  padding:
+                      EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 40),
+                  child: Row(children: [
+                    Expanded(
+                        child: Container(
+                            child: Text('Events in your area (100km)',
+                                textAlign: TextAlign.left,
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: Colors.black.withOpacity(0.8),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400))))),
+                  ])),
               Container(
                   margin: EdgeInsets.only(top: 0),
                   height: 270,
@@ -186,6 +138,44 @@ class _HomeState extends State<Home> {
                               return (CardWidgetEventMinimal(
                                   eventMinimal:
                                       homeProvider.nearEvents[index]));
+                            },
+                          )
+                        : Container(
+                            margin: EdgeInsets.all(20),
+                            child: Text(
+                              "Nessun risultato",
+                              style: GoogleFonts.poppins(),
+                            ));
+                  })),
+              Container(
+                  padding:
+                      EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 40),
+                  child: Row(children: [
+                    Expanded(
+                        child: Container(
+                            child: Text('Your Friends also liked',
+                                textAlign: TextAlign.left,
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        color: Colors.black.withOpacity(0.8),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400))))),
+                  ])),
+              Container(
+                  margin: EdgeInsets.only(top: 0),
+                  height: 270,
+                  child: Consumer<HomeProvider>(
+                      builder: (context, homeProvider, _) {
+                    return homeProvider.suggestedEvents.isNotEmpty
+                        ? ListView.builder(
+                            controller: suggestedEventsScrollController,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: homeProvider.suggestedEvents.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return (CardWidgetEventMinimal(
+                                  eventMinimal:
+                                      homeProvider.suggestedEvents[index]));
                             },
                           )
                         : Container(

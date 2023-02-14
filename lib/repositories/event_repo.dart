@@ -6,6 +6,11 @@ Future<dynamic> searchEvents(body) async {
   return await Repo().postData("event/searchevents", body);
 }
 
+Future<dynamic> getSuggestedEvents(int skip, String userId) async {
+  return await Repo()
+      .getData("event/suggestedevents?userId=$userId&skip=$skip");
+}
+
 Future<dynamic> createEvent(Event event) async {
   return await Repo().postData("event/uploadevent", {"data": event.toJson()});
 }

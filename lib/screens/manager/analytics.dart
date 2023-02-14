@@ -1,6 +1,7 @@
 import 'package:eventi_in_zona/models/critic_user.dart';
 import 'package:eventi_in_zona/providers/analytics_provider.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
+import 'package:eventi_in_zona/screens/manager/club_genres_stats.dart';
 import 'package:eventi_in_zona/screens/manager/critic_users.dart';
 import 'package:eventi_in_zona/screens/manager/most_used_words.dart';
 import 'package:eventi_in_zona/screens/manager/suggested_artists.dart';
@@ -113,6 +114,10 @@ class _AnalyticsState extends State<Analytics> {
       profileTile("Suggested Artists", Icons.mic, () {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (ctx) => SuggestedArtists()));
+      }),
+      profileTile("Club's Genres Stats", Icons.house_outlined, () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (ctx) => ClubGenresStats()));
       })
     ]);
   }

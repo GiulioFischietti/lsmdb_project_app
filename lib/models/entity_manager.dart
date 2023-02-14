@@ -8,7 +8,9 @@ import 'package:objectid/objectid.dart';
 class EntityManager extends User {
   late ObjectId managedEntity;
   EntityManager(data) : super(data) {
-    managedEntity = ObjectId.fromHexString(data['managedEntity']);
+    managedEntity = data['managedEntity'] != null
+        ? ObjectId.fromHexString(data['managedEntity'])
+        : ObjectId();
   }
 
   Map<String, dynamic> toJson() {

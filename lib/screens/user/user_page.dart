@@ -3,6 +3,7 @@ import 'package:eventi_in_zona/screens/user/edit_profile.dart';
 import 'package:eventi_in_zona/screens/user/user_followers.dart';
 import 'package:eventi_in_zona/screens/user/user_followings.dart';
 import 'package:eventi_in_zona/screens/user/user_liked_events.dart';
+import 'package:eventi_in_zona/screens/user/user_suggested_friends.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:eventi_in_zona/providers/user_provider.dart';
@@ -142,6 +143,13 @@ class _UserPageState extends State<UserPage> {
                     UserFollowings(userId: userProvider.otherUser.id)));
             // Navigator.of(context)
             //     .push(MaterialPageRoute(builder: (ctx) => Orders()));
+          }),
+          profileTile("People you may know", Icons.people, () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) =>
+                    UserSuggestedFriends(userId: userProvider.otherUser.id)));
+            // Navigator.of(context)
+            //     .push(MaterialPageRoute(builder: (ctx) => EditProfile()));
           }),
           profileTile("Favorite Events", Icons.bookmark_outline, () {
             Navigator.of(context).push(MaterialPageRoute(

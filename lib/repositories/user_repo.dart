@@ -22,6 +22,15 @@ Future<dynamic> getSuggestedFriendsBasedOnLikes(
       {"userId": userId.hexString, "skip": skip});
 }
 
+Future<dynamic> getSuggestedFriendsOfUser(
+    ObjectId userId, ObjectId myUserId, int skip) async {
+  return await Repo().postData("user/suggestedfriendsofuser", {
+    "userId": userId.hexString,
+    "myUserId": myUserId.hexString,
+    "skip": skip
+  });
+}
+
 Future<dynamic> dislikeEvent(
     ObjectId userId, ObjectId eventId, DateTime start) async {
   return await Repo().postData("user/dislikeevent", {
