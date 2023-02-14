@@ -65,31 +65,23 @@ class _BottomTabContainerManagerState extends State<BottomTabContainerManager> {
                       final userProvider =
                           Provider.of<UserProvider>(context, listen: false);
                       Event event = Event({});
-                      if (userProvider.manager.managedEntity.type == "club") {
+                      if (userProvider.entityOfManager.type == "club") {
                         event = Event({
-                          "organizers": [
-                            userProvider.manager.managedEntity.toJson()
-                          ],
-                          "club": userProvider.manager.managedEntity.toJson(),
-                          "address": userProvider.manager.managedEntity.address,
-                          "location": userProvider
-                              .manager.managedEntity.location
-                              .toJson(),
+                          "organizers": [userProvider.entityOfManager.toJson()],
+                          "club": userProvider.entityOfManager.toJson(),
+                          "address": userProvider.entityOfManager.address,
+                          "location":
+                              userProvider.entityOfManager.location.toJson(),
                         });
                       }
-                      if (userProvider.manager.managedEntity.type ==
-                          "organizer") {
+                      if (userProvider.entityOfManager.type == "organizer") {
                         event = Event({
-                          "organizers": [
-                            userProvider.manager.managedEntity.toJson()
-                          ],
+                          "organizers": [userProvider.entityOfManager.toJson()],
                         });
                       }
-                      if (userProvider.manager.managedEntity.type == "artist") {
+                      if (userProvider.entityOfManager.type == "artist") {
                         event = Event({
-                          "artists": [
-                            userProvider.manager.managedEntity.toJson()
-                          ],
+                          "artists": [userProvider.entityOfManager.toJson()],
                         });
                       }
                       return CreateEvent(

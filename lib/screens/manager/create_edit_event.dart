@@ -128,8 +128,7 @@ class _CreateEventState extends State<CreateEvent> {
                                       await eventProvider
                                           .deleteEvent(widget.event);
                                       eventProvider.getEventsByEntity(
-                                          userProvider
-                                              .manager.managedEntity.id);
+                                          userProvider.manager.managedEntity);
                                       Navigator.of(context).pop();
                                       Navigator.of(context).pop();
                                       Navigator.of(context).pop();
@@ -753,7 +752,7 @@ class _CreateEventState extends State<CreateEvent> {
                           await eventProvider.createEvent(widget.event);
                         }
                         eventProvider.getEventsByEntity(
-                            managerProvider.manager.managedEntity.id);
+                            managerProvider.manager.managedEntity);
                         Navigator.of(context).pop();
                       },
                       child: Container(

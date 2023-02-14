@@ -22,8 +22,7 @@ class _AnalyticsState extends State<Analytics> {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final analyticsProvider =
         Provider.of<AnalyticsProvider>(context, listen: false);
-    analyticsProvider
-        .getEntityRateByYear(userProvider.manager.managedEntity.id);
+    analyticsProvider.getEntityRateByYear(userProvider.manager.managedEntity);
   }
 
   @override

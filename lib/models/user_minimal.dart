@@ -12,7 +12,9 @@ class UserMinimal {
     id = ObjectId.fromHexString(data['_id']);
     username = data['username'];
     name = data['name'] ?? "";
-    image = "http://192.168.1.109:3000/user_images/" + data['image'];
+    image = data['image'] != null
+        ? ("http://192.168.1.109:3000/user_images/" + data['image'])
+        : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
   }
 
   Map<String, dynamic> toJson() {

@@ -67,94 +67,114 @@ class _ClubDetailsState extends State<ClubDetails> {
                               image: NetworkImage(entityProvider.club.image))),
                     ),
                     Container(
-                        margin: EdgeInsets.only(left: 20, top: 20, bottom: 0),
-                        padding: EdgeInsets.only(top: 10),
-                        color: Colors.white,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                      child: Container(
-                                          child: Text(entityProvider.club.name,
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 20)))),
-                                  entityProvider.club.followedByUser
-                                      ? InkWell(
-                                          onTap: () async {
-                                            entityProvider.unfollowClub(
-                                                userProvider.user.id);
-                                          },
-                                          child: Container(
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors.orange),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Colors.white),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 20, vertical: 5),
-                                              margin: EdgeInsets.only(
-                                                  right: 20,
-                                                  top: 10,
-                                                  bottom: 0),
-                                              child: Text(
-                                                "Unfollow",
-                                                style: GoogleFonts.poppins(
+                      margin: EdgeInsets.only(left: 20, top: 20, bottom: 0),
+                      padding: EdgeInsets.only(top: 10),
+                      color: Colors.white,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                    child: Container(
+                                        child: Text(entityProvider.club.name,
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 20)))),
+                                entityProvider.club.followedByUser
+                                    ? InkWell(
+                                        onTap: () async {
+                                          entityProvider.unfollowClub(
+                                              userProvider.user.id);
+                                        },
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
                                                     color: Colors.orange),
-                                              )))
-                                      : InkWell(
-                                          onTap: () async {
-                                            entityProvider.followClub(
-                                                userProvider.user.id);
-                                          },
-                                          child: Container(
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors.orange),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Colors.white),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 5),
+                                            margin: EdgeInsets.only(
+                                                right: 20, top: 10, bottom: 0),
+                                            child: Text(
+                                              "Unfollow",
+                                              style: GoogleFonts.poppins(
                                                   color: Colors.orange),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 20, vertical: 5),
-                                              margin: EdgeInsets.only(
-                                                  right: 20,
-                                                  top: 10,
-                                                  bottom: 0),
-                                              child: Text(
-                                                "Follow",
-                                                style: GoogleFonts.poppins(
-                                                    color: Colors.white),
-                                              )))
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  RatingBar.builder(
-                                      wrapAlignment: WrapAlignment.start,
-                                      onRatingUpdate: (rate) {},
-                                      initialRating:
-                                          entityProvider.club.avgRate,
-                                      minRating: 1,
-                                      unratedColor: Colors.grey[400],
-                                      itemCount: 5,
-                                      itemSize: 24.0,
-                                      itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            color: Colors.orange,
-                                          )),
-                                  Container(
-                                      margin: EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        entityProvider.club.avgRate.toString(),
-                                        style: GoogleFonts.poppins(),
-                                      ))
-                                ],
-                              )
-                            ])),
+                                            )))
+                                    : InkWell(
+                                        onTap: () async {
+                                          entityProvider
+                                              .followClub(userProvider.user.id);
+                                        },
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.orange),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Colors.orange),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20, vertical: 5),
+                                            margin: EdgeInsets.only(
+                                                right: 20, top: 10, bottom: 0),
+                                            child: Text(
+                                              "Follow",
+                                              style: GoogleFonts.poppins(
+                                                  color: Colors.white),
+                                            )))
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                RatingBar.builder(
+                                    wrapAlignment: WrapAlignment.start,
+                                    onRatingUpdate: (rate) {},
+                                    initialRating: entityProvider.club.avgRate,
+                                    minRating: 1,
+                                    unratedColor: Colors.grey[400],
+                                    itemCount: 5,
+                                    itemSize: 24.0,
+                                    itemBuilder: (context, _) => Icon(
+                                          Icons.star,
+                                          color: Colors.orange,
+                                        )),
+                                Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      entityProvider.club.avgRate.toString(),
+                                      style: GoogleFonts.poppins(),
+                                    ))
+                              ],
+                            ),
+                            Row(children: [
+                              Container(
+                                  margin: EdgeInsets.only(left: 0, top: 20),
+                                  child:
+                                      Icon(Icons.people, color: Colors.orange)),
+                              Container(
+                                  margin: EdgeInsets.only(left: 10, top: 20),
+                                  child: Text(
+                                    "${entityProvider.club.nFollowers} Followers",
+                                    style: GoogleFonts.poppins(),
+                                  ))
+                            ]),
+                            Row(children: [
+                              Container(
+                                  margin: EdgeInsets.only(left: 0, top: 20),
+                                  child: Icon(Icons.reviews_outlined,
+                                      color: Colors.orange)),
+                              Container(
+                                  margin: EdgeInsets.only(left: 10, top: 20),
+                                  child: Text(
+                                    "${entityProvider.club.nReviews} Reviews",
+                                    style: GoogleFonts.poppins(),
+                                  ))
+                            ]),
+                          ]),
+                    ),
 
                     field("Description", entityProvider.club.description),
                     Container(

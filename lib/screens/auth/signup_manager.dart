@@ -303,10 +303,6 @@ class SignUpAsManagerState extends State<SignUpAsManager> {
                       });
                     }
                   } else {
-                    userProvider.manager.name = nameController.text;
-                    userProvider.manager.username = usernameController.text;
-                    userProvider.manager.password = pwdController.text;
-
                     final success = await userProvider.signUpAsAManager(
                       entityManager,
                       linkController.text,

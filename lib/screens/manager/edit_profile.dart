@@ -73,31 +73,30 @@ class _EditProfileState extends State<EditProfile> {
   void setFields() async {
     final managerProvider = Provider.of<UserProvider>(context, listen: false);
     setState(() {
-      name_controller.text = managerProvider.manager.managedEntity.name;
+      name_controller.text = managerProvider.entityOfManager.name;
 
-      email_controller.text = managerProvider.manager.managedEntity.email;
-      websites_controller = managerProvider.manager.managedEntity.websites
+      email_controller.text = managerProvider.entityOfManager.email;
+      websites_controller = managerProvider.entityOfManager.websites
           .map((e) => TextEditingController(text: e))
           .toList();
-      phones_controller = managerProvider.manager.managedEntity.phones
+      phones_controller = managerProvider.entityOfManager.phones
           .map((e) => TextEditingController(text: e))
           .toList();
-      socialMedias_controller = managerProvider
-          .manager.managedEntity.socialMedias
+      socialMedias_controller = managerProvider.entityOfManager.socialMedias
           .map((e) => TextEditingController(text: e))
           .toList();
     });
 
     name_controller.addListener(() {
-      managerProvider.manager.managedEntity.name = name_controller.text;
+      managerProvider.entityOfManager.name = name_controller.text;
     });
     email_controller.addListener(() {
-      managerProvider.manager.managedEntity.email = email_controller.text;
+      managerProvider.entityOfManager.email = email_controller.text;
     });
     for (int i = websites_controller.length; i <= 0; i--) {
       websites_controller[i].addListener(() {
         print("updated $i with ${websites_controller[i].text}");
-        managerProvider.manager.managedEntity.websites[i] =
+        managerProvider.entityOfManager.websites[i] =
             websites_controller[i].text;
       });
     }
@@ -180,7 +179,7 @@ class _EditProfileState extends State<EditProfile> {
                                             //     ? FileImage(File(_image.path))
                                             // :
                                             image: NetworkImage(managerProvider
-                                                .manager.managedEntity.image),
+                                                .entityOfManager.image),
                                             fit: BoxFit.cover)))),
                             Container(
                                 margin: EdgeInsets.only(left: 15, right: 30),
@@ -190,16 +189,14 @@ class _EditProfileState extends State<EditProfile> {
                                   children: [
                                     Container(
                                         child: Text(
-                                      managerProvider
-                                          .manager.managedEntity.name,
+                                      managerProvider.entityOfManager.name,
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.bold),
                                     )),
                                     Container(
                                         child: Text(
                                       "@" +
-                                          managerProvider
-                                              .manager.managedEntity.type,
+                                          managerProvider.entityOfManager.type,
                                       style: GoogleFonts.poppins(
                                           color: Colors.grey[500]),
                                     ))
@@ -286,12 +283,12 @@ class _EditProfileState extends State<EditProfile> {
                                       socialMedias_controller
                                           .add(TextEditingController());
                                       managerProvider
-                                          .manager.managedEntity.socialMedias
+                                          .entityOfManager.socialMedias
                                           .add("");
                                       socialMedias_controller.last
                                           .addListener(() {
                                         // print(socialMedias_controller.last.text);
-                                        managerProvider.manager.managedEntity
+                                        managerProvider.entityOfManager
                                                 .socialMedias.last =
                                             socialMedias_controller.last.text;
                                       });
@@ -356,15 +353,11 @@ class _EditProfileState extends State<EditProfile> {
                                     setState(() {
                                       phones_controller
                                           .add(TextEditingController());
-                                      managerProvider
-                                          .manager.managedEntity.phones
+                                      managerProvider.entityOfManager.phones
                                           .add("");
                                       phones_controller.last.addListener(() {
                                         // print(phones_controller.last.text);
-                                        managerProvider
-                                            .manager
-                                            .managedEntity
-                                            .phones
+                                        managerProvider.entityOfManager.phones
                                             .last = phones_controller.last.text;
                                       });
                                     });
@@ -428,13 +421,12 @@ class _EditProfileState extends State<EditProfile> {
                                     setState(() {
                                       websites_controller
                                           .add(TextEditingController());
-                                      managerProvider
-                                          .manager.managedEntity.websites
+                                      managerProvider.entityOfManager.websites
                                           .add("");
                                       websites_controller.last.addListener(() {
                                         // print(websites_controller.last.text);
-                                        managerProvider.manager.managedEntity
-                                                .websites.last =
+                                        managerProvider
+                                                .entityOfManager.websites.last =
                                             websites_controller.last.text;
                                       });
                                     });

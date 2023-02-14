@@ -19,7 +19,7 @@ class _MostUsedWordsState extends State<MostUsedWords> {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final analyticsProvider =
         Provider.of<AnalyticsProvider>(context, listen: false);
-    analyticsProvider.getMostUsedWords(userProvider.manager.managedEntity.id);
+    analyticsProvider.getMostUsedWords(userProvider.manager.managedEntity);
   }
 
   @override

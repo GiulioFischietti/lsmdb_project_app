@@ -8,7 +8,7 @@ class Artist extends Entity {
   @override
   Map<String, dynamic> toJson() {
     final result = <String, dynamic>{};
-    super.toJson();
+    result.addAll(super.toJson());
 
     return result;
   }

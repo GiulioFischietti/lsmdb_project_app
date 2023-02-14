@@ -18,36 +18,42 @@ class EntityProvider extends ChangeNotifier {
 
   void unfollowArtist(ObjectId userId) {
     artist.followedByUser = false;
+    artist.nFollowers -= 1;
     notifyListeners();
     unfollowEntity(artist.id, userId);
   }
 
   void followArtist(ObjectId userId) {
     artist.followedByUser = true;
+    artist.nFollowers += 1;
     notifyListeners();
     followEntity(artist.id, userId);
   }
 
   void unfollowClub(ObjectId userId) {
     club.followedByUser = false;
+    club.nFollowers -= 1;
     notifyListeners();
     unfollowEntity(club.id, userId);
   }
 
   void followClub(ObjectId userId) {
     club.followedByUser = true;
+    club.nFollowers += 1;
     notifyListeners();
     followEntity(club.id, userId);
   }
 
   void unfollowOrganizer(ObjectId userId) {
     organizer.followedByUser = false;
+    organizer.nFollowers -= 1;
     notifyListeners();
     unfollowEntity(organizer.id, userId);
   }
 
   void followOrganizer(ObjectId userId) {
     organizer.followedByUser = true;
+    organizer.nFollowers += 1;
     notifyListeners();
     followEntity(organizer.id, userId);
   }
@@ -97,6 +103,7 @@ class EntityProvider extends ChangeNotifier {
   void addReviewOrganizer(Review review) async {
     organizer.reviews.insert(0, review);
     organizer.reviewedByUser = true;
+    organizer.nReviews += 1;
     organizer.reviewIds.insert(0, review.id);
     var jsonResponse = await reviewRepo.addReview(review);
     organizer.reviews[0].id =
@@ -135,6 +142,7 @@ class EntityProvider extends ChangeNotifier {
     club.reviews.insert(0, review);
     club.reviewedByUser = true;
     club.reviewIds.insert(0, review.id);
+    club.nReviews += 1;
     var jsonResponse = await reviewRepo.addReview(review);
     print(jsonResponse);
     club.reviews[0].id =
@@ -169,6 +177,7 @@ class EntityProvider extends ChangeNotifier {
     artist.reviews.insert(0, review);
     artist.reviewedByUser = true;
     artist.reviewIds.insert(0, review.id);
+    artist.nReviews += 1;
     var jsonResponse = await reviewRepo.addReview(review);
     artist.reviews[0].id =
         ObjectId.fromHexString(jsonResponse['data']['reviewId']);
@@ -194,7 +203,7 @@ class EntityProvider extends ChangeNotifier {
     artist.reviewedByUser = false;
     artist.reviews.removeWhere((element) => element.id == reviewId);
     artist.reviewIds.remove(reviewId);
-
+    artist.nReviews -= 1;
     var jsonResponse =
         await reviewRepo.deleteReviewEntity(entityId, reviewId, userId);
     artist.avgRate =

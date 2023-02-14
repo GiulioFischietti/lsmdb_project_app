@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:eventi_in_zona/models/app_user.dart';
+import 'package:eventi_in_zona/models/club.dart';
 import 'package:eventi_in_zona/models/customer.dart';
+import 'package:eventi_in_zona/models/entity.dart';
 import 'package:eventi_in_zona/models/entity_manager.dart';
 import 'package:eventi_in_zona/models/entity_minimal.dart';
 import 'package:eventi_in_zona/models/event.dart';
@@ -28,6 +30,7 @@ class UserProvider extends ChangeNotifier {
   AppUser otherUser = AppUser({});
   bool usernameTaken = false;
   late EntityManager manager;
+  late Club entityOfManager;
   List<Order> orders = [];
 
   List<UserMinimal> suggestedFriends = [];
@@ -81,8 +84,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   void getSuggestedArtists() async {
-    var data =
-        await entityRepo.getSuggestedArtists(manager.managedEntity.id, 0);
+    var data = await entityRepo.getSuggestedArtists(manager.managedEntity, 0);
     suggestedArtists =
         (data['data'] as List).map((item) => EntityMinimal(item)).toList();
     notifyListeners();
@@ -90,7 +92,7 @@ class UserProvider extends ChangeNotifier {
 
   void getMoreSuggestedArtists() async {
     var data = await entityRepo.getSuggestedArtists(
-        manager.managedEntity.id, suggestedArtists.length);
+        manager.managedEntity, suggestedArtists.length);
     suggestedArtists = suggestedArtists +
         (data['data'] as List).map((item) => EntityMinimal(item)).toList();
     notifyListeners();
@@ -99,6 +101,17 @@ class UserProvider extends ChangeNotifier {
   void getUserById(ObjectId userId) async {
     var data = await userRepo.getUser(userId);
     otherUser = AppUser(data['data']);
+    notifyListeners();
+  }
+
+  void getManagedEntity() async {
+    loading = true;
+    notifyListeners();
+    var data = await entityRepo.getEntityByIdJson(
+        manager.managedEntity.hexString, manager.id.hexString);
+    entityOfManager = Club(data['data']);
+
+    loading = false;
     notifyListeners();
   }
 
@@ -222,9 +235,15 @@ class UserProvider extends ChangeNotifier {
 
   void updateMyEntity() async {
     notifyListeners();
-    updateEntity(manager.id, manager.managedEntity);
+    updateEntity(manager.id, entityOfManager);
     notifyListeners();
   }
 
-  void updateUser() {}
+  Future updateUser() async {
+    loading = true;
+    notifyListeners();
+    await userRepo.editUser(user);
+    loading = false;
+    notifyListeners();
+  }
 }

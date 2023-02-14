@@ -64,7 +64,7 @@ class Entity {
     reviewIds = ((data['reviewIds'] ?? []) as List)
         .map((e) => ObjectId.fromHexString(e))
         .toList();
-    nReviews = reviewIds.length;
+    nReviews = data['nReviews'] ?? 0;
     image = "http://192.168.1.109:3000/images/" +
         (((data['image'] ?? "") as String).replaceAll(".png", ".jpg") ??
             data['name'] + ".jpg");

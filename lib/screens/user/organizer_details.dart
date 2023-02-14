@@ -163,7 +163,31 @@ class _OrganizerDetailsState extends State<OrganizerDetails> {
                                         style: GoogleFonts.poppins(),
                                       ))
                                 ],
-                              )
+                              ),
+                               Row(children: [
+                                Container(
+                                    margin: EdgeInsets.only(left: 0, top: 20),
+                                    child: Icon(Icons.people,
+                                        color: Colors.orange)),
+                                Container(
+                                    margin: EdgeInsets.only(left: 10, top: 20),
+                                    child: Text(
+                                      "${entityProvider.organizer.nFollowers} Followers",
+                                      style: GoogleFonts.poppins(),
+                                    ))
+                              ]),
+                               Row(children: [
+                                Container(
+                                    margin: EdgeInsets.only(left: 0, top: 20),
+                                    child: Icon(Icons.people,
+                                        color: Colors.orange)),
+                                Container(
+                                    margin: EdgeInsets.only(left: 10, top: 20),
+                                    child: Text(
+                                      "${entityProvider.organizer.nReviews} Reviews",
+                                      style: GoogleFonts.poppins(),
+                                    ))
+                              ]),
                             ])),
                     field("Description", entityProvider.organizer.description),
                     Container(

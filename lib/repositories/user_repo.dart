@@ -1,3 +1,4 @@
+import 'package:eventi_in_zona/models/app_user.dart';
 import 'package:eventi_in_zona/models/user.dart';
 import 'package:eventi_in_zona/repositories/repo.dart';
 import 'package:objectid/objectid.dart';
@@ -65,6 +66,6 @@ Future<dynamic> unFollowEntity(ObjectId userId, ObjectId entityId) async {
       {"userId": userId.hexString, "entityId": entityId.hexString});
 }
 
-Future<dynamic> editUser(User user) async {
+Future<dynamic> editUser(AppUser user) async {
   return await Repo().postData("user/edituser", user.toJson());
 }

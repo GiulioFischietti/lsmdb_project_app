@@ -163,7 +163,31 @@ class _ArtistDetailsState extends State<ArtistDetails> {
                                         style: GoogleFonts.poppins(),
                                       ))
                                 ],
-                              )
+                              ),
+                              Row(children: [
+                                Container(
+                                    margin: EdgeInsets.only(left: 0, top: 20),
+                                    child: Icon(Icons.people,
+                                        color: Colors.orange)),
+                                Container(
+                                    margin: EdgeInsets.only(left: 10, top: 20),
+                                    child: Text(
+                                      "${entityProvider.artist.nFollowers} Followers",
+                                      style: GoogleFonts.poppins(),
+                                    ))
+                              ]),
+                              Row(children: [
+                                Container(
+                                    margin: EdgeInsets.only(left: 0, top: 20),
+                                    child: Icon(Icons.people,
+                                        color: Colors.orange)),
+                                Container(
+                                    margin: EdgeInsets.only(left: 10, top: 20),
+                                    child: Text(
+                                      "${entityProvider.artist.nReviews} Reviews",
+                                      style: GoogleFonts.poppins(),
+                                    ))
+                              ]),
                             ])),
                     field("Description", entityProvider.artist.description),
                     Container(

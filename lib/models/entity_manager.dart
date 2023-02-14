@@ -6,9 +6,9 @@ import 'package:eventi_in_zona/models/user.dart';
 import 'package:objectid/objectid.dart';
 
 class EntityManager extends User {
-  late Club managedEntity;
+  late ObjectId managedEntity;
   EntityManager(data) : super(data) {
-    managedEntity = Club(data['managedEntity'] ?? {});
+    managedEntity = ObjectId.fromHexString(data['managedEntity']);
   }
 
   Map<String, dynamic> toJson() {

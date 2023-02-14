@@ -33,7 +33,7 @@ class _HomeManagerState extends State<HomeManager> {
     super.initState();
     final homeProvider = Provider.of<EventProvider>(context, listen: false);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    homeProvider.getEventsByEntity(userProvider.manager.managedEntity.id);
+    homeProvider.getEventsByEntity(userProvider.manager.managedEntity);
     eventScrollController = ScrollController()
       ..addListener(() {
         eventScrollListener();
@@ -44,8 +44,7 @@ class _HomeManagerState extends State<HomeManager> {
     if (eventScrollController.position.extentAfter == 0) {
       final eventProvider = Provider.of<EventProvider>(context, listen: false);
       final userProvider = Provider.of<UserProvider>(context, listen: false);
-      eventProvider
-          .getMoreEventsByEntity(userProvider.manager.managedEntity.id);
+      eventProvider.getMoreEventsByEntity(userProvider.manager.managedEntity);
     }
   }
 

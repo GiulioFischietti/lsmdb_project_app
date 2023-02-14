@@ -19,14 +19,14 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    userProvider.getManager();
+    userProvider.getManagedEntity();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: SafeArea(
         child: Consumer<UserProvider>(builder: (context, userProvider, _) {
-      return Column(
+      return userProvider.loading ? Container(child: Center(child: CircularProgressIndicator())) : Column(
         children: [
           Container(
             margin: const EdgeInsets.only(top: 20, left: 20, bottom: 20),
@@ -52,8 +52,7 @@ class _ProfileState extends State<Profile> {
                     ],
                     borderRadius: BorderRadius.circular(100),
                     image: DecorationImage(
-                        image: NetworkImage(
-                            userProvider.manager.managedEntity.image),
+                        image: NetworkImage(userProvider.entityOfManager.image),
                         fit: BoxFit.cover)),
               ),
               Column(
@@ -64,7 +63,7 @@ class _ProfileState extends State<Profile> {
                       margin: const EdgeInsets.only(top: 30),
                       alignment: Alignment.center,
                       child: Text(
-                        userProvider.manager.managedEntity.name,
+                        userProvider.entityOfManager.name,
                         style: GoogleFonts.poppins(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       )),
@@ -72,7 +71,7 @@ class _ProfileState extends State<Profile> {
                       alignment: Alignment.topLeft,
                       margin: EdgeInsets.only(left: 0, top: 5),
                       child: Text(
-                        "@" + userProvider.manager.managedEntity.type,
+                        "@" + userProvider.entityOfManager.type,
                         style: GoogleFonts.poppins(color: Colors.grey),
                       ))
                 ],
@@ -104,13 +103,13 @@ class _ProfileState extends State<Profile> {
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (ctx) => EntityFollowers(
-                                    entityId: userProvider
-                                        .manager.managedEntity.id)));
+                                    entityId:
+                                        userProvider.entityOfManager.id)));
                           },
                           child: Column(
                             children: [
                               Text(
-                                  userProvider.manager.managedEntity.nFollowers
+                                  userProvider.entityOfManager.nFollowers
                                       .toString(),
                                   style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.bold,
@@ -124,8 +123,7 @@ class _ProfileState extends State<Profile> {
                   Expanded(
                       child: Column(
                     children: [
-                      Text(
-                          "${userProvider.manager.managedEntity.reviewIds.length}",
+                      Text("${userProvider.entityOfManager.reviewIds.length}",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       Text("Reviews",
@@ -138,7 +136,7 @@ class _ProfileState extends State<Profile> {
                       child: Column(
                     children: [
                       Text(
-                          "${userProvider.manager.managedEntity.avgRate.toStringAsFixed(2)}",
+                          "${userProvider.entityOfManager.avgRate.toStringAsFixed(2)}",
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       Text("Average Rate",
@@ -153,7 +151,7 @@ class _ProfileState extends State<Profile> {
           profileTile("Followers", Icons.person_outline, () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (ctx) => EntityFollowers(
-                    entityId: userProvider.manager.managedEntity.id)));
+                    entityId: userProvider.entityOfManager.id)));
           }),
           Expanded(child: Container()),
           logOutTile("Log Out", Icons.exit_to_app_outlined, () {

@@ -190,6 +190,9 @@ class _EditProfileState extends State<EditProfile> {
                               Container(
                                 alignment: Alignment.centerLeft,
                                 child: TextFormField(
+                                    onChanged: (text) {
+                                      userProvider.user.name = text;
+                                    },
                                     controller: name_controller,
                                     decoration: InputDecoration(
                                       focusedBorder: UnderlineInputBorder(
@@ -213,6 +216,9 @@ class _EditProfileState extends State<EditProfile> {
                               Container(
                                 alignment: Alignment.centerLeft,
                                 child: TextFormField(
+                                    onChanged: (text) {
+                                      userProvider.user.username = text;
+                                    },
                                     controller: username_controller,
                                     decoration: InputDecoration(
                                       focusedBorder: UnderlineInputBorder(
@@ -228,29 +234,6 @@ class _EditProfileState extends State<EditProfile> {
                                     ),
                                     style: GoogleFonts.poppins()),
                               ),
-                              // Container(
-                              //     alignment: Alignment.centerLeft,
-                              //     margin: EdgeInsets.only(top: 30),
-                              //     child: Text("Email",
-                              //         style: GoogleFonts.poppins())),
-                              // Container(
-                              //   alignment: Alignment.centerLeft,
-                              //   child: TextFormField(
-                              //       controller: email_controller,
-                              //       decoration: InputDecoration(
-                              //         focusedBorder: UnderlineInputBorder(
-                              //           borderSide: BorderSide(
-                              //             color: Colors.grey[300]!,
-                              //           ),
-                              //         ),
-                              //         enabledBorder: UnderlineInputBorder(
-                              //           borderSide: BorderSide(
-                              //             color: Colors.grey[300]!,
-                              //           ),
-                              //         ),
-                              //       ),
-                              //       style: GoogleFonts.poppins()),
-                              // ),
                               Container(
                                   alignment: Alignment.centerLeft,
                                   margin: EdgeInsets.only(top: 30),
@@ -331,17 +314,15 @@ class _EditProfileState extends State<EditProfile> {
                       onTap: () async {
                         final userProvider =
                             Provider.of<UserProvider>(context, listen: false);
-                        // await userProvider.updateUser(name_controller.text,
-                        //     username_controller.text, email_controller.text
-                        //     // phone_controller.text,
-                        //     // address_controller.text);
-                        //     );
+
                         Navigator.of(context).pop();
+                        userProvider.updateUser();
+                        userProvider.getAppUser();
                       },
                       child: Container(
                           padding: EdgeInsets.only(top: 20, bottom: 20),
                           alignment: Alignment.bottomCenter,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Colors.orange,
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(50),
