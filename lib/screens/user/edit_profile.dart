@@ -316,7 +316,7 @@ class _EditProfileState extends State<EditProfile> {
                             Provider.of<UserProvider>(context, listen: false);
 
                         Navigator.of(context).pop();
-                        userProvider.updateUser();
+                        await userProvider.updateUser();
                         userProvider.getAppUser();
                       },
                       child: Container(
